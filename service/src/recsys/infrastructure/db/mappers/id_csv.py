@@ -1,0 +1,11 @@
+"""Parse the packed id lists of user_state."""
+
+from __future__ import annotations
+
+from recsys.domain.values.ids import ItemId
+
+
+def ids_from_csv(raw: str) -> list[ItemId]:
+    if not raw:
+        return []
+    return [int(part) for part in raw.split(",") if part]
