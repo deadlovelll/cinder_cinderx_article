@@ -1,0 +1,531 @@
+# (c) Meta Platforms, Inc. and affiliates.
+
+cmake_minimum_required(VERSION 3.12)
+project(_cinderx)
+
+set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/cinderx)
+
+##############################################################################
+# PGO (Profile-Guided Optimization) configuration
+
+option(ENABLE_PGO_GENERATE "Build with PGO profile generation" OFF)
+option(ENABLE_PGO_USE "Build with PGO profile use" OFF)
+set(PGO_PROFILE_FILE "" CACHE STRING "Path to PGO profile data")
+
+option(BUILD_RUNTIME_TESTS "Build the cinderx/RuntimeTests C++ GoogleTest binary" OFF)
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  set(MACOS 1)
+  set(WINDOWS 0)
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+  set(MACOS 0)
+  set(WINDOWS 1)
+else()
+  set(MACOS 0)
+endif()
+
+##############################################################################
+# Figure out capabilities / supported features and set compiler flags
+# appropriately.
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if (WINDOWS)
+  set(SHARED_FLAGS "-DPy_BUILD_CORE -DPy_BUILD_CORE_MODULE")
+  set(CXX_FLAGS "")
+else()
+  set(SHARED_FLAGS "-DPy_BUILD_CORE -DPy_BUILD_CORE_MODULE -fPIC -fvisibility=hidden -Wall -Wextra -Wno-attributes -Wno-c99-designator -Wno-c++11-narrowing -Wno-cast-function-type -Wno-cast-function-type-mismatch -Wno-comment -Wno-deprecated-declarations -Wno-missing-field-initializers -Wno-null-pointer-subtraction -Wno-parentheses -Wno-sign-compare -Wno-unknown-pragmas -Wno-unused-function -Wno-unused-parameter")
+  set(CXX_FLAGS "-fvisibility-inlines-hidden")
+endif()
+
+macro(set_flag VAR)
+  # Undefined feature flags should behave like OFF.
+  if (${VAR})
+    set(SHARED_FLAGS "-D${VAR} ${SHARED_FLAGS}")
+  endif()
+endmacro()
+
+set_flag(ENABLE_ADAPTIVE_STATIC_PYTHON)
+set_flag(ENABLE_DISASSEMBLER)
+set_flag(ENABLE_ELF_READER)
+set_flag(ENABLE_EVAL_HOOK)
+set_flag(ENABLE_FUNC_EVENT_MODIFY_QUALNAME)
+set_flag(ENABLE_GENERATOR_AWAITER)
+set_flag(ENABLE_INTERPRETER_LOOP)
+set_flag(ENABLE_LAZY_IMPORTS)
+set_flag(ENABLE_LIGHTWEIGHT_FRAMES)
+set_flag(ENABLE_PARALLEL_GC)
+set_flag(ENABLE_PEP523_HOOK)
+set_flag(ENABLE_PERF_TRAMPOLINE)
+set_flag(ENABLE_SYMBOLIZER)
+set_flag(ENABLE_USDT)
+set_flag(ENABLE_XXCLASSLOADER)
+set_flag(ENABLE_ZLIB)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${SHARED_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_FLAGS} ${SHARED_FLAGS}")
+
+##############################################################################
+# Apply LTO (Link-Time Optimization) if enabled
+
+option(ENABLE_LTO "Enable Link-Time Optimization (full)" OFF)
+
+if(ENABLE_LTO)
+  message(STATUS "LTO: Enabled")
+
+  # Detect compiler type
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(USING_CLANG TRUE)
+  elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    set(USING_GCC TRUE)
+  elseif(MSVC)
+    set(USING_MSVC TRUE)
+  else()
+    message(FATAL_ERROR "LTO is only supported with Clang, GCC, or MSVC compilers")
+  endif()
+
+  # For Clang LTO we need an LLVM archiver.  Use llvm-lib on Windows (clang-cl
+  # wants MSVC-style /flags, which llvm-ar rejects), and llvm-ar elsewhere.
+  # Both are optional on macOS since AppleClang may work with the system ar.
+  if(USING_CLANG)
+    if(WINDOWS)
+      find_program(LLVM_LIB llvm-lib)
+      if(LLVM_LIB)
+        set(CMAKE_AR ${LLVM_LIB})
+        message(STATUS "LTO: Using llvm-lib: ${CMAKE_AR}")
+      else()
+        message(STATUS
+          "LTO: Using system lib (llvm-lib not found, Clang-CL may work with"
+          " system lib)")
+      endif()
+    else()
+      find_program(LLVM_AR llvm-ar)
+      if(LLVM_AR)
+        set(CMAKE_AR ${LLVM_AR})
+        message(STATUS "LTO: Using llvm-ar: ${CMAKE_AR}")
+      elseif(MACOS)
+        message(STATUS
+          "LTO: Using system ar (llvm-ar not found,"
+          " AppleClang may work with system ar)")
+      else()
+        message(FATAL_ERROR "llvm-ar is required for LTO with Clang but was not found")
+      endif()
+    endif()
+
+    # Use ThinLTO on macOS for better performance and lower memory usage.
+    if(MACOS)
+      set(LTO_FLAG "-flto=thin")
+      set(LTO_LINKER_FLAGS "-flto=thin")
+    else()
+      set(LTO_FLAG "-flto")
+      set(LTO_LINKER_FLAGS "-flto")
+    endif()
+  elseif(USING_GCC)
+    set(LTO_FLAG "-flto")
+    set(LTO_LINKER_FLAGS "-flto -fuse-linker-plugin -ffat-lto-objects")
+  elseif(USING_MSVC)
+    # MSVC uses /GL for compilation and /LTCG for linking
+    # Alternatively, we can use CMake's INTERPROCEDURAL_OPTIMIZATION
+    set(LTO_FLAG "/GL")
+    set(LTO_LINKER_FLAGS "/LTCG")
+  endif()
+
+  # Apply flags to all C and C++ compilation
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${LTO_FLAG}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LTO_FLAG}")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${LTO_LINKER_FLAGS}")
+  set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${LTO_LINKER_FLAGS}")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${LTO_LINKER_FLAGS}")
+endif()
+
+##############################################################################
+# Apply PGO flags if enabled
+
+if(ENABLE_PGO_GENERATE)
+  message(STATUS "PGO: Building with profile generation instrumentation")
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-instr-generate")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-generate")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fprofile-instr-generate")
+  elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-generate")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-generate")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -fprofile-generate")
+  else()
+    message(WARNING "PGO profile generation is not supported with compiler: ${CMAKE_CXX_COMPILER_ID}")
+  endif()
+endif()
+
+if(ENABLE_PGO_USE)
+  message(STATUS "PGO: Building with profile-guided optimizations")
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    if(NOT PGO_PROFILE_FILE)
+      message(FATAL_ERROR "PGO_PROFILE_FILE must be set when ENABLE_PGO_USE=ON")
+    endif()
+    if(NOT EXISTS "${PGO_PROFILE_FILE}")
+      message(FATAL_ERROR "PGO profile file does not exist: ${PGO_PROFILE_FILE}")
+    endif()
+    message(STATUS "PGO: Using profile data from ${PGO_PROFILE_FILE}")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-instr-use=${PGO_PROFILE_FILE}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-instr-use=${PGO_PROFILE_FILE}")
+  elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    message(STATUS "PGO: Using GCC profile data from build directory")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fprofile-use -fprofile-correction")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-use -fprofile-correction")
+  else()
+    message(WARNING "PGO profile use is not supported with compiler: ${CMAKE_CXX_COMPILER_ID}")
+  endif()
+endif()
+
+set(GENERATED_HEADER_DIR ${CMAKE_BINARY_DIR}/generated)
+file(MAKE_DIRECTORY ${GENERATED_HEADER_DIR})
+
+##############################################################################
+# Dependencies
+
+include(FetchContent)
+
+########################################
+# python
+
+find_package(Python ${PY_VERSION} EXACT COMPONENTS Interpreter Development.Module REQUIRED)
+
+# RuntimeTests embeds Python, so it needs Python::Python.
+if (BUILD_RUNTIME_TESTS)
+  find_package(Python ${PY_VERSION} EXACT COMPONENTS Development.Embed REQUIRED)
+endif()
+
+# Some of our files are partially generated from CPython source, and they
+# expect to be able to include files relative to Include/internal.
+set(Python_INCLUDE_DIRS ${Python_INCLUDE_DIRS} "${Python_INCLUDE_DIRS}/internal")
+
+########################################
+# asmjit (vendored)
+
+set(ASMJIT_STATIC TRUE)
+set(ASMJIT_NO_CUSTOM_FLAGS TRUE)
+add_subdirectory(${PROJECT_SOURCE_DIR}/ThirdParty/asmjit asmjit)
+if (NOT WINDOWS)
+    target_compile_options(asmjit PRIVATE -Wno-class-memaccess)
+endif()
+
+########################################
+# fmt
+
+FetchContent_Declare(
+  fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt
+  GIT_TAG 12.1.0 # 2025-Oct-29
+)
+FetchContent_MakeAvailable(fmt)
+
+########################################
+# parallel-hashmap
+
+FetchContent_Declare(
+  parallel-hashmap
+  GIT_REPOSITORY https://github.com/greg7mdp/parallel-hashmap
+  GIT_TAG 896f1a03e429c45d9fe9638e892fc1da73befadd # 2025-Apr-11
+)
+FetchContent_MakeAvailable(parallel-hashmap)
+
+########################################
+# usdt
+
+FetchContent_Declare(
+  usdt
+  GIT_REPOSITORY https://github.com/libbpf/usdt
+  GIT_TAG f4ea2f524efa80d062f4d586d78daafb83dc7d24 # 2025-Apr-24
+)
+FetchContent_MakeAvailable(usdt)
+
+# Get directory format for `#include <usdt/usdt.h>` to work.
+set(USDT_DIR ${GENERATED_HEADER_DIR}/usdt)
+file(MAKE_DIRECTORY ${USDT_DIR})
+file(COPY ${usdt_SOURCE_DIR}/usdt.h DESTINATION ${USDT_DIR})
+
+########################################
+# zlib
+
+if (${ENABLE_ZLIB})
+    FetchContent_Declare(
+        zlib
+        GIT_REPOSITORY "https://github.com/madler/zlib.git"
+        FIND_PACKAGE_ARGS NAMES ZLIB
+    )
+    find_package(ZLIB REQUIRED)
+endif()
+
+########################################
+# capstone (optional, for JIT disassembly)
+
+if (${ENABLE_DISASSEMBLER})
+  FetchContent_Declare(
+    capstone
+    GIT_REPOSITORY https://github.com/capstone-engine/capstone
+    GIT_TAG 5.0.7
+  )
+
+  # Skip unsupported architectures.
+  set(CAPSTONE_ARM_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_BPF_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_BUILD_CSTOOL OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_EVM_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_M680X_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_M68K_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_MIPS_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_MOS65XX_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_PPC_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_RISCV_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_SH_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_SPARC_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_SYSZ_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_TMS320C64X_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_TRICORE_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_WASM_SUPPORT OFF CACHE BOOL "" FORCE)
+  set(CAPSTONE_XCORE_SUPPORT OFF CACHE BOOL "" FORCE)
+
+  # x86-64 and aarch64 are supported.
+  if (CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64|AMD64")
+    set(CAPSTONE_X86_SUPPORT ON CACHE BOOL "" FORCE)
+  elseif(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|arm64")
+    set(CAPSTONE_AARCH64_SUPPORT ON CACHE BOOL "" FORCE)
+  endif()
+
+  FetchContent_MakeAvailable(capstone)
+  target_compile_options(capstone PRIVATE -w)
+  target_compile_options(capstone_static PRIVATE -w)
+  # CAPSTONE_STATIC suppresses CAPSTONE_EXPORT's visibility("default") annotation,
+  # so capstone symbols remain hidden when we build with -fvisibility=hidden.
+  target_compile_definitions(capstone PRIVATE CAPSTONE_STATIC)
+  target_compile_definitions(capstone_static PRIVATE CAPSTONE_STATIC)
+endif()
+
+##############################################################################
+# Build cinderx
+
+include_directories(
+  ${PROJECT_SOURCE_DIR}/..
+  ${GENERATED_HEADER_DIR}
+  ${Python_INCLUDE_DIRS}
+  ${parallel-hashmap_SOURCE_DIR}
+  ${usdt_SOURCE_DIR}/..
+)
+
+########################################
+# Common/
+
+file(GLOB_RECURSE COMMON_SOURCES ${PROJECT_SOURCE_DIR}/Common/*.cpp ${PROJECT_SOURCE_DIR}/Common/*.c)
+add_library(common ${COMMON_SOURCES})
+if (${ENABLE_ZLIB})
+    target_link_libraries(common PRIVATE asmjit::asmjit fmt::fmt ZLIB::ZLIB)
+else()
+    target_link_libraries(common PRIVATE asmjit::asmjit fmt::fmt)
+endif()
+
+########################################
+# UpstreamBorrow/
+
+if (${PY_VERSION} EQUAL 3.12 OR ${PY_VERSION} EQUAL 3.14 OR ${PY_VERSION} EQUAL 3.15)
+  if (ENABLE_FREE_THREADING)
+    set(BORROWED_C ${PROJECT_SOURCE_DIR}/UpstreamBorrow/borrowed-${PY_VERSION}.free-threading.gen_cached.c)
+  else()
+    set(BORROWED_C ${PROJECT_SOURCE_DIR}/UpstreamBorrow/borrowed-${PY_VERSION}.gen_cached.c)
+  endif()
+else()
+  set(BORROWED_C "${GENERATED_HEADER_DIR}/dummy-borrowed.c")
+  file(WRITE ${BORROWED_C} "")
+endif()
+
+add_library(borrowed ${BORROWED_C})
+
+########################################
+# CachedProperties/
+
+file(GLOB_RECURSE CACHED_PROPERTY_SOURCES ${PROJECT_SOURCE_DIR}/CachedProperties/*.c)
+add_library(cached-properties ${CACHED_PROPERTY_SOURCES})
+target_link_libraries(cached-properties PRIVATE common borrowed)
+
+########################################
+# Interpreter/
+
+set(INTERP_SOURCES
+  ${PROJECT_SOURCE_DIR}/Interpreter/cinder_opcode.c
+  ${PROJECT_SOURCE_DIR}/Interpreter/interpreter_base.cpp
+  ${PROJECT_SOURCE_DIR}/Interpreter/iter_helpers.c
+)
+
+if (${PY_VERSION} EQUAL 3.12 OR ${PY_VERSION} EQUAL 3.14 OR ${PY_VERSION} EQUAL 3.15)
+  set(SOURCE_CINDERX_OPCODE_TARGETS_H ${PROJECT_SOURCE_DIR}/Interpreter/${PY_VERSION}/cinderx_opcode_targets.h)
+  set(SOURCE_CINDER_OPCODE_H ${PROJECT_SOURCE_DIR}/Interpreter/${PY_VERSION}/cinder_opcode.h)
+  set(SOURCE_CINDER_OPCODE_IDS_H ${PROJECT_SOURCE_DIR}/Interpreter/${PY_VERSION}/cinder_opcode_ids.h)
+  set(SOURCE_CINDER_OPCODE_METADATA_H ${PROJECT_SOURCE_DIR}/Interpreter/${PY_VERSION}/cinder_opcode_metadata.h)
+
+  if (${ENABLE_INTERPRETER_LOOP})
+    set(INTERP_SOURCES ${INTERP_SOURCES} ${PROJECT_SOURCE_DIR}/Interpreter/${PY_VERSION}/interpreter.c)
+  endif()
+endif()
+
+# Generate cinderx/Interpreter header files.
+
+set(CINDERX_OPCODE_TARGETS_H ${GENERATED_HEADER_DIR}/cinderx/Interpreter/cinderx_opcode_targets.h)
+set(CINDER_OPCODE_H ${GENERATED_HEADER_DIR}/cinderx/Interpreter/cinder_opcode.h)
+set(CINDER_OPCODE_IDS_H ${GENERATED_HEADER_DIR}/cinderx/Interpreter/cinder_opcode_ids.h)
+set(CINDER_OPCODE_METADATA_H ${GENERATED_HEADER_DIR}/cinderx/Interpreter/cinder_opcode_metadata.h)
+
+file(READ ${SOURCE_CINDERX_OPCODE_TARGETS_H} FILE_CONTENTS)
+file(WRITE ${CINDERX_OPCODE_TARGETS_H} "${FILE_CONTENTS}")
+
+file(READ ${SOURCE_CINDER_OPCODE_IDS_H} FILE_CONTENTS)
+file(WRITE ${CINDER_OPCODE_IDS_H} "${FILE_CONTENTS}")
+
+file(READ ${SOURCE_CINDER_OPCODE_METADATA_H} FILE_CONTENTS)
+file(WRITE ${CINDER_OPCODE_METADATA_H} "${FILE_CONTENTS}")
+
+file(READ ${SOURCE_CINDER_OPCODE_H} FILE_CONTENTS)
+file(WRITE ${CINDER_OPCODE_H} "${FILE_CONTENTS}")
+
+add_library(interpreter ${INTERP_SOURCES})
+target_include_directories(
+  interpreter
+  PUBLIC
+  ${PROJECT_SOURCE_DIR}/Interpreter/${PY_VERSION}/Includes
+)
+
+########################################
+# Immortalize/
+
+file(GLOB_RECURSE IMMORTALIZE_SOURCES ${PROJECT_SOURCE_DIR}/Immortalize/*.cpp)
+add_library(immortalize ${IMMORTALIZE_SOURCES})
+target_link_libraries(immortalize PRIVATE asmjit::asmjit fmt::fmt)
+
+########################################
+# StaticPython/
+
+file(GLOB_RECURSE STATIC_PYTHON_SOURCES ${PROJECT_SOURCE_DIR}/StaticPython/*.c)
+add_library(static-python ${STATIC_PYTHON_SOURCES})
+target_link_libraries(static-python PRIVATE fmt::fmt asmjit::asmjit common borrowed)
+
+########################################
+# Jit/
+
+file(GLOB_RECURSE JIT_SOURCES ${PROJECT_SOURCE_DIR}/Jit/*.cpp ${PROJECT_SOURCE_DIR}/Jit/*.c)
+
+add_library(jit ${JIT_SOURCES})
+target_compile_options(jit PRIVATE -Wno-free-nonheap-object)
+target_link_libraries(jit PRIVATE asmjit::asmjit interpreter fmt::fmt)
+if (${ENABLE_DISASSEMBLER})
+  target_link_libraries(jit PRIVATE capstone_static)
+endif()
+
+########################################
+# ParallelGC/
+
+if (${ENABLE_PARALLEL_GC})
+  file(GLOB_RECURSE PARALLEL_GC_SOURCES ${PROJECT_SOURCE_DIR}/ParallelGC/*.c)
+else()
+  set(PARALLEL_GC_SOURCES "${GENERATED_HEADER_DIR}/dummy-parallel-gc.c")
+  file(WRITE ${PARALLEL_GC_SOURCES} "")
+endif()
+add_library(parallel-gc ${PARALLEL_GC_SOURCES})
+
+########################################
+# _cinderx.cpp
+
+set(CINDERX_MODULE_LIB_SOURCES
+  # Manually listed out to not accidentally include stuff in .git.
+  ${PROJECT_SOURCE_DIR}/_cinderx-lib.cpp
+  ${PROJECT_SOURCE_DIR}/async_lazy_value.cpp
+  ${PROJECT_SOURCE_DIR}/module_state.cpp
+  ${PROJECT_SOURCE_DIR}/module_c_state.cpp
+  ${PROJECT_SOURCE_DIR}/python_runtime.cpp
+)
+
+add_library(cinderx-lib STATIC ${CINDERX_MODULE_LIB_SOURCES})
+target_link_libraries(
+  cinderx-lib
+  PRIVATE
+  Python::Module
+  borrowed cached-properties common immortalize interpreter jit parallel-gc static-python
+  asmjit::asmjit fmt::fmt)
+
+add_library(${PROJECT_NAME} SHARED ${PROJECT_SOURCE_DIR}/_cinderx.cpp)
+
+target_link_libraries(
+  ${PROJECT_NAME}
+  PRIVATE
+  cinderx-lib)
+
+# macOS doesn't allow depending on other shared libraries by default.
+if (${MACOS})
+  target_link_options(${PROJECT_NAME} PRIVATE -undefined dynamic_lookup)
+endif()
+
+set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
+set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX "")
+if (WINDOWS)
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "_cinderx.pyd")
+else()
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "_cinderx.so")
+endif()
+
+##############################################################################
+# RuntimeTests/ — opt-in C++ GoogleTest binary.
+
+if (BUILD_RUNTIME_TESTS)
+  enable_testing()
+
+  ########################################
+  # GoogleTest
+
+  FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest
+    GIT_TAG v1.15.2 # 2024-Jul-31
+  )
+  FetchContent_MakeAvailable(googletest)
+
+  ########################################
+  # RuntimeTests executable
+
+  file(GLOB RUNTIME_TESTS_SOURCES
+    CONFIGURE_DEPENDS
+    ${PROJECT_SOURCE_DIR}/RuntimeTests/*.cpp
+  )
+
+  if (NOT ENABLE_ELF_READER)
+    list(REMOVE_ITEM RUNTIME_TESTS_SOURCES ${PROJECT_SOURCE_DIR}/RuntimeTests/elf_test.cpp)
+  endif()
+
+  if (NOT ENABLE_SYMBOLIZER)
+    list(REMOVE_ITEM RUNTIME_TESTS_SOURCES ${PROJECT_SOURCE_DIR}/RuntimeTests/util_test.cpp)
+  endif()
+
+  add_executable(RuntimeTests ${RUNTIME_TESTS_SOURCES})
+
+  target_link_libraries(
+    RuntimeTests
+    PRIVATE
+    cinderx-lib
+    asmjit::asmjit fmt::fmt
+    GTest::gtest
+    Python::Python
+  )
+
+  target_compile_definitions(
+    RuntimeTests
+    PRIVATE
+    CINDERX_RUNTIME_TESTS_STATIC_CINDERX=1
+    # Used by RuntimeTest::SetUp() to import cinderx from PythonLib.
+    CINDERX_RUNTIME_TESTS_PYTHONPATH_PACKAGE=${PROJECT_SOURCE_DIR}/PythonLib
+  )
+
+  add_test(
+    NAME RuntimeTests
+    COMMAND RuntimeTests
+    # RuntimeTests open source-tree test data relative to cwd.
+    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  )
+endif()
