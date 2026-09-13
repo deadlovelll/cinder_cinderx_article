@@ -1,0 +1,5 @@
+from __future__ import annotations
+
+
+N_NODES = 300_000
+N_GARBAGE = 300_000
