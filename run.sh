@@ -1,23 +1,4 @@
 #!/usr/bin/env bash
-# Build the interpreters, install the dependencies, run the benches and the workshop.
-#
-# One command does the campaign: ./run.sh all
-# Each stage is also a subcommand, and every stage is idempotent, so a run that
-# failed halfway can be resumed by calling it again.
-#
-#   ./run.sh check         host preconditions; refuses a host that cannot measure
-#   ./run.sh sources       clone CPython, the Meta fork and CinderX at pinned refs
-#   ./run.sh interpreters  build all three, with identical flags
-#   ./run.sh deps          one venv per interpreter, CinderX into the stock one
-#   ./run.sh probe         report what this build can actually do, before measuring
-#   ./run.sh dialect       verify the Static Python reference and emit REFERENCE.md
-#   ./run.sh bench         the microbenches, through pyperf
-#   ./run.sh workshop      seed the fixture, then the ladder and the kernel matrix
-#   ./run.sh all           every stage above, in order
-#   ./run.sh clean         drop builds and venvs; sources and results are kept
-#
-# The database belongs on another host: set RECSYS_DB_HOST. So does the load
-# generator. Running either beside the service measures the host, not the runtime.
 
 set -euo pipefail
 
@@ -27,32 +8,23 @@ BUILD="$ROOT/build"
 LOGS="$BUILD/logs"
 MANIFEST="$BUILD/manifest.json"
 
-# Pinned, because "the latest" is not a measurement. Override to move a pin.
 CPYTHON_REF="${CPYTHON_REF:-v3.14.6}"
 CINDER_REF="${CINDER_REF:-meta/3.14}"
 CINDERX_REF="${CINDERX_REF:-main}"
-CINDERX_VERSION="${CINDERX_VERSION:-2026.9.7.0}"
+CINDERX_VERSION="${CINDERX_VERSION:-2026.9.13.0}"
 
 CPYTHON_URL="${CPYTHON_URL:-https://github.com/python/cpython.git}"
 CINDER_URL="${CINDER_URL:-https://github.com/facebookincubator/cinder.git}"
 CINDERX_URL="${CINDERX_URL:-https://github.com/facebookincubator/cinderx.git}"
 
 JOBS="${JOBS:-$( (nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4) )}"
-# PGO and LTO on by default: distributions ship optimised builds, and a baseline
-# that is not optimised would flatter every rung measured against it.
 PGO="${PGO:-1}"
-# Set to 1 to keep going past a stage that failed. Off by default: a campaign with
-# a hole in it is worse than one that stopped where the hole is.
 KEEP_GOING="${KEEP_GOING:-0}"
 
 STOCK="$BUILD/stock"
 TIER2="$BUILD/tier2"
 FORK="$BUILD/fork"
 
-# An interpreter that already exists can be used instead of building one. This is
-# for a smoke test of the pipeline, not for a publishable run: three builds with
-# identical flags are what make the ladder's rungs one delta apart, and a distro
-# interpreter shares none of those flags with the other two.
 STOCK_PYTHON="${STOCK_PYTHON:-$STOCK/bin/python3.14}"
 TIER2_PYTHON="${TIER2_PYTHON:-$TIER2/bin/python3.14}"
 FORK_PYTHON="${FORK_PYTHON:-$FORK/bin/python3.14}"
@@ -60,17 +32,17 @@ VENV_STOCK="$BUILD/venv-stock"
 VENV_TIER2="$BUILD/venv-tier2"
 VENV_FORK="$BUILD/venv-fork"
 
-# Passed to every bench. Empty for a real campaign, which is what pyperf's own
-# defaults are for; set it to smoke-test the stage without spending the hours:
-#   BENCH_ARGS="--processes 1 --values 2 --warmups 2" ./run.sh bench
 BENCH_ARGS="${BENCH_ARGS:-}"
 
 RESULTS="${BENCH_RESULTS_DIR:-$ROOT/results}"
 LADDER_OUT="$ROOT/service/load/results"
 
-# ---------------------------------------------------------------------------
-# plumbing
-# ---------------------------------------------------------------------------
+WQ_CPUMASK=/sys/devices/virtual/workqueue/cpumask
+RESERVED="${CX_RESERVED_CPUS:-2-5}"
+export CX_RESERVED_CPUS="$RESERVED"
+
+COMPOSE_FILE="$ROOT/service/docker-compose.yml"
+RECSYS_DB_PUBLISH_PORT="${RECSYS_DB_PUBLISH_PORT:-${RECSYS_DB_PORT:-55432}}"
 
 say()  { printf '\n\033[1m== %s\033[0m\n' "$*"; }
 info() { printf '   %s\n' "$*"; }
@@ -79,7 +51,21 @@ die()  { printf '\033[31m   x %s\033[0m\n' "$*" >&2; exit 1; }
 
 have() { command -v "$1" >/dev/null 2>&1; }
 
-# Run a stage, and let KEEP_GOING decide whether a failure is fatal.
+sysinfo() { PYTHONPATH="$ROOT" python3 -m bench.harness.system "$@"; }
+budget() { sysinfo --cpu-budget "$1"; }
+budget_count() {
+  sysinfo --cpu-budget | awk -v k="$1" '$1 == k {print $3}'
+}
+
+on_cpus() {
+  local cpus="$1"; shift
+  if [ -n "$cpus" ] && have taskset; then
+    taskset -c "$cpus" "$@"
+  else
+    "$@"
+  fi
+}
+
 stage() {
   local name="$1"; shift
   if "$@"; then
@@ -92,7 +78,6 @@ stage() {
   die "stage '$name' failed"
 }
 
-# Record what was actually built, so a number can be traced to a tree.
 record() {
   mkdir -p "$BUILD"
   python3 - "$MANIFEST" "$1" "$2" <<'PY'
@@ -110,9 +95,222 @@ PY
 
 is_linux() { [ "$(uname -s)" = "Linux" ]; }
 
-# ---------------------------------------------------------------------------
-# check
-# ---------------------------------------------------------------------------
+is_root() { [ "$(id -u)" = "0" ]; }
+
+GOVERNORS_GLOB="/sys/devices/system/cpu/cpu*/cpufreq/scaling_governor"
+NO_TURBO="/sys/devices/system/cpu/intel_pstate/no_turbo"
+BOOST="/sys/devices/system/cpu/cpufreq/boost"
+PERF_RATE="/proc/sys/kernel/perf_event_max_sample_rate"
+TUNE_BAK="${TUNE_BAK:-/var/tmp/cinderx-cpu-tune.bak}"
+
+sysfs_write() {
+  local value="$1" path="$2"
+  if printf '%s\n' "$value" > "$path" 2>/dev/null; then
+    return 0
+  fi
+  warn "could not write $value to $path"
+  return 1
+}
+
+tune_remember() {
+  local key="$1" value="$2"
+  mkdir -p "$(dirname "$TUNE_BAK")"
+  [ -f "$TUNE_BAK" ] && grep -q "^$key=" "$TUNE_BAK" && return 0
+  printf '%s=%s\n' "$key" "$value" >> "$TUNE_BAK"
+}
+
+tune_recall() {
+  local key="$1"
+  [ -f "$TUNE_BAK" ] || return 1
+  sed -n "s/^$key=//p" "$TUNE_BAK" | tail -1
+}
+
+tune_cpu() {
+  is_linux || { warn "$(uname -s): no cpufreq knobs to set"; return 1; }
+  if ! is_root; then
+    warn "governor and turbo need root; leaving them as they are"
+    warn "to set them: sudo $0 tune"
+    return 1
+  fi
+
+  local touched=0 first=""
+  for path in $GOVERNORS_GLOB; do
+    [ -w "$path" ] || continue
+    [ -n "$first" ] || { first="$(cat "$path")"; tune_remember governor "$first"; }
+    sysfs_write performance "$path" && touched=1
+  done
+  if [ -n "$first" ]; then
+    local now
+    now="$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor 2>/dev/null || echo unknown)"
+    info "governor: $first -> $now (all CPUs)"
+  else
+    warn "no writable scaling_governor: cpufreq may not be exposed on this host"
+  fi
+
+  if [ -w "$NO_TURBO" ]; then
+    tune_remember no_turbo "$(cat "$NO_TURBO")"
+    sysfs_write 1 "$NO_TURBO" && { info "turbo: off (intel_pstate/no_turbo=1)"; touched=1; }
+  elif [ -w "$BOOST" ]; then
+    tune_remember boost "$(cat "$BOOST")"
+    sysfs_write 0 "$BOOST" && { info "turbo: off (cpufreq/boost=0)"; touched=1; }
+  else
+    warn "no writable turbo knob: neither $NO_TURBO nor $BOOST"
+  fi
+
+  for path in /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq; do
+    [ -w "$path" ] || continue
+    local top="${path%/scaling_min_freq}/cpuinfo_max_freq"
+    [ -r "$top" ] && sysfs_write "$(cat "$top")" "$path" && touched=1
+  done
+  tune_remember min_freq floor
+  info "scaling_min_freq: raised to each CPU's maximum"
+
+  if [ -w "$PERF_RATE" ]; then
+    tune_remember perf_rate "$(cat "$PERF_RATE")"
+    sysfs_write 1 "$PERF_RATE" && { info "perf_event_max_sample_rate: 1"; touched=1; }
+  fi
+
+  tune_shield && touched=1
+  tune_irqs && touched=1
+
+  [ "$touched" = "1" ] && info "saved the previous values in $TUNE_BAK"
+  [ "$touched" = "1" ]
+}
+
+tune_shield() {
+  have systemctl || { warn "no systemctl: cannot shield the reserved CPUs"; return 1; }
+  is_root || { warn "shielding the reserved CPUs needs root"; return 1; }
+  local rest
+  rest="$(sysinfo --host-cpus)" || return 1
+  [ -n "$rest" ] || return 1
+  local unit ok=0
+  for unit in init.scope system.slice; do
+    if systemctl set-property --runtime "$unit" "AllowedCPUs=$rest" 2>/dev/null; then
+      ok=$((ok + 1))
+    else
+      warn "could not set AllowedCPUs on $unit"
+    fi
+  done
+  [ "$ok" -gt 0 ] || return 1
+  tune_remember shield "$ok"
+  info "shield: daemons on $rest, cpu $RESERVED left to the measurement"
+  local wq_mask
+  if [ -w "$WQ_CPUMASK" ] && wq_mask="$(sysinfo --irq-mask)"; then
+    tune_remember wq_cpumask "$(cat "$WQ_CPUMASK")"
+    sysfs_write "$wq_mask" "$WQ_CPUMASK" &&
+      info "unbound workqueues: on $rest as well"
+  else
+    warn "unbound workqueues: cannot write $WQ_CPUMASK, kworkers stay everywhere"
+  fi
+  info "user.slice is untouched: do not run anything else in this session"
+}
+
+untune_shield() {
+  have systemctl || return 0
+  [ -n "$(tune_recall shield || true)" ] || return 0
+  local unit
+  for unit in init.scope system.slice; do
+    systemctl set-property --runtime "$unit" "AllowedCPUs=" 2>/dev/null || true
+  done
+  local wq_mask
+  wq_mask="$(tune_recall wq_cpumask || true)"
+  if [ -n "$wq_mask" ] && [ -w "$WQ_CPUMASK" ]; then
+    sysfs_write "$wq_mask" "$WQ_CPUMASK" &&
+      info "unbound workqueues: back to $wq_mask"
+  fi
+  info "shield: every CPU back to every slice"
+}
+
+tune_irqs() {
+  local isolated mask
+  isolated="$RESERVED"
+  if [ -z "$isolated" ]; then
+    warn "no reserved CPUs: IRQ affinity left alone (set CX_RESERVED_CPUS)"
+    return 1
+  fi
+  if have systemctl && systemctl is-active --quiet irqbalance 2>/dev/null; then
+    systemctl stop irqbalance && tune_remember irqbalance active
+    info "irqbalance: stopped"
+  fi
+  mask="$(sysinfo --irq-mask)" || return 1
+  [ -n "$mask" ] || return 1
+  tune_remember irq_default "$(cat /proc/irq/default_smp_affinity 2>/dev/null || true)"
+  sysfs_write "$mask" /proc/irq/default_smp_affinity || true
+  local moved=0 pinned=0
+  for path in /proc/irq/[0-9]*/smp_affinity; do
+    [ -w "$path" ] || continue
+    if printf '%s\n' "$mask" > "$path" 2>/dev/null; then moved=$((moved + 1)); else pinned=$((pinned + 1)); fi
+  done
+  info "IRQ affinity: $moved moved off cpu $isolated, $pinned are per-CPU and stayed"
+  return 0
+}
+
+untune_cpu() {
+  is_linux || die "$(uname -s): no cpufreq knobs to restore"
+  is_root  || die "restoring the governor and turbo needs root: sudo $0 untune"
+  [ -f "$TUNE_BAK" ] || die "no record in $TUNE_BAK: nothing was tuned by this script"
+
+  local governor no_turbo boost
+  governor="$(tune_recall governor || true)"
+  if [ -n "$governor" ]; then
+    for path in $GOVERNORS_GLOB; do
+      [ -w "$path" ] && sysfs_write "$governor" "$path"
+    done
+    info "governor: back to $governor"
+  fi
+  no_turbo="$(tune_recall no_turbo || true)"
+  boost="$(tune_recall boost || true)"
+  if [ -n "$no_turbo" ] && [ -w "$NO_TURBO" ]; then
+    sysfs_write "$no_turbo" "$NO_TURBO" && info "turbo: back to no_turbo=$no_turbo"
+  elif [ -n "$boost" ] && [ -w "$BOOST" ]; then
+    sysfs_write "$boost" "$BOOST" && info "turbo: back to boost=$boost"
+  fi
+
+  if [ -n "$(tune_recall min_freq || true)" ]; then
+    for path in /sys/devices/system/cpu/cpu*/cpufreq/scaling_min_freq; do
+      [ -w "$path" ] || continue
+      local bottom="${path%/scaling_min_freq}/cpuinfo_min_freq"
+      [ -r "$bottom" ] && sysfs_write "$(cat "$bottom")" "$path"
+    done
+    info "scaling_min_freq: back to each CPU's minimum"
+  fi
+
+  local perf_rate irq_default
+  perf_rate="$(tune_recall perf_rate || true)"
+  if [ -n "$perf_rate" ] && [ -w "$PERF_RATE" ]; then
+    sysfs_write "$perf_rate" "$PERF_RATE" && info "perf_event_max_sample_rate: back to $perf_rate"
+  fi
+
+  irq_default="$(tune_recall irq_default || true)"
+  if [ -n "$irq_default" ]; then
+    local all=""
+    all="$(sysinfo --irq-mask-all)" || all=""
+    sysfs_write "$irq_default" /proc/irq/default_smp_affinity || true
+    if [ -n "$all" ]; then
+      for path in /proc/irq/[0-9]*/smp_affinity; do
+        [ -w "$path" ] && printf '%s\n' "$all" > "$path" 2>/dev/null || true
+      done
+      info "IRQ affinity: back to every CPU"
+    fi
+  fi
+  if [ -n "$(tune_recall irqbalance || true)" ] && have systemctl; then
+    systemctl start irqbalance && info "irqbalance: started"
+  fi
+  rm -f "$TUNE_BAK"
+}
+
+cmd_tune() {
+  say "tuning the host"
+  tune_cpu || true
+  say "measurement preconditions"
+  sysinfo 2>&1 | sed 's/^/   /' || true
+}
+
+cmd_untune() {
+  say "restoring the host"
+  untune_shield
+  untune_cpu
+}
 
 cmd_check() {
   say "host preconditions"
@@ -132,8 +330,6 @@ cmd_check() {
     warn "and the campaign will be incomplete. Publishable runs need Linux."
   fi
 
-  # The build needs headers that CPython silently builds without, then ships a
-  # crippled interpreter: no ssl means no pip, no sqlite3 means no pyperf store.
   if is_linux && have dpkg-query; then
     local pkgs=(libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev
                 libffi-dev liblzma-dev uuid-dev)
@@ -149,34 +345,32 @@ cmd_check() {
     fi
   fi
 
-  # The measurement preconditions proper: isolated cores, governor, ASLR. This
-  # refuses to pass on a host that cannot hold still, which is the point.
+  say "cpu budget"
+  sysinfo --cpu-budget | while read -r who cpus n; do
+    info "$(printf '%-9s %-12s %s core(s)' "$who" "$cpus" "$n")"
+  done
+
   say "measurement preconditions"
-  # The verdict, not the exit code: system.py reports DEGRADED and still exits 0,
-  # so a host that cannot hold still would otherwise pass this stage in silence.
+  tune_cpu || true
   local pre
-  pre="$(python3 "$ROOT/bench/harness/system.py" 2>&1 || true)"
+  pre="$(sysinfo 2>&1 || true)"
   printf '%s\n' "$pre" | sed 's/^/   /'
-  if ! printf '%s' "$pre" | grep -q "preflight: OK"; then
+  if ! printf '%s' "$pre" | grep -qi "preflight: ok"; then
     warn "the host is not tuned for measurement; see the complaints above"
     warn "benches will still run, but CX_BENCH_STRICT=1 will refuse them"
   fi
 
-  if [ -z "${RECSYS_DB_HOST:-}" ]; then
-    warn "RECSYS_DB_HOST is unset: the workshop stage will refuse to run"
-  elif [ "${RECSYS_DB_HOST}" = "localhost" ] || [ "${RECSYS_DB_HOST}" = "127.0.0.1" ]; then
-    warn "RECSYS_DB_HOST is local: the database will compete with the service"
-    warn "for the cores being measured. Put it on another host."
+  if [ -z "${RECSYS_DB_HOST:-}" ] && ! have docker; then
+    warn "RECSYS_DB_HOST is unset and docker is absent: the workshop cannot run"
+  elif [ -z "${RECSYS_DB_HOST:-}" ] || db_is_local; then
+    info "database: local, through compose, on 127.0.0.1:${RECSYS_DB_PUBLISH_PORT}"
+    warn "a local database still shares caches, memory bandwidth and the disk"
+    warn "with the service: set RECSYS_DB_HOST elsewhere for a publishable run"
   else
     info "database host: ${RECSYS_DB_HOST}"
   fi
 }
 
-# ---------------------------------------------------------------------------
-# sources
-# ---------------------------------------------------------------------------
-
-# Shallow clone at a ref, or leave an existing tree alone.
 fetch() {
   local url="$1" ref="$2" dest="$3"
   if [ -d "$dest" ]; then
@@ -185,18 +379,37 @@ fetch() {
     say "cloning $(basename "$dest") at $ref"
     git clone --depth 1 --branch "$ref" "$url" "$dest" 2>&1 | tail -2
   fi
-  local rev="unknown"
+  local rev="unknown" name
+  name="$(basename "$dest")"
   if [ -d "$dest/.git" ]; then
     rev="$(git -C "$dest" rev-parse HEAD)"
+    record "${name}_dirty" "$(git -C "$dest" status --porcelain | head -c 1 | wc -c)"
   else
-    warn "$(basename "$dest"): no git metadata, so the manifest cannot pin it"
+    warn "$name: no git metadata, so the commit cannot be quoted"
+    local digest
+    digest="$(tree_sha256 "$dest")"
+    record "${name}_tree_sha256" "$digest"
+    info "$name tree sha256: ${digest:0:16}..."
   fi
-  record "$(basename "$dest")_ref" "$ref"
-  record "$(basename "$dest")_commit" "$rev"
-  info "$(basename "$dest") commit: $rev"
+  record "${name}_ref" "$ref"
+  record "${name}_commit" "$rev"
+  info "$name commit: $rev"
 }
 
-# Read PY_VERSION straight out of a source tree, before anything is built.
+tree_sha256() {
+  local dir="$1"
+  [ -d "$dir" ] || { echo "unknown"; return 0; }
+  find "$dir" -type f \
+       -not -path '*/.git/*' -not -path '*/__pycache__/*' \
+       -not -name '*.pyc' -not -name '*.o' -not -name '*.so' \
+       -print0 \
+    | LC_ALL=C sort -z \
+    | xargs -0 sha256sum 2>/dev/null \
+    | sed "s| $dir/| |" \
+    | sha256sum \
+    | cut -d" " -f1
+}
+
 tree_version() {
   sed -n 's/^#define PY_VERSION *"\(.*\)".*/\1/p' "$1/Include/patchlevel.h" 2>/dev/null
 }
@@ -207,10 +420,6 @@ cmd_sources() {
   fetch "$CINDER_URL"  "$CINDER_REF"  "$WORK/cinder"
   fetch "$CINDERX_URL" "$CINDERX_REF" "$WORK/cinderx"
 
-  # The fork rung claims to isolate the fork. It only does so if the fork and the
-  # baseline share a base version: the fork lags upstream, and comparing 3.14.5+meta
-  # against 3.14.6 measures the fork plus a patch bump and attributes both to the
-  # fork. Cheap to detect here, expensive to notice in a finished table.
   local sv fv
   sv="$(tree_version "$WORK/cpython")"
   fv="$(tree_version "$WORK/cinder")"
@@ -228,12 +437,6 @@ cmd_sources() {
   fi
 }
 
-# ---------------------------------------------------------------------------
-# interpreters
-# ---------------------------------------------------------------------------
-
-# Build one interpreter. All three get the same flags; only $4 differs, which is
-# what makes the ladder's rungs one delta apart instead of several.
 build_python() {
   local src="$1" prefix="$2" label="$3" extra="${4:-}"
   if [ -x "$prefix/bin/python3.14" ]; then
@@ -244,6 +447,18 @@ build_python() {
   say "building $label"
   mkdir -p "$LOGS"
   local log="$LOGS/build-$label.log"
+
+  local tools=()
+  if have clang && have clang++; then
+    tools=(CC=clang CXX=clang++)
+    have llvm-profdata && tools+=("LLVM_PROFDATA=$(command -v llvm-profdata)")
+    have llvm-ar && tools+=("LLVM_AR=$(command -v llvm-ar)")
+    info "compiler: $(clang --version | head -1)"
+  else
+    warn "clang absent: building $label with the default compiler"
+    warn "the extension is built with clang, so this mixes two compilers"
+  fi
+
   local opt=()
   if [ "$PGO" = "1" ]; then
     opt=(--enable-optimizations --with-lto)
@@ -254,12 +469,14 @@ build_python() {
   (
     cd "$src"
     make distclean >/dev/null 2>&1 || true
-    ./configure --prefix="$prefix" "${opt[@]}" ${extra:+$extra}
+    env "${tools[@]}" ./configure --prefix="$prefix" "${opt[@]}" ${extra:+$extra}
     make -j"$JOBS"
     make install
   ) >"$log" 2>&1 || { tail -30 "$log"; die "$label: build failed, see $log"; }
   "$prefix/bin/python3.14" -VV | sed 's/^/   /'
   record "${label}_version" "$("$prefix/bin/python3.14" -VV | tr '\n' ' ')"
+  record "${label}_compiler" "$("$prefix/bin/python3.14" -c \
+      'import sysconfig; print(sysconfig.get_config_var("CC"))')"
 }
 
 cmd_interpreters() {
@@ -270,7 +487,6 @@ cmd_interpreters() {
   else
     warn "fork build skipped: not Linux"
   fi
-  # A build without ssl or sqlite looks fine until pip or pyperf needs them.
   for p in "$STOCK_PYTHON" "$TIER2_PYTHON" "$FORK_PYTHON"; do
     [ -x "$p" ] || continue
     "$p" - <<'PY' || die "$p: incomplete build"
@@ -289,32 +505,46 @@ PY
   done
 }
 
-# ---------------------------------------------------------------------------
-# deps
-# ---------------------------------------------------------------------------
-
-# One venv per interpreter, all from the same lock, so the only difference
-# between two rungs is the interpreter and the environment.
 make_venv() {
   local python="$1" venv="$2" label="$3" with_cinderx="$4"
   [ -x "$python" ] || { warn "$label: interpreter missing, venv skipped"; return 0; }
   say "venv for $label"
-  uv venv --python "$python" "$venv" >/dev/null
+  uv venv --clear --python "$python" "$venv" >/dev/null
   local extras=(--extra c --extra dev)
-  # CinderX comes from the lock like everything else, so the version in the
-  # article is the version in the file rather than one a command line repeated.
-  [ "$with_cinderx" = "1" ] && extras+=(--extra runtime)
-  # UV_PROJECT_ENVIRONMENT and not VIRTUAL_ENV: uv ignores VIRTUAL_ENV when it
-  # does not match the project's own .venv, and then syncs the project's instead --
-  # silently, and destructively, since a sync removes what the extras do not ask for.
   (cd "$ROOT/service" && UV_PROJECT_ENVIRONMENT="$venv" \
       uv sync --frozen "${extras[@]}" >/dev/null)
   if [ "$with_cinderx" = "1" ]; then
+    [ -d "$WORK/cinderx" ] || die "cinderx source missing at $WORK/cinderx; run ./run.sh sources"
+    say "building cinderx from $WORK/cinderx"
+    mkdir -p "$LOGS"
+    local cxlog="$LOGS/build-cinderx.log"
+    local env=()
+
+    if have clang && have clang++; then
+      env+=(CC=clang CXX=clang++)
+      info "compiler: clang ($(clang --version | head -1 | grep -o 'version [0-9.]*'))"
+    else
+      warn "clang absent: building with the default compiler"
+      warn "gcc 13.3 is known to ICE on cinderx/Jit/code_patcher.cpp"
+    fi
+
+    local pyver
+    pyver="$("$venv/bin/python" -c 'import sys; print("%d.%d" % sys.version_info[:2])')"
+    if [ "$pyver" != "3.12" ]; then
+      env+=(ENABLE_EVAL_HOOK=0 ENABLE_GENERATOR_AWAITER=0)
+      warn "python $pyver: eval hook and generator awaiter off, they are 3.12-only"
+    fi
+
+    rm -rf "$WORK/cinderx/scratch"
+    env "${env[@]}" uv pip install --python "$venv/bin/python" "$WORK/cinderx" \
+        >"$cxlog" 2>&1 \
+      || { grep -i -m 10 "error" "$cxlog" | sed 's/^/   /'; die "cinderx: build failed, see $cxlog"; }
     local got
     got="$("$venv/bin/python" -c "import importlib.metadata as m; print(m.version('cinderx'))")"
-    info "cinderx $got"
-    [ "$got" = "$CINDERX_VERSION" ] || warn "lock has cinderx $got, run.sh expects $CINDERX_VERSION"
+    info "cinderx $got, from the tree"
+    [ "$got" = "$CINDERX_VERSION" ] || warn "the tree builds cinderx $got, run.sh expects $CINDERX_VERSION"
     record "cinderx_version" "$got"
+    record "cinderx_source" "$WORK/cinderx"
   fi
   info "$label: $("$venv/bin/python" -V)"
 }
@@ -325,22 +555,15 @@ cmd_deps() {
     local got; got="$(eval echo "\$${v}_PYTHON")"
     [ "$got" = "$want" ] || warn "$v interpreter overridden: $got (smoke test only)"
   done
-  make_venv "$STOCK_PYTHON" "$VENV_STOCK" "stock" 1
+  make_venv "$STOCK_PYTHON" "$VENV_STOCK" "stock" 0
   make_venv "$TIER2_PYTHON" "$VENV_TIER2" "tier2" 0
-  make_venv "$FORK_PYTHON"  "$VENV_FORK"  "fork"  0
+  make_venv "$FORK_PYTHON"  "$VENV_FORK"  "fork"  1
 }
 
-# ---------------------------------------------------------------------------
-# probe
-# ---------------------------------------------------------------------------
-
-# What this build can actually do, asked of the build rather than assumed. A
-# feature that is absent here is a rung that will be skipped, and knowing that
-# before a six-hour campaign is worth one second of interrogation.
 cmd_probe() {
   say "runtime capabilities"
-  [ -x "$VENV_STOCK/bin/python" ] || die "no stock venv; run ./run.sh deps"
-  "$VENV_STOCK/bin/python" - <<'PY'
+  [ -x "$VENV_FORK/bin/python" ] || die "no fork venv; run ./run.sh deps"
+  "$VENV_FORK/bin/python" - <<'PY'
 import json, platform, sys
 facts = {"python": sys.version, "platform": platform.platform()}
 import cinderx
@@ -348,18 +571,20 @@ import cinderx.jit as jit
 import importlib.metadata as md
 facts["cinderx"] = md.version("cinderx")
 for name in ("has_parallel_gc", "immortalize_heap", "enable_parallel_gc",
-             "install_frame_evaluator", "_context"):
+             "install_frame_evaluator"):
     facts[name] = hasattr(cinderx, name)
 try:
     facts["parallel_gc_available"] = bool(cinderx.has_parallel_gc())
 except Exception as exc:
     facts["parallel_gc_available"] = f"error: {exc}"
-for name in ("auto", "force_compile", "precompile_all", "background_compile",
-             "dump_elf", "load_aot_bundle", "get_and_clear_runtime_stats",
+import cinderjit
+for name in ("auto", "force_compile", "precompile_all", "dump_elf",
+             "load_aot_bundle", "get_and_clear_runtime_stats",
              "count_interpreted_calls"):
-    facts[f"jit.{name}"] = hasattr(jit, name)
+    here = hasattr(cinderjit, name)
+    facts[f"jit.{name}"] = here if hasattr(jit, name) == here else f"{here} (cinderjit only)"
 try:
-    from cinderx.compiler.strict.loader import install    # noqa: F401
+    from cinderx.compiler.strict.loader import install
     facts["static_loader"] = True
 except Exception as exc:
     facts["static_loader"] = f"error: {exc}"
@@ -370,119 +595,90 @@ for k, v in facts.items():
 print()
 if facts.get("parallel_gc_available") is not True:
     print("   ! parallel GC unavailable in this build: rung 09 will be skipped")
-if not facts.get("jit.dump_elf"):
+if not str(facts.get("jit.dump_elf", "")).startswith("True"):
     print("   ! no AOT in this build: dump_elf/load_aot_bundle absent, b_jit_bulk")
     print("     will report the AOT legs as unavailable rather than fail")
 PY
   record "probed" "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 
-# ---------------------------------------------------------------------------
-# dialect
-# ---------------------------------------------------------------------------
-
-# The Static Python reference: every accepted example must run and every rejected
-# one must still be rejected. It exits non-zero when a snippet changed meaning,
-# which is the only way a dialect note in the article can be trusted.
 cmd_dialect() {
   say "Static Python dialect reference"
-  [ -x "$VENV_STOCK/bin/python" ] || die "no stock venv; run ./run.sh deps"
-  "$VENV_STOCK/bin/python" "$ROOT/dialect/run.py"
-  "$VENV_STOCK/bin/python" "$ROOT/dialect/run.py" --markdown \
+  [ -x "$VENV_FORK/bin/python" ] || die "no fork venv: Static Python needs cinderx; run ./run.sh deps"
+  "$VENV_FORK/bin/python" "$ROOT/dialect/run.py"
+  "$VENV_FORK/bin/python" "$ROOT/dialect/run.py" --markdown \
       > "$ROOT/dialect/REFERENCE.md"
   info "wrote dialect/REFERENCE.md"
 }
 
-# ---------------------------------------------------------------------------
-# bench
-# ---------------------------------------------------------------------------
-
-# Three bench parameters must be a property of the process, never a loop inside
-# one: a call cannot be un-made, immortalize_heap is irreversible, and auto() is
-# a global policy. Hence the loops over separate invocations below.
-# Two harnesses, so two helpers. pyb runs a pyperf bench and forwards BENCH_ARGS;
-# fb runs one that records observations rather than timings and has its own
-# argparser, which pyperf's flags would make it reject.
-# One bench that dies must not cost the campaign, and must not pass unnoticed
-# either: failures are collected and reported at the end, and the stage exits
-# non-zero. A known example is b_framework under cinderx_jit, where auto()
-# compiling the framework path segfaults on this platform.
 BENCH_FAILED=()
+
+py_for() {
+  if [ "$1" = "stock" ]; then echo "$VENV_STOCK/bin/python"; else echo "$VENV_FORK/bin/python"; fi
+}
 
 pyb() {
   local config="$1" script="$2"; shift 2
-  CX_BENCH_CONFIG="$config" "$BENCH_PY" "$ROOT/bench/$script" \
+  local BENCH_PY="${BENCH_PY:-$(py_for "$config")}"
+  CX_BENCH_CONFIG="$config" "$BENCH_PY" "$ROOT/bench/$script/main.py" \
       "$@" ${BENCH_ARGS:+$BENCH_ARGS} \
     || { warn "$script [$config $*] failed with $?"; BENCH_FAILED+=("$script[$config $*]"); }
 }
 
 fb() {
   local config="$1" script="$2"; shift 2
-  CX_BENCH_CONFIG="$config" "$BENCH_PY" "$ROOT/bench/$script" "$@" \
+  local BENCH_PY="${BENCH_PY:-$(py_for "$config")}"
+  CX_BENCH_CONFIG="$config" "$BENCH_PY" "$ROOT/bench/$script/main.py" "$@" \
     || { warn "$script [$config $*] failed with $?"; BENCH_FAILED+=("$script[$config $*]"); }
 }
 
-# Three bench parameters must be a property of the process, never a loop inside
-# one: a call cannot be un-made, immortalize_heap is irreversible, and auto() is
-# a global policy. Hence the loops over separate invocations below.
 cmd_bench() {
   say "microbenches"
-  BENCH_PY="$VENV_STOCK/bin/python"
-  [ -x "$BENCH_PY" ] || die "no stock venv; run ./run.sh deps"
+  [ -x "$VENV_STOCK/bin/python" ] || die "no stock venv; run ./run.sh deps"
+  [ -x "$VENV_FORK/bin/python" ] || die "no fork venv: cinderx lives there; run ./run.sh deps"
   mkdir -p "$RESULTS"
   export BENCH_RESULTS_DIR="$RESULTS"
 
   for c in stock cinderx static cinderx_jit static_jit; do
-    pyb "$c" b_ladder.py
+    pyb "$c" b_ladder
   done
 
   for shape in attr index; do
     for n in 0 1 2 3 5 10 30; do
-      pyb cinderx_jit b_jit_warmup.py --warmup-calls "$n" --shape "$shape"
+      pyb cinderx_jit b_jit_warmup --warmup-calls "$n" --shape "$shape" \
+          --label "$shape-w$n"
     done
   done
 
   for c in static static_jit; do
-    pyb "$c" b_prim_op.py
-    pyb "$c" b_border.py
-    fb  "$c" b_port_cost.py
+    pyb "$c" b_prim_op
+    pyb "$c" b_border
+    fb  "$c" b_port_cost
   done
 
   for c in cinderx cinderx_jit; do
-    pyb "$c" b_jit_deopt.py
-    fb  "$c" b_jit_bulk.py
+    pyb "$c" b_jit_deopt
+    fb  "$c" b_jit_bulk
   done
 
   for c in cinderx cinderx_jit static static_jit; do
     for mode in auto forced; do
-      fb "$c" b_jit_curve.py --jit-mode "$mode"
-    done
-  done
-
-  for shape in chain gather sleep0; do
-    for c in stock cinderx cinderx_jit; do
-      pyb "$c" b_coro.py --shape "$shape"
+      fb "$c" b_jit_curve --jit-mode "$mode"
     done
   done
 
   for c in stock cinderx cinderx_jit; do
-    pyb "$c" b_framework.py
+    pyb "$c" b_framework
   done
 
   for v in visible frozen immortal; do
-    pyb cinderx b_gc_collect.py --visibility "$v"
+    pyb cinderx b_gc_collect --visibility "$v" --label "$v"
   done
 
-  fb "" b_install_order.py
-  fb cinderx b_cow.py
+  fb "" b_install_order
+  fb cinderx b_cow
 
-  # Lazy imports exist only in the fork, so this one runs on the fork's venv.
-  if [ -x "$VENV_FORK/bin/python" ]; then
-    info "lazy imports, on the fork"
-    BENCH_PY="$VENV_FORK/bin/python" pyb "" b_lazy_imports.py
-  else
-    warn "lazy imports skipped: no fork venv"
-  fi
+  pyb "" b_lazy_imports
 
   info "results in $RESULTS"
   if [ ${#BENCH_FAILED[@]} -gt 0 ]; then
@@ -494,34 +690,108 @@ cmd_bench() {
   record "bench_failures" "none"
 }
 
-# ---------------------------------------------------------------------------
-# workshop
-# ---------------------------------------------------------------------------
+compose() { docker compose -f "$COMPOSE_FILE" "$@"; }
+
+db_is_local() {
+  case "${RECSYS_DB_HOST:-}" in
+    localhost|127.0.0.1|::1|0.0.0.0) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+db_container_running() {
+  [ -n "$(compose ps --quiet --status running db 2>/dev/null)" ]
+}
+
+port_taken() {
+  ss -ltn 2>/dev/null | awk '{print $4}' | grep -qE "[:.]$1\$"
+}
+
+cmd_db() {
+  local action="${1:-up}"
+  have docker || die "docker is required for the local database; or set RECSYS_DB_HOST"
+  docker compose version >/dev/null 2>&1 || die "docker compose v2 or newer is required"
+
+  case "$action" in
+    up)
+      say "local database"
+      export RECSYS_DB_CPUSET="${RECSYS_DB_CPUSET:-$(budget db)}"
+      export RECSYS_DB_PUBLISH_PORT
+      if ! db_container_running && port_taken "$RECSYS_DB_PUBLISH_PORT"; then
+        die "port $RECSYS_DB_PUBLISH_PORT is already in use: set RECSYS_DB_PUBLISH_PORT"
+      fi
+      info "cpuset: $RECSYS_DB_CPUSET"
+      info "port: 127.0.0.1:$RECSYS_DB_PUBLISH_PORT -> 5432 in the container"
+      compose up -d --wait --wait-timeout 180 db \
+        || die "the database did not come up healthy; compose logs db"
+      info "up: $(compose ps --format '{{.Name}} {{.Status}}' db)"
+      ;;
+    down)
+      say "stopping the local database"
+      compose down
+      info "kept: the pgdata volume, so the fixture survives; ./run.sh db reset drops it"
+      ;;
+    reset)
+      say "dropping the local database and its data"
+      warn "this deletes the seeded fixture; the next workshop run reseeds from scratch"
+      compose down --volumes
+      ;;
+    status)
+      say "local database"
+      compose ps db
+      ;;
+    *) die "unknown db action: $action (up, down, reset, status)" ;;
+  esac
+}
+
+db_prepare() {
+  if [ -z "${RECSYS_DB_HOST:-}" ]; then
+    have docker || die "set RECSYS_DB_HOST: the database goes on another host"
+    warn "RECSYS_DB_HOST is unset: using the local database from compose"
+    warn "it shares caches, memory bandwidth and the disk with the service"
+    RECSYS_DB_HOST=127.0.0.1
+  fi
+  export RECSYS_DB_HOST
+  if db_is_local; then
+    export RECSYS_DB_PORT="$RECSYS_DB_PUBLISH_PORT"
+    cmd_db up
+    record "db_placement" "local-compose ${RECSYS_DB_HOST}:${RECSYS_DB_PORT} cpuset=${RECSYS_DB_CPUSET}"
+  else
+    record "db_placement" "remote ${RECSYS_DB_HOST}:${RECSYS_DB_PORT:-5432}"
+  fi
+}
 
 cmd_workshop() {
   say "workshop"
   local py="$VENV_STOCK/bin/python"
   [ -x "$py" ] || die "no stock venv; run ./run.sh deps"
-  [ -n "${RECSYS_DB_HOST:-}" ] || die "set RECSYS_DB_HOST: the database goes on another host"
   have k6 || die "k6 is required for the ladder"
+  have taskset || warn "taskset is absent: the cpu budget below cannot be enforced"
 
-  # The fixture is seeded once. It is not re-seeded between rungs: the ladder
-  # truncates impressions instead, which is cheaper and is the only part that
-  # the service consumes.
+  export RECSYS_SERVICE_CPUSET="${RECSYS_SERVICE_CPUSET:-$(budget service)}"
+  export RECSYS_LOAD_CPUSET="${RECSYS_LOAD_CPUSET:-$(budget load)}"
+  local workers="${WORKERS:-$(budget_count service)}"
+  info "cpus: service=${RECSYS_SERVICE_CPUSET:-unpinned} generator=${RECSYS_LOAD_CPUSET:-unpinned}"
+  info "workers: $workers"
+  record "workshop_cpus" "service=${RECSYS_SERVICE_CPUSET} load=${RECSYS_LOAD_CPUSET} workers=$workers"
+
+  db_prepare
+
   say "seeding the fixture"
-  (cd "$ROOT/service" && PYTHONPATH=src "$py" -m recsys.infrastructure.seed \
+  (cd "$ROOT/service" && PYTHONPATH=src on_cpus "$RECSYS_LOAD_CPUSET" "$py" \
+      -m recsys.infrastructure.seed \
       --items "${SEED_ITEMS:-100000}" --users "${SEED_USERS:-20000}" \
       --avg-degree "${SEED_DEGREE:-24}")
-  (cd "$ROOT/service" && PYTHONPATH=src "$py" load/reset_fixture.py --stats) || true
+  (cd "$ROOT/service" && PYTHONPATH=src on_cpus "$RECSYS_LOAD_CPUSET" "$py" \
+      load/reset_fixture.py --stats) || true
 
-  # The ladder takes one interpreter per invocation and skips rungs that need
-  # another, so it is called once per build rather than once per campaign.
-  say "ladder: rungs on stock plus CinderX"
+  say "ladder: the stock baseline"
   (cd "$ROOT/service" && "$py" load/ladder.py --run \
       --python "$py" --db-host "$RECSYS_DB_HOST" \
+      --available-images stock-3.14 --only 01_stock \
       --endpoints "${ENDPOINTS:-recommend,similar,events}" \
       --rates "${RATES:-200,400,800,1600,3200}" \
-      --workers "${WORKERS:-$JOBS}" --out "$LADDER_OUT")
+      --workers "$workers" --out "$LADDER_OUT")
 
   if [ -x "$VENV_TIER2/bin/python" ]; then
     say "ladder: CPython's own JIT"
@@ -530,36 +800,36 @@ cmd_workshop() {
         --available-images python-3.14-jit --only 02_stock_tier2 \
         --endpoints "${ENDPOINTS:-recommend,similar,events}" \
         --rates "${RATES:-200,400,800,1600,3200}" \
-        --workers "${WORKERS:-$JOBS}" --out "$LADDER_OUT")
+        --workers "$workers" --out "$LADDER_OUT")
   else
     warn "tier2 rung skipped: no tier2 venv"
   fi
 
   if [ -x "$VENV_FORK/bin/python" ]; then
-    say "ladder: the fork, and lazy imports"
+    say "ladder: the fork and every CinderX rung"
     (cd "$ROOT/service" && "$VENV_FORK/bin/python" load/ladder.py --run \
         --python "$VENV_FORK/bin/python" --db-host "$RECSYS_DB_HOST" \
-        --available-images meta-3.14 --only 03_fork,07_lazy_imports \
+        --available-images meta-3.14 \
+        --only 03_fork,04_runtime,05_jit,06_jit_precompiled,07_lazy_imports,08_immortalized,09_parallel_gc,10_static_kernel_nojit,11_static_kernel \
         --endpoints "${ENDPOINTS:-recommend,similar,events}" \
         --rates "${RATES:-200,400,800,1600,3200}" \
-        --workers "${WORKERS:-$JOBS}" --out "$LADDER_OUT")
+        --workers "$workers" --out "$LADDER_OUT")
   else
     warn "fork rungs skipped: no fork venv"
   fi
 
-  # Through HTTP at saturation the host dominates and the rungs blur, so the
-  # kernel is also measured on its own, on the same graph and the same seeds.
   say "kernel matrix"
   for mode in off runtime jit; do
-    (cd "$ROOT/service" && PYTHONPATH=src "$py" load/kernel_matrix.py \
-        --mode "$mode" --users "${MATRIX_USERS:-40}")
+    local matrix_py="$py"
+    if [ "$mode" != "off" ]; then
+      matrix_py="$VENV_FORK/bin/python"
+      [ -x "$matrix_py" ] || { warn "kernel matrix $mode skipped: no fork venv"; continue; }
+    fi
+    (cd "$ROOT/service" && PYTHONPATH=src on_cpus "$RECSYS_SERVICE_CPUSET" "$matrix_py" \
+        load/kernel_matrix.py --mode "$mode" --users "${MATRIX_USERS:-40}")
   done
   info "verdicts in $LADDER_OUT"
 }
-
-# ---------------------------------------------------------------------------
-# all, clean
-# ---------------------------------------------------------------------------
 
 cmd_all() {
   local started
@@ -580,22 +850,60 @@ cmd_all() {
   info "ladder verdicts: $LADDER_OUT"
 }
 
-# Sources and results survive: re-cloning 272 MB and re-running a campaign are
-# not the same kind of cheap.
 cmd_clean() {
   say "removing builds and venvs"
   rm -rf "$BUILD"
   info "kept: $WORK and $RESULTS"
+  if have docker && db_container_running; then
+    info "kept: the local database, still up; ./run.sh db down stops it"
+  fi
 }
 
-# Print the header block: every comment line after the shebang, and stop at code.
-usage() { awk 'NR>1 && /^#/ {sub(/^# ?/, ""); print; next} NR>1 {exit}' "${BASH_SOURCE[0]}"; }
+usage() {
+  cat <<'TXT'
+Build the interpreters, install the dependencies, run the benches and the workshop.
+
+  ./run.sh check         host preconditions; refuses a host that cannot measure
+  ./run.sh tune          governor, turbo, cpu shield, IRQs; needs root
+  ./run.sh untune        put all of them back the way they were
+  ./run.sh sources       clone CPython, the Meta fork and CinderX at pinned refs
+  ./run.sh interpreters  build all three, with identical flags
+  ./run.sh deps          one venv per interpreter, CinderX into the fork's
+  ./run.sh probe         report what this build can actually do, before measuring
+  ./run.sh dialect       verify the Static Python reference and emit REFERENCE.md
+  ./run.sh bench         the microbenches, through pyperf
+  ./run.sh db up|down    a local Postgres through compose; reset also drops its data
+  ./run.sh workshop      seed the fixture, then the ladder and the kernel matrix
+  ./run.sh all           every stage above, in order
+  ./run.sh clean         drop builds and venvs; sources and results are kept
+
+Tune once as root, then run the campaign as yourself:
+
+  sudo ./run.sh tune && ./run.sh all
+
+The database and the load generator belong on another host: set RECSYS_DB_HOST.
+Without it the workshop starts a local Postgres from service/docker-compose.yml
+and says so; then all three tenants share this host and ./run.sh check prints
+which cores each one gets.
+
+  CX_RESERVED_CPUS   cores kept for the thing being measured (default 2-5)
+  CX_BENCH_CPUS      pin one run to an explicit set instead
+  BENCH_ARGS         passed to every bench, e.g. --processes 1 --values 2
+  KEEP_GOING=1       do not stop at the first stage that fails
+  PGO=0              build without PGO and LTO
+TXT
+}
 
 main() {
   local cmd="${1:-all}"
+  if is_root && [ "$cmd" != "tune" ] && [ "$cmd" != "untune" ]; then
+    warn "running as root: builds, venvs and results will be owned by root"
+    warn "root is only needed for the knobs: sudo $0 tune, then $0 $cmd as yourself"
+  fi
   case "$cmd" in
-    check|sources|interpreters|deps|probe|dialect|bench|workshop|all|clean)
+    check|tune|untune|sources|interpreters|deps|probe|dialect|bench|workshop|all|clean)
       "cmd_$cmd" ;;
+    db) shift; cmd_db "$@" ;;
     -h|--help|help) usage ;;
     *) usage; die "unknown subcommand: $cmd" ;;
   esac
