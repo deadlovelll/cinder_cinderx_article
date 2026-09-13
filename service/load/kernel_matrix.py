@@ -43,13 +43,17 @@ async def load_inputs(n_users: int):
     from recsys.infrastructure.db.engine import create_engine
     from recsys.infrastructure.db.user_repository import SqlUserRepository
     from recsys.infrastructure.graph import CovisitationGraph, count_items
+    from recsys.infrastructure.memory_catalogue import MemoryCatalogue
     from recsys.settings import Settings
 
     engine = create_engine(Settings.from_env())
     n_items = await count_items(engine)
     graph = CovisitationGraph(engine, n_items)
     await graph.load()
-    users = SqlUserRepository(engine)
+    # load_context() reads pins through the catalogue, so it has to be loaded
+    catalogue = MemoryCatalogue(engine)
+    await catalogue.load()
+    users = SqlUserRepository(engine, catalogue)
     contexts = []
     uid = 1
     while len(contexts) < n_users and uid < n_users * 5:
@@ -61,10 +65,15 @@ async def load_inputs(n_users: int):
     return graph.csr(), n_items, contexts
 
 
-def make_cells(csr, n_items: int, jit_on: bool):
+def make_cells(csr, n_items: int):
     """One callable per cell, plus what to force_compile for it."""
     from recsys.domain.kernels import walk_plain as wp
     from recsys.domain.kernels import walk_static as ws
+
+    # ws.walk is typed: once the static loader compiles it, a list is refused.
+    static_indptr = ws.from_list(csr.indptr, len(csr.indptr))
+    static_indices = ws.from_list(csr.indices, len(csr.indices))
+    static_weights = ws.from_list(csr.weights, len(csr.weights))
 
     plain_scores = [0] * n_items
     plain_touched = [0] * n_items
@@ -91,7 +100,7 @@ def make_cells(csr, n_items: int, jit_on: bool):
 
     def static_bounded(ctx):
         seeds = static_seeds(ctx)
-        n = ws.walk(csr.indptr, csr.indices, csr.weights, seeds,
+        n = ws.walk(static_indptr, static_indices, static_weights, seeds,
                     len(ctx.recent_items), static_scores, static_touched)
         k = ws.take_top_ids(static_scores, static_touched, n, CANDIDATE_LIMIT,
                             out_ids, out_scores)
@@ -101,7 +110,7 @@ def make_cells(csr, n_items: int, jit_on: bool):
 
     def static_sorted(ctx):
         seeds = static_seeds(ctx)
-        n = ws.walk(csr.indptr, csr.indices, csr.weights, seeds,
+        n = ws.walk(static_indptr, static_indices, static_weights, seeds,
                     len(ctx.recent_items), static_scores, static_touched)
         result = ws.select_sorted(static_scores, static_touched, n, CANDIDATE_LIMIT)
         ws.reset(static_scores, static_touched, n)
@@ -133,16 +142,24 @@ def main() -> None:
     ap.add_argument("--out", default=str(ROOT / "load" / "results"))
     args = ap.parse_args()
 
+    # The graph hands out whichever representation RECSYS_KERNEL asks for, but
+    # this matrix needs both at once: plain lists for wp, staticarray for ws.
+    # It takes the plain form as its source and builds the static one in
+    # make_cells, so the mode is pinned before anything imports the registry.
+    os.environ["RECSYS_KERNEL"] = "plain"
+
     facts = install_runtime(args.mode)
     csr, n_items, contexts = asyncio.run(load_inputs(args.users))
     if not contexts:
         raise SystemExit("no users with recent items: seed the fixture first")
 
-    cells = make_cells(csr, n_items, facts["jit"])
+    cells = make_cells(csr, n_items)
     expected = reference(cells, contexts)
 
-    import cinderx.jit as jit  # noqa: PLC0415
     have_jit = facts["jit"]
+    jit = None
+    if have_jit:
+        import cinderx.jit as jit  # noqa: PLC0415
 
     records = []
     for name, (fn, hot) in cells.items():

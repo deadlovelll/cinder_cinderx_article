@@ -345,7 +345,8 @@ def main() -> None:
     ap.add_argument("--out", default=str(ROOT / "load" / "results"))
     ap.add_argument("--available-images", default="",
                     help="comma-separated interpreter images that exist")
-    ap.add_argument("--repeat-first", action="store_true", default=True,
+    ap.add_argument("--repeat-first", action=argparse.BooleanOptionalAction,
+                    default=True,
                     help="re-run the first rung at the end to test host drift")
     args = ap.parse_args()
 

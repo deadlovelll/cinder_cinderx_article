@@ -762,7 +762,7 @@ cmd_workshop() {
       --items "${SEED_ITEMS:-100000}" --users "${SEED_USERS:-20000}" \
       --avg-degree "${SEED_DEGREE:-24}")
   (cd "$ROOT/service" && PYTHONPATH=src on_cpus "$RECSYS_LOAD_CPUSET" "$py" \
-      load/reset_fixture.py --stats) || true
+      load/reset_fixture.py --stats)
 
   say "ladder: the stock baseline"
   (cd "$ROOT/service" && "$py" load/ladder.py --run \

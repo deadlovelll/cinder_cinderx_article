@@ -2,7 +2,7 @@
 
 import http from 'k6/http';
 import { check } from 'k6';
-import { Trend, Counter } from 'k6/metrics';
+import { Trend } from 'k6/metrics';
 
 const BASE = __ENV.BASE_URL || 'http://127.0.0.1:8000';
 const ENDPOINT = __ENV.ENDPOINT || 'recommend';
@@ -22,9 +22,6 @@ const N_USERS = Number(__ENV.N_USERS || 3000);
 const N_ITEMS = Number(__ENV.N_ITEMS || 20000);
 const ZIPF_S = Number(__ENV.ZIPF_S || 1.1);
 
-// Reported per step so the accounting can be checked against k6's own totals.
-const offered = new Counter('offered_requests');
-const served = new Counter('served_requests');
 const candidates = new Trend('candidates_considered');
 const backfilled = new Trend('backfilled_items');
 
@@ -143,11 +140,9 @@ export function hit() {
     throw new Error(`unknown ENDPOINT ${ENDPOINT}`);
   }
 
-  offered.add(1);
   const ok = check(res, {
     'status ok': (r) => r.status === 200 || r.status === 201,
   });
-  if (ok) served.add(1);
 
   // The service reports its own work in `meta`; recording it here means the load
   if (ok && ENDPOINT !== 'events' && res.body && res.body.length < 200000) {
