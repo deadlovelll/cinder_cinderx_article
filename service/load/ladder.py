@@ -42,23 +42,31 @@ def ladder(dep_extra: str) -> list[Rung]:
 
     return [
         Rung("01_stock", env(RECSYS_CINDERX_MODE="off"),
-             expect={"bootstrap.mode": "off", "bootstrap.frame_evaluator": False},
+             expect={"bootstrap.mode": "off", "bootstrap.frame_evaluator": False,
+                     "bootstrap.cpython_jit": False},
+             image="stock-3.14",
              note="stock CPython: the baseline every other rung is read against"),
         Rung("02_stock_tier2", env(RECSYS_CINDERX_MODE="off"),
+             expect={"bootstrap.mode": "off", "bootstrap.frame_evaluator": False,
+                     "bootstrap.cpython_jit": True},
              image="python-3.14-jit",
              note="CPython's own copy-and-patch JIT: the reader's real alternative"),
         Rung("03_fork", env(RECSYS_CINDERX_MODE="off"),
+             expect={"bootstrap.mode": "off", "bootstrap.frame_evaluator": False},
              image="meta-3.14",
              note="the meta fork without the extension: isolates the fork itself"),
         Rung("04_runtime", env(RECSYS_CINDERX_MODE="runtime"),
              expect={"bootstrap.frame_evaluator": True,
                      "bootstrap.jit_enabled": False},
+             image="meta-3.14",
              note="CinderX interpreter, JIT off: what the runtime costs by itself"),
         Rung("05_jit", env(RECSYS_CINDERX_MODE="jit"),
              expect={"bootstrap.jit_enabled": True},
+             image="meta-3.14",
              note="JIT on, nothing precompiled: what auto() gives an application"),
         Rung("06_jit_precompiled", env(RECSYS_CINDERX_MODE="jit", RECSYS_PRECOMPILE=1),
              expect={"bootstrap.jit_enabled": True, "bootstrap.precompiled_gt": 0},
+             image="meta-3.14",
              note="precompiled before the fork: the compiler's ceiling. auto()'s "
                   "threshold is 1000 calls, so 05 and 06 are different programs"),
         Rung("07_lazy_imports", env(RECSYS_CINDERX_MODE="jit", RECSYS_PRECOMPILE=1),
@@ -67,16 +75,19 @@ def ladder(dep_extra: str) -> list[Rung]:
         Rung("08_immortalized",
              env(RECSYS_CINDERX_MODE="jit", RECSYS_PRECOMPILE=1, RECSYS_IMMORTALIZE=1),
              expect={"bootstrap.immortalized": True},
+             image="meta-3.14",
              note="immortalize_heap() before the fork: refcounts stop moving"),
         Rung("09_parallel_gc",
              env(RECSYS_CINDERX_MODE="jit", RECSYS_PRECOMPILE=1, RECSYS_IMMORTALIZE=1,
                  RECSYS_PARALLEL_GC=1),
              expect={"bootstrap.parallel_gc": True},
+             image="meta-3.14",
              note="parallel collector, only after 08: before it, a measured loss"),
         Rung("10_static_kernel_nojit",
              env(RECSYS_CINDERX_MODE="runtime", RECSYS_KERNEL="static"),
              expect={"bootstrap.kernel_is_static": True,
                      "bootstrap.jit_enabled": False},
+             image="meta-3.14",
              note="Static Python without the JIT: the rung that answers whether "
                   "types pay on their own"),
         Rung("11_static_kernel",
@@ -84,6 +95,7 @@ def ladder(dep_extra: str) -> list[Rung]:
                  RECSYS_PRECOMPILE=1, RECSYS_IMMORTALIZE=1),
              expect={"bootstrap.kernel_is_static": True,
                      "bootstrap.jit_enabled": True},
+             image="meta-3.14",
              note="Static Python plus the JIT: the two halves together"),
     ]
 
@@ -138,13 +150,31 @@ def verify(health: dict, expect: dict[str, object]) -> list[str]:
 # running one rung
 
 
+_warned_no_taskset = False
+
+
+def on_cpus(cpus: str) -> list[str]:
+    """A taskset prefix, so a process lands where the plan says and stays there."""
+    global _warned_no_taskset
+    if not cpus:
+        return []
+    if not shutil.which("taskset"):
+        if not _warned_no_taskset:
+            print("  taskset is absent: CPU sets requested but not enforced",
+                  file=sys.stderr)
+            _warned_no_taskset = True
+        return []
+    return ["taskset", "-c", cpus]
+
+
 def reset_fixture(rung: Rung, args) -> dict | None:
     """Truncate impressions so every rung starts from the same fixture."""
     if args.no_fixture_reset:
         return None
     env = {**os.environ, "RECSYS_DB_HOST": args.db_host,
            "PYTHONPATH": str(ROOT / "src")}
-    proc = subprocess.run([args.python, str(HERE / "reset_fixture.py"), "--reset"],
+    proc = subprocess.run([*on_cpus(args.load_cpus), args.python,
+                           str(HERE / "reset_fixture.py"), "--reset"],
                           cwd=ROOT, env=env, capture_output=True, text=True)
     if proc.returncode != 0:
         print(f"  fixture reset failed: {proc.stderr[-300:]}", file=sys.stderr)
@@ -158,7 +188,11 @@ def start_service(rung: Rung, args) -> subprocess.Popen:
            "RECSYS_WORKERS": str(args.workers),
            "RECSYS_SAMPLER_DIR": str(Path(args.out) / rung.name / "sampler")}
     Path(env["RECSYS_SAMPLER_DIR"]).mkdir(parents=True, exist_ok=True)
-    cmd = [args.python, "-m", "gunicorn", "-c", str(ROOT / "gunicorn_conf.py"),
+    # The workers inherit the master's affinity, so one taskset holds the whole
+    # service. Without it gunicorn lands on whatever the scheduler has left --
+    # which, with isolcpus, is every core except the ones reserved for it.
+    cmd = [*on_cpus(args.service_cpus), args.python, "-m", "gunicorn",
+           "-c", str(ROOT / "gunicorn_conf.py"),
            "-b", f"127.0.0.1:{args.port}", "recsys.api.app:app"]
     log = open(Path(args.out) / rung.name / "service.log", "w")
     return subprocess.Popen(cmd, cwd=ROOT, env=env, stdout=log, stderr=log,
@@ -194,7 +228,8 @@ def run_ramp(rung: Rung, endpoint: str, args, attempt: int) -> dict | None:
         "OUT_DIR": str(out_dir),
         "RUN_TAG": tag,
     }
-    proc = subprocess.run([args.k6, "run", "--quiet", str(HERE / "ramp.js")],
+    proc = subprocess.run([*on_cpus(args.load_cpus), args.k6, "run", "--quiet",
+                           str(HERE / "ramp.js")],
                           cwd=ROOT, env=env, capture_output=True, text=True)
     sys.stdout.write(proc.stdout)
     path = out_dir / f"{tag}-{endpoint}.json"
@@ -209,6 +244,7 @@ def run_rung(rung: Rung, args, attempt: int) -> dict:
     record: dict[str, object] = {
         "rung": rung.name, "attempt": attempt, "note": rung.note,
         "env": rung.env, "started_at": datetime.now(UTC).isoformat(),
+        "image": rung.image, "python": args.python,
     }
     (Path(args.out) / rung.name).mkdir(parents=True, exist_ok=True)
 
@@ -261,6 +297,20 @@ def run_rung(rung: Rung, args, attempt: int) -> dict:
 # driver
 
 
+def merge_records(path: Path, fresh: list[dict]) -> list[dict]:
+    """This invocation's records, plus those of rungs it did not run."""
+    kept: list[dict] = []
+    if path.exists():
+        try:
+            kept = json.loads(path.read_text()).get("records", [])
+        except (json.JSONDecodeError, OSError):
+            kept = []
+    ran = {r.get("rung") for r in fresh}
+    merged = [r for r in kept if r.get("rung") not in ran] + fresh
+    merged.sort(key=lambda r: (str(r.get("rung")), r.get("attempt", 0)))
+    return merged
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--run", action="store_true")
@@ -278,6 +328,11 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--port", type=int, default=8100)
     ap.add_argument("--db-host", default=os.environ.get("RECSYS_DB_HOST", "127.0.0.1"))
+    ap.add_argument("--service-cpus", default=os.environ.get("RECSYS_SERVICE_CPUSET", ""),
+                    help="cpuset for the service under measurement, e.g. 2-5. "
+                         "Empty leaves it to the scheduler")
+    ap.add_argument("--load-cpus", default=os.environ.get("RECSYS_LOAD_CPUSET", ""),
+                    help="cpuset for k6 and the fixture reset: not the service's")
     ap.add_argument("--no-fixture-reset", action="store_true",
                     help="do not truncate impressions between rungs. Only for a "
                          "read-only database: without the reset, later rungs measure "
@@ -316,9 +371,15 @@ def main() -> None:
     records = []
     print(f"ladder: {len(rungs)} rungs, endpoints={args.endpoints}, "
           f"dep_extra={args.dep_extra}, db={args.db_host}")
+    if args.service_cpus:
+        print(f"  cpus: service={args.service_cpus} generator={args.load_cpus or 'unpinned'} "
+              f"database={os.environ.get('RECSYS_DB_CPUSET') or 'unpinned'}")
+    else:
+        print("  WARNING: the service is not pinned, so it shares cores with "
+              "everything else on this host. Recorded, not corrected.")
     if args.db_host in ("127.0.0.1", "localhost"):
-        print("  WARNING: the database is on this host, so it competes with the "
-              "service for the cores being measured. Recorded, not corrected.")
+        print("  WARNING: the database is on this host. Cores can be kept apart, "
+              "caches and memory bandwidth cannot. Recorded, not corrected.")
 
     for rung in rungs:
         print(f"\n>>> {rung.name}")
@@ -340,9 +401,16 @@ def main() -> None:
                   "load_generator": "localhost",
                   "note": "a measured run puts the database and the generator on "
                           "other hosts; this field records what actually happened"},
+        "cpus": {"service": args.service_cpus or None,
+                 "load_generator": args.load_cpus or None,
+                 "database": os.environ.get("RECSYS_DB_CPUSET") or None,
+                 "note": "cpusets of the three tenants when they share this host"},
         "records": records,
     }
     path = Path(args.out) / f"ladder-{args.dep_extra}.json"
+    # One ladder, three invocations: each interpreter can only make its own rungs,
+    # and each would otherwise write over the records of the ones before it.
+    manifest["records"] = merge_records(path, records)
     path.write_text(json.dumps(manifest, indent=1, default=str))
     print(f"\nmanifest -> {path}")
     _summarise(records, args)

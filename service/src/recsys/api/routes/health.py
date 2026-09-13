@@ -1,5 +1,7 @@
 """GET /healthz -- and the run's identity, which is not decoration."""
 
+import sys
+
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
@@ -12,6 +14,9 @@ async def healthz(request: Request) -> JSONResponse:
     container = state.container
     return JSONResponse({
         "status": "ok",
+        "python": {"version": sys.version,
+                   "implementation": sys.implementation.name,
+                   "executable": sys.executable},
         "settings": container.settings.as_dict(),
         "driver": container.driver,
         "bootstrap": state.bootstrap.as_dict(),

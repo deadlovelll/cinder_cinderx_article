@@ -7,9 +7,7 @@ x-app-env: &app-env
   RECSYS_DB_USER: ${RECSYS_DB_USER:-recsys}
   RECSYS_DB_PASSWORD: ${RECSYS_DB_PASSWORD:-recsys}
   RECSYS_DB_POOL_SIZE: ${RECSYS_DB_POOL_SIZE:-10}
-  # rung of the ladder: off | runtime | jit | jit_static
   RECSYS_CINDERX_MODE: ${RECSYS_CINDERX_MODE:-off}
-  # pre-fork chain, each independently switchable so the ladder has one delta a step
   RECSYS_PRECOMPILE: ${RECSYS_PRECOMPILE:-0}
   RECSYS_IMMORTALIZE: ${RECSYS_IMMORTALIZE:-0}
   RECSYS_PARALLEL_GC: ${RECSYS_PARALLEL_GC:-0}
@@ -37,8 +35,10 @@ services:
       - fsync=on
     volumes:
       - pgdata:/var/lib/postgresql/data
+    shm_size: 1gb
+    cpuset: ${RECSYS_DB_CPUSET:-}
     ports:
-      - "${RECSYS_DB_PORT:-5432}:5432"
+      - "${RECSYS_DB_PUBLISH_PORT:-5432}:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${RECSYS_DB_USER:-recsys} -d ${RECSYS_DB_NAME:-recsys}"]
       interval: 2s

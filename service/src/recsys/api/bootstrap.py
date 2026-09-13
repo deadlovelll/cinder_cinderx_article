@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -13,6 +14,7 @@ class BootstrapReport:
     """What was asked for, and what the runtime actually did. Never inferred."""
 
     mode: str
+    cpython_jit: bool = False
     frame_evaluator: bool = False
     static_loader: bool = False
     kernel_requested: str = "plain"
@@ -25,7 +27,6 @@ class BootstrapReport:
     parallel_gc: bool = False
     parallel_gc_settings: dict[str, int] | None = None
     perf_trampoline: bool = False
-    context_patch: bool = False
     problems: list[str] = field(default_factory=list)
 
     def as_dict(self) -> dict[str, Any]:
@@ -36,6 +37,8 @@ def install_runtime(settings: Settings) -> BootstrapReport:
     """Steps 1-2. Must run before the application package is imported."""
     report = BootstrapReport(mode=settings.cinderx_mode,
                              kernel_requested=settings.kernel)
+    jit_module = getattr(sys, "_jit", None)
+    report.cpython_jit = bool(jit_module and jit_module.is_enabled())
     if settings.cinderx_mode == "off":
         if settings.kernel == "static":
             report.problems.append(
@@ -92,8 +95,12 @@ def prepare_for_fork(settings: Settings, report: BootstrapReport,
     """Steps 5-9. Runs in the parent, after the application is fully imported."""
     if settings.cinderx_mode == "off":
         return
-    import cinderx
-    import cinderx.jit as jit
+    try:
+        import cinderx
+        import cinderx.jit as jit
+    except ImportError as exc:
+        report.problems.append(f"cinderx unavailable: {exc}")
+        return
 
     if settings.precompile and jit.is_enabled():
         # force_compile, not auto(): a handler under 1000 calls would never compile.
@@ -104,19 +111,7 @@ def prepare_for_fork(settings: Settings, report: BootstrapReport,
                     compiled += 1
             except Exception as exc:  # a single failure must not stop the boot
                 report.problems.append(f"force_compile failed for {fn!r}: {exc}")
-        if hasattr(jit, "wait_for_background_compiles"):
-            jit.wait_for_background_compiles()
         report.precompiled = compiled
-
-    if settings.context_patch:
-        # StopIteration leaving a `with` forces a deopt; CinderX ships a replacement.
-        try:
-            from cinderx import _context
-
-            _context.install()
-            report.context_patch = True
-        except Exception as exc:
-            report.problems.append(f"_context.install failed: {exc}")
 
     if settings.perf_trampoline:
         try:

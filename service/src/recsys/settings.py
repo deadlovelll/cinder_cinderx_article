@@ -36,7 +36,6 @@ class Settings:
     immortalize: bool
     parallel_gc: bool
     perf_trampoline: bool
-    context_patch: bool
 
     kernel: str            # plain | static
     selection: str         # sorted | bounded -- top-k selection of the plain kernel
@@ -66,7 +65,6 @@ class Settings:
             immortalize=_flag("RECSYS_IMMORTALIZE"),
             parallel_gc=_flag("RECSYS_PARALLEL_GC"),
             perf_trampoline=_flag("RECSYS_PERF_TRAMPOLINE"),
-            context_patch=_flag("RECSYS_CONTEXT_PATCH"),
             kernel=os.environ.get("RECSYS_KERNEL", "plain").lower(),
             selection=os.environ.get("RECSYS_SELECTION", "sorted").lower(),
             embeddings=os.environ.get("RECSYS_EMBEDDINGS", "numpy").lower(),
@@ -83,7 +81,7 @@ class Settings:
             "embeddings": self.embeddings, "precompile": self.precompile,
             "immortalize": self.immortalize, "parallel_gc": self.parallel_gc,
             "perf_trampoline": self.perf_trampoline,
-            "context_patch": self.context_patch, "workers": self.workers,
+            "workers": self.workers,
             "db_pool_size": self.db_pool_size,
             "dep_extra": os.environ.get("RECSYS_DEP_EXTRA", "?"),
             "with_cinderx": os.environ.get("RECSYS_WITH_CINDERX", "?"),

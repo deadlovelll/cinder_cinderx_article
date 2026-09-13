@@ -8,14 +8,13 @@ BUILD="$ROOT/build"
 LOGS="$BUILD/logs"
 MANIFEST="$BUILD/manifest.json"
 
-CPYTHON_REF="${CPYTHON_REF:-v3.14.6}"
-CINDER_REF="${CINDER_REF:-meta/3.14}"
-CINDERX_REF="${CINDERX_REF:-main}"
 CINDERX_VERSION="${CINDERX_VERSION:-2026.9.13.0}"
 
-CPYTHON_URL="${CPYTHON_URL:-https://github.com/python/cpython.git}"
-CINDER_URL="${CINDER_URL:-https://github.com/facebookincubator/cinder.git}"
-CINDERX_URL="${CINDERX_URL:-https://github.com/facebookincubator/cinderx.git}"
+# Nothing is ever downloaded: the three trees must already be on disk. They live
+# under $WORK by default; point these at another local tree instead.
+CPYTHON_SRC="${CPYTHON_SRC:-$WORK/cpython}"
+CINDER_SRC="${CINDER_SRC:-$WORK/cinder}"
+CINDERX_SRC="${CINDERX_SRC:-$WORK/cinderx}"
 
 JOBS="${JOBS:-$( (nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4) )}"
 PGO="${PGO:-1}"
@@ -315,14 +314,14 @@ cmd_untune() {
 cmd_check() {
   say "host preconditions"
   local missing=()
-  for tool in git curl make python3; do
+  for tool in make python3; do
     have "$tool" || missing+=("$tool")
   done
   have cc || have gcc || have clang || missing+=("a C compiler")
   have uv || missing+=("uv (https://docs.astral.sh/uv/)")
   have k6 || missing+=("k6 (the workshop's load generator)")
   [ ${#missing[@]} -eq 0 ] || die "missing: ${missing[*]}"
-  info "tools: git curl make cc uv k6 present"
+  info "tools: make cc uv k6 present"
 
   if ! is_linux; then
     warn "$(uname -s), not Linux. The fork, lazy imports, the parallel collector,"
@@ -371,31 +370,8 @@ cmd_check() {
   fi
 }
 
-fetch() {
-  local url="$1" ref="$2" dest="$3"
-  if [ -d "$dest" ]; then
-    info "$(basename "$dest"): present, left as is"
-  else
-    say "cloning $(basename "$dest") at $ref"
-    git clone --depth 1 --branch "$ref" "$url" "$dest" 2>&1 | tail -2
-  fi
-  local rev="unknown" name
-  name="$(basename "$dest")"
-  if [ -d "$dest/.git" ]; then
-    rev="$(git -C "$dest" rev-parse HEAD)"
-    record "${name}_dirty" "$(git -C "$dest" status --porcelain | head -c 1 | wc -c)"
-  else
-    warn "$name: no git metadata, so the commit cannot be quoted"
-    local digest
-    digest="$(tree_sha256 "$dest")"
-    record "${name}_tree_sha256" "$digest"
-    info "$name tree sha256: ${digest:0:16}..."
-  fi
-  record "${name}_ref" "$ref"
-  record "${name}_commit" "$rev"
-  info "$name commit: $rev"
-}
-
+# What identifies a source tree here is the tree itself, hashed: the checkouts
+# carry no history, and nothing in the campaign needs one.
 tree_sha256() {
   local dir="$1"
   [ -d "$dir" ] || { echo "unknown"; return 0; }
@@ -410,31 +386,33 @@ tree_sha256() {
     | cut -d" " -f1
 }
 
+use_source() {
+  local name="$1" dest="$2" var="$3"
+  [ -d "$dest" ] || die "$name: no source tree at $dest; nothing is downloaded, so put the tree there or set $var"
+  local digest
+  digest="$(tree_sha256 "$dest")"
+  record "${name}_path" "$dest"
+  record "${name}_tree_sha256" "$digest"
+  info "$name: $dest"
+  info "$name tree sha256: $digest"
+}
+
 tree_version() {
   sed -n 's/^#define PY_VERSION *"\(.*\)".*/\1/p' "$1/Include/patchlevel.h" 2>/dev/null
 }
 
 cmd_sources() {
-  mkdir -p "$WORK"
-  fetch "$CPYTHON_URL" "$CPYTHON_REF" "$WORK/cpython"
-  fetch "$CINDER_URL"  "$CINDER_REF"  "$WORK/cinder"
-  fetch "$CINDERX_URL" "$CINDERX_REF" "$WORK/cinderx"
+  say "local source trees; nothing is downloaded"
+  use_source cpython "$CPYTHON_SRC" CPYTHON_SRC
+  use_source cinder  "$CINDER_SRC"  CINDER_SRC
+  use_source cinderx "$CINDERX_SRC" CINDERX_SRC
 
   local sv fv
-  sv="$(tree_version "$WORK/cpython")"
-  fv="$(tree_version "$WORK/cinder")"
+  sv="$(tree_version "$CPYTHON_SRC")"
+  fv="$(tree_version "$CINDER_SRC")"
   record "cpython_tree_version" "${sv:-unknown}"
   record "cinder_tree_version" "${fv:-unknown}"
-  if [ -n "$sv" ] && [ -n "$fv" ]; then
-    local sbase="${sv%%+*}" fbase="${fv%%+*}"
-    if [ "$sbase" != "$fbase" ]; then
-      warn "baseline is $sv but the fork is $fv"
-      warn "rung 03 would then conflate the fork with a patch bump"
-      warn "build the baseline at the fork's base: CPYTHON_REF=v$fbase ./run.sh interpreters"
-    else
-      info "baseline and fork share base $sbase"
-    fi
-  fi
+  info "baseline ${sv:-unknown}, fork ${fv:-unknown}"
 }
 
 build_python() {
@@ -443,7 +421,7 @@ build_python() {
     info "$label: already built at $prefix"
     return 0
   fi
-  [ -d "$src" ] || die "$label: source tree $src is missing; run ./run.sh sources"
+  [ -d "$src" ] || die "$label: source tree $src is missing; it has to be there already, nothing is downloaded"
   say "building $label"
   mkdir -p "$LOGS"
   local log="$LOGS/build-$label.log"
@@ -480,10 +458,10 @@ build_python() {
 }
 
 cmd_interpreters() {
-  build_python "$WORK/cpython" "$STOCK" "stock"
-  build_python "$WORK/cpython" "$TIER2" "tier2" "--enable-experimental-jit"
+  build_python "$CPYTHON_SRC" "$STOCK" "stock"
+  build_python "$CPYTHON_SRC" "$TIER2" "tier2" "--enable-experimental-jit"
   if is_linux; then
-    build_python "$WORK/cinder" "$FORK" "fork"
+    build_python "$CINDER_SRC" "$FORK" "fork"
   else
     warn "fork build skipped: not Linux"
   fi
@@ -514,8 +492,8 @@ make_venv() {
   (cd "$ROOT/service" && UV_PROJECT_ENVIRONMENT="$venv" \
       uv sync --frozen "${extras[@]}" >/dev/null)
   if [ "$with_cinderx" = "1" ]; then
-    [ -d "$WORK/cinderx" ] || die "cinderx source missing at $WORK/cinderx; run ./run.sh sources"
-    say "building cinderx from $WORK/cinderx"
+    [ -d "$CINDERX_SRC" ] || die "cinderx source missing at $CINDERX_SRC; it has to be there already, nothing is downloaded"
+    say "building cinderx from $CINDERX_SRC"
     mkdir -p "$LOGS"
     local cxlog="$LOGS/build-cinderx.log"
     local env=()
@@ -535,8 +513,8 @@ make_venv() {
       warn "python $pyver: eval hook and generator awaiter off, they are 3.12-only"
     fi
 
-    rm -rf "$WORK/cinderx/scratch"
-    env "${env[@]}" uv pip install --python "$venv/bin/python" "$WORK/cinderx" \
+    rm -rf "$CINDERX_SRC/scratch"
+    env "${env[@]}" uv pip install --python "$venv/bin/python" "$CINDERX_SRC" \
         >"$cxlog" 2>&1 \
       || { grep -i -m 10 "error" "$cxlog" | sed 's/^/   /'; die "cinderx: build failed, see $cxlog"; }
     local got
@@ -544,7 +522,6 @@ make_venv() {
     info "cinderx $got, from the tree"
     [ "$got" = "$CINDERX_VERSION" ] || warn "the tree builds cinderx $got, run.sh expects $CINDERX_VERSION"
     record "cinderx_version" "$got"
-    record "cinderx_source" "$WORK/cinderx"
   fi
   info "$label: $("$venv/bin/python" -V)"
 }
@@ -552,7 +529,8 @@ make_venv() {
 cmd_deps() {
   for v in STOCK TIER2 FORK; do
     local want="$BUILD/$(echo "$v" | tr 'A-Z' 'a-z')/bin/python3.14"
-    local got; got="$(eval echo "\$${v}_PYTHON")"
+    local var="${v}_PYTHON"
+    local got="${!var}"
     [ "$got" = "$want" ] || warn "$v interpreter overridden: $got (smoke test only)"
   done
   make_venv "$STOCK_PYTHON" "$VENV_STOCK" "stock" 0
@@ -564,7 +542,7 @@ cmd_probe() {
   say "runtime capabilities"
   [ -x "$VENV_FORK/bin/python" ] || die "no fork venv; run ./run.sh deps"
   "$VENV_FORK/bin/python" - <<'PY'
-import json, platform, sys
+import platform, sys
 facts = {"python": sys.version, "platform": platform.platform()}
 import cinderx
 import cinderx.jit as jit
@@ -704,6 +682,7 @@ db_container_running() {
 }
 
 port_taken() {
+  have ss || return 1
   ss -ltn 2>/dev/null | awk '{print $4}' | grep -qE "[:.]$1\$"
 }
 
@@ -853,7 +832,7 @@ cmd_all() {
 cmd_clean() {
   say "removing builds and venvs"
   rm -rf "$BUILD"
-  info "kept: $WORK and $RESULTS"
+  info "kept: the source trees and $RESULTS"
   if have docker && db_container_running; then
     info "kept: the local database, still up; ./run.sh db down stops it"
   fi
@@ -866,7 +845,7 @@ Build the interpreters, install the dependencies, run the benches and the worksh
   ./run.sh check         host preconditions; refuses a host that cannot measure
   ./run.sh tune          governor, turbo, cpu shield, IRQs; needs root
   ./run.sh untune        put all of them back the way they were
-  ./run.sh sources       clone CPython, the Meta fork and CinderX at pinned refs
+  ./run.sh sources       check the local CPython, Meta fork and CinderX trees
   ./run.sh interpreters  build all three, with identical flags
   ./run.sh deps          one venv per interpreter, CinderX into the fork's
   ./run.sh probe         report what this build can actually do, before measuring
@@ -876,6 +855,9 @@ Build the interpreters, install the dependencies, run the benches and the worksh
   ./run.sh workshop      seed the fixture, then the ladder and the kernel matrix
   ./run.sh all           every stage above, in order
   ./run.sh clean         drop builds and venvs; sources and results are kept
+
+Nothing is downloaded. The CPython, Meta fork and CinderX trees have to be on
+disk already, under cinderx-workshop/ by default.
 
 Tune once as root, then run the campaign as yourself:
 
@@ -891,6 +873,9 @@ which cores each one gets.
   BENCH_ARGS         passed to every bench, e.g. --processes 1 --values 2
   KEEP_GOING=1       do not stop at the first stage that fails
   PGO=0              build without PGO and LTO
+  CPYTHON_SRC        local CPython tree      (default cinderx-workshop/cpython)
+  CINDER_SRC         local Meta fork tree    (default cinderx-workshop/cinder)
+  CINDERX_SRC        local CinderX tree      (default cinderx-workshop/cinderx)
 TXT
 }
 
