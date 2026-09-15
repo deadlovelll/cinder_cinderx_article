@@ -1,4 +1,3 @@
-// Stepped ramp to saturation, one endpoint per run.
 
 import http from 'k6/http';
 import { check } from 'k6';
@@ -15,19 +14,18 @@ const WARMUP_RATE = Number(__ENV.WARMUP_RATE || 50);
 const P99_BUDGET_MS = Number(__ENV.P99_BUDGET_MS || 1000);
 const ERROR_BUDGET = Number(__ENV.ERROR_BUDGET || 0.01);
 const THROUGHPUT_FLOOR = Number(__ENV.THROUGHPUT_FLOOR || 0.95);
-// Of a 20-item page, how much may come from the popularity fallback before the run
 const BACKFILL_CEILING = Number(__ENV.BACKFILL_CEILING || 4);
 
 const N_USERS = Number(__ENV.N_USERS || 3000);
 const N_ITEMS = Number(__ENV.N_ITEMS || 20000);
 const ZIPF_S = Number(__ENV.ZIPF_S || 1.1);
 
+const MAX_VUS = Number(__ENV.MAX_VUS || 4000);
+
 const candidates = new Trend('candidates_considered');
 const backfilled = new Trend('backfilled_items');
 
-// --------------------------------------------------------------------------- //
 
-// Zipf over item ids: a real catalogue is accessed with a heavy head, and the
 function zipfItem() {
   const u = Math.random();
   const rank = Math.floor(Math.pow(u, ZIPF_S) * N_ITEMS);
@@ -40,7 +38,6 @@ function randomUser() {
 
 const KINDS = ['view', 'view', 'view', 'cart', 'purchase', 'dislike'];
 
-// --------------------------------------------------------------------------- //
 
 function buildScenarios() {
   const scenarios = {
@@ -50,7 +47,7 @@ function buildScenarios() {
       timeUnit: '1s',
       duration: `${WARMUP_SECONDS}s`,
       preAllocatedVUs: Math.max(50, WARMUP_RATE),
-      maxVUs: 2000,
+      maxVUs: MAX_VUS,
       exec: 'hit',
       tags: { phase: 'warmup' },
       startTime: '0s',
@@ -64,9 +61,8 @@ function buildScenarios() {
       rate: rate,
       timeUnit: '1s',
       duration: `${STEP_SECONDS}s`,
-      // preallocating for the worst case keeps VU startup out of the measurement
-      preAllocatedVUs: Math.max(100, Math.ceil(rate * 1.5)),
-      maxVUs: 20000,
+      preAllocatedVUs: Math.min(MAX_VUS, Math.max(100, Math.ceil(rate * 1.5))),
+      maxVUs: MAX_VUS,
       exec: 'hit',
       tags: { phase: 'measure', rate: String(rate) },
       startTime: `${at}s`,
@@ -77,7 +73,6 @@ function buildScenarios() {
   return scenarios;
 }
 
-// Thresholds are per step and `abortOnFail` is off on purpose: a step that fails
 function buildThresholds() {
   const t = {
     'http_req_failed{phase:measure}': [
@@ -91,20 +86,16 @@ function buildThresholds() {
     t[`http_req_failed{phase:measure,rate:${rate}}`] = [
       { threshold: `rate<${ERROR_BUDGET}`, abortOnFail: false },
     ];
-    // delivered throughput: dropped iterations mean k6 could not offer the rate,
     t[`dropped_iterations{phase:measure,rate:${rate}}`] = [
       { threshold: `count<${rate * STEP_SECONDS * (1 - THROUGHPUT_FLOOR)}`,
         abortOnFail: false },
     ];
-    // A tagged sub-metric only exists in handleSummary's `data.metrics` if a
     t[`http_reqs{phase:measure,rate:${rate}}`] = [
       { threshold: 'count>=0', abortOnFail: false },
     ];
-    // The workload has to still be the workload. Serving a page writes an
     t[`backfilled_items{phase:measure,rate:${rate}}`] = [
       { threshold: `avg<${BACKFILL_CEILING}`, abortOnFail: false },
     ];
-    // trivially true, declared only so the sub-metric reaches handleSummary
     t[`candidates_considered{phase:measure,rate:${rate}}`] = [
       { threshold: 'avg>=0', abortOnFail: false },
     ];
@@ -116,10 +107,9 @@ export const options = {
   scenarios: buildScenarios(),
   thresholds: buildThresholds(),
   discardResponseBodies: false,
-  summaryTrendStats: ['min', 'med', 'p(90)', 'p(95)', 'p(99)', 'max', 'avg'],
+  summaryTrendStats: ['min', 'med', 'p(90)', 'p(95)', 'p(99)', 'p(99.9)', 'max', 'avg'],
 };
 
-// --------------------------------------------------------------------------- //
 
 const JSON_HEADERS = { headers: { 'Content-Type': 'application/json' } };
 
@@ -144,7 +134,6 @@ export function hit() {
     'status ok': (r) => r.status === 200 || r.status === 201,
   });
 
-  // The service reports its own work in `meta`; recording it here means the load
   if (ok && ENDPOINT !== 'events' && res.body && res.body.length < 200000) {
     try {
       const meta = res.json('meta');
@@ -155,12 +144,10 @@ export function hit() {
         if (meta.backfilled !== undefined) backfilled.add(meta.backfilled);
       }
     } catch (_) {
-      // a malformed body is already counted as a failure by the check above
     }
   }
 }
 
-// --------------------------------------------------------------------------- //
 
 export function handleSummary(data) {
   const steps = [];
@@ -171,7 +158,6 @@ export function handleSummary(data) {
     const reqs = data.metrics[`http_reqs{phase:measure,rate:${rate}}`];
     const backfill = data.metrics[`backfilled_items{phase:measure,rate:${rate}}`];
 
-    // Delivered throughput is counted from requests that actually *completed* in
     const completed = reqs ? reqs.values.count : 0;
     const wanted = rate * STEP_SECONDS;
     const delivered = wanted > 0 ? completed / wanted : 0;
@@ -188,7 +174,6 @@ export function handleSummary(data) {
     if (delivered < THROUGHPUT_FLOOR) {
       reasons.push(`delivered=${(delivered * 100).toFixed(1)}%`);
     }
-    // Declaring the threshold only makes the sub-metric exist here; the step still
     const backfillAvg = backfill && completed > 0 ? backfill.values.avg : null;
     if (backfillAvg !== null && backfillAvg >= BACKFILL_CEILING) {
       reasons.push(`backfill=${backfillAvg.toFixed(1)}/page`);
@@ -200,9 +185,10 @@ export function handleSummary(data) {
       p50: dur && completed > 0 ? dur.values.med : null,
       p90: dur && completed > 0 ? dur.values['p(90)'] : null,
       p99,
+      p999: dur && completed > 0 ? dur.values['p(99.9)'] : null,
+      mean: dur && completed > 0 ? dur.values.avg : null,
       max: dur && completed > 0 ? dur.values.max : null,
       error_rate: errorRate, dropped: droppedCount, delivered_share: delivered,
-      // how much of the page came from the popularity fallback: the witness that
       backfill_per_page: backfillAvg,
       candidates_considered: (() => {
         const c = data.metrics[`candidates_considered{phase:measure,rate:${rate}}`];
@@ -211,7 +197,6 @@ export function handleSummary(data) {
     });
   }
 
-  // Capacity is the highest rate that passed *with every lower rate also passing*.
   let capacity = 0;
   for (const s of steps) {
     if (!s.passed) break;
@@ -236,7 +221,6 @@ export function handleSummary(data) {
       model: 'open (constant-arrival-rate)',
     },
     capacity_rps: capacity,
-    // a later step passing after an earlier one failed means the service is not
     non_monotonic: nonMonotonic,
     steps,
   };
@@ -247,6 +231,7 @@ export function handleSummary(data) {
     lines.push(
       `  ${String(s.rate).padStart(6)} rps  ` +
       `p50=${fmt(s.p50, 7)}ms  p99=${fmt(s.p99, 8)}ms  ` +
+      `p999=${fmt(s.p999, 8)}ms  ` +
       `err=${(s.error_rate * 100).toFixed(2).padStart(5)}%  ` +
       `done=${String(s.completed).padStart(5)}/${String(s.offered).padEnd(5)}  ` +
       `bf=${s.backfill_per_page === null ? '-' : s.backfill_per_page.toFixed(1)}  ` +

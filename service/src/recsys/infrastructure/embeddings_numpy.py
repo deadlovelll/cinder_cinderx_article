@@ -1,4 +1,3 @@
-"""EmbeddingStore, numpy. The C pole of the "how much of this is C" axis."""
 
 from __future__ import annotations
 
@@ -52,10 +51,10 @@ class NumpyEmbeddingStore:
         if row is None or self._matrix is None:
             return []
         query = self._matrix[row]
-        dots = self._matrix @ query                       # the C part
+        dots = self._matrix @ query
         denom = np.maximum(self._norms * self._norms[row], 1)
         scores = (dots.astype(np.int64) << 12) // denom
-        scores[row] = -(1 << 62)                          # never return the query
+        scores[row] = -(1 << 62)
         top = np.argpartition(-scores, min(limit, len(scores) - 1))[:limit]
         top = top[np.argsort(-scores[top])]
         return [(self._ids[i], int(scores[i])) for i in top]

@@ -1,4 +1,3 @@
-"""UserRepository over the Core DSL: one connection, and pins come from memory."""
 
 from __future__ import annotations
 

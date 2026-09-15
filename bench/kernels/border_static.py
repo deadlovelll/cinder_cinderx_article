@@ -1,4 +1,3 @@
-"""The static/dynamic border (plan 7.9)."""
 
 import __static__
 

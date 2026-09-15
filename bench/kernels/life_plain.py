@@ -1,4 +1,3 @@
-"""Life on a torus, ordinary Python. The single workload of the configuration ladder."""
 
 
 def step(cur, nxt, w, h):

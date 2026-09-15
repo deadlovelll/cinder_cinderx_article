@@ -1,4 +1,3 @@
-"""Inline cache inheritance: how much prior execution the JIT needs (plan 7.4)."""
 from __future__ import annotations
 
 import sys

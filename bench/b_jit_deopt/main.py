@@ -1,4 +1,3 @@
-"""Deoptimisation under type instability (plan 7.5)."""
 from __future__ import annotations
 
 import sys

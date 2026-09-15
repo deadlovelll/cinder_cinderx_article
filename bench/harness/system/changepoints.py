@@ -8,7 +8,6 @@ from bench.harness.system.l2_cost import _l2_cost
 
 def changepoints(values: Sequence[float], *, penalty: float | None = None,
                  min_size: int = 5) -> list[tuple[int, int]]:
-    """Segment a series where the mean shifts. Returns [start, end) index pairs."""
     n = len(values)
     if n < 2 * min_size:
         return [(0, n)] if n else []

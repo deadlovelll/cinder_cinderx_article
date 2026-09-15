@@ -8,7 +8,6 @@ from bench.harness.system.cpu_facts import cpu_facts
 
 def preflight(*, strict: bool = False,
               expect: Sequence[int] | None = None) -> dict[str, Any]:
-    """Gather all preconditions. With strict=True, refuse to run a bad host."""
     facts = {"aslr": aslr_facts(), "cpu": cpu_facts(expect)}
     bad = [
         f"aslr={facts['aslr']['verdict']}" if facts["aslr"]["verdict"] != "off" else None,

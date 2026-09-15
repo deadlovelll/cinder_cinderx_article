@@ -7,7 +7,6 @@ from typing import Any
 
 
 def machine_facts() -> dict[str, Any]:
-    """Host description. pyperf's metadata does not carry the CPU model on macOS."""
 
     def sysctl(name: str) -> str | None:
         try:

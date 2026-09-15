@@ -1,4 +1,3 @@
-"""Run the dialect reference and check that it still tells the truth."""
 
 from __future__ import annotations
 
@@ -44,7 +43,7 @@ def run_ok() -> list[dict]:
             rec["doc"] = (mod.__doc__ or "").strip()
             rec["rows"] = list(mod.demo())
             rec["status"] = "ok"
-        except BaseException as exc:  # noqa: BLE001 - a broken example must be visible
+        except BaseException as exc:
             rec["status"] = "broken"
             rec["error"] = f"{type(exc).__name__}: {exc}"
         out.append(rec)
@@ -52,7 +51,6 @@ def run_ok() -> list[dict]:
 
 
 def run_errors() -> list[dict]:
-    """Compile each snippet in a fresh process; it is expected to fail."""
     out = []
     d = os.path.join(ROOT, "errors")
     for name in _modules("errors"):

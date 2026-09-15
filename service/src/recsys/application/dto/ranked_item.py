@@ -1,4 +1,3 @@
-"""One ranked item as it crosses the application boundary."""
 
 from pydantic import BaseModel
 

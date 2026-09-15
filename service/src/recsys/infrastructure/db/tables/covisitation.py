@@ -1,4 +1,3 @@
-"""The co-visitation graph in CSR order, so the startup load is a sequential scan."""
 
 from sqlalchemy import BigInteger, Column, Index, Integer, Table
 

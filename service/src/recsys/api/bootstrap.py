@@ -1,4 +1,3 @@
-"""The CinderX pre-fork chain, and the proof that it did what was asked."""
 
 from __future__ import annotations
 
@@ -11,7 +10,6 @@ from recsys.settings import Settings
 
 @dataclass(slots=True)
 class BootstrapReport:
-    """What was asked for, and what the runtime actually did. Never inferred."""
 
     mode: str
     cpython_jit: bool = False
@@ -20,6 +18,8 @@ class BootstrapReport:
     kernel_requested: str = "plain"
     kernel_actual: str = "plain"
     kernel_is_static: bool | None = None
+    embeddings_requested: str = "numpy"
+    embeddings_is_static: bool | None = None
     jit_enabled: bool = False
     compile_after_n_calls: int | None = None
     precompiled: int = 0
@@ -34,9 +34,9 @@ class BootstrapReport:
 
 
 def install_runtime(settings: Settings) -> BootstrapReport:
-    """Steps 1-2. Must run before the application package is imported."""
     report = BootstrapReport(mode=settings.cinderx_mode,
-                             kernel_requested=settings.kernel)
+                             kernel_requested=settings.kernel,
+                             embeddings_requested=settings.embeddings)
     jit_module = getattr(sys, "_jit", None)
     report.cpython_jit = bool(jit_module and jit_module.is_enabled())
     if settings.cinderx_mode == "off":
@@ -44,6 +44,11 @@ def install_runtime(settings: Settings) -> BootstrapReport:
             report.problems.append(
                 "kernel=static requested with cinderx_mode=off: the module would "
                 "run as ordinary Python and the rung would duplicate `plain`")
+        if settings.embeddings == "static":
+            report.problems.append(
+                "embeddings=static requested with cinderx_mode=off: the module "
+                "would run as ordinary Python and the rung would duplicate "
+                "`python`")
         return report
 
     try:
@@ -56,7 +61,7 @@ def install_runtime(settings: Settings) -> BootstrapReport:
     cinderx.install_frame_evaluator()
     report.frame_evaluator = cinderx.is_frame_evaluator_installed()
 
-    if settings.kernel == "static":
+    if settings.kernel == "static" or settings.embeddings == "static":
         from cinderx.compiler.strict.loader import install
 
         install()
@@ -72,7 +77,6 @@ def install_runtime(settings: Settings) -> BootstrapReport:
 
 
 def verify_kernel(report: BootstrapReport) -> None:
-    """Step 3's check: did the module that answered match what was asked for?"""
     from recsys.domain.kernels.registry import kernel_name, load_kernel
 
     module = load_kernel()
@@ -89,10 +93,23 @@ def verify_kernel(report: BootstrapReport) -> None:
                 "kernel=static but the module is not static: the loader was not "
                 "installed before the import")
 
+    if report.embeddings_requested == "static":
+        from recsys.domain.kernels import similar_static
+
+        try:
+            from _static import is_static_module
+
+            report.embeddings_is_static = bool(is_static_module(similar_static))
+        except ImportError:
+            report.embeddings_is_static = False
+        if not report.embeddings_is_static:
+            report.problems.append(
+                "embeddings=static but the module is not static: the loader was "
+                "not installed before the import")
+
 
 def prepare_for_fork(settings: Settings, report: BootstrapReport,
                      hot_functions: list[Any]) -> None:
-    """Steps 5-9. Runs in the parent, after the application is fully imported."""
     if settings.cinderx_mode == "off":
         return
     try:
@@ -103,13 +120,12 @@ def prepare_for_fork(settings: Settings, report: BootstrapReport,
         return
 
     if settings.precompile and jit.is_enabled():
-        # force_compile, not auto(): a handler under 1000 calls would never compile.
         compiled = 0
         for fn in hot_functions:
             try:
                 if jit.force_compile(fn):
                     compiled += 1
-            except Exception as exc:  # a single failure must not stop the boot
+            except Exception as exc:
                 report.problems.append(f"force_compile failed for {fn!r}: {exc}")
         report.precompiled = compiled
 
@@ -142,7 +158,6 @@ def prepare_for_fork(settings: Settings, report: BootstrapReport,
 
 
 def after_fork_child() -> None:
-    """Step 10. The JIT's own post-fork hook, before anything else runs."""
     try:
         import cinderjit
 

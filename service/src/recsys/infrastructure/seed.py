@@ -1,4 +1,3 @@
-"""Deterministic fixture. Same catalogue, same graph, same users on every run."""
 
 from __future__ import annotations
 
@@ -34,7 +33,6 @@ BATCH = 5_000
 
 
 def lcg(seed: int):
-    """Knuth MMIX LCG, returning the top 31 bits."""
     x = seed & MASK
     while True:
         x = (x * 6364136223846793005 + 1442695040888963407) & MASK
@@ -51,7 +49,7 @@ async def _insert_batched(engine: AsyncEngine, table, rows: list[dict]) -> None:
 def build_items(n_items: int, rnd) -> list[dict]:
     out = []
     for i in range(n_items):
-        showable = next(rnd) % 100          # a tenth is unshowable: eligibility bites
+        showable = next(rnd) % 100
         inactive = showable < 5
         out_of_stock = 5 <= showable < 10
         promoted = next(rnd) % 50 == 0
@@ -65,7 +63,6 @@ def build_items(n_items: int, rnd) -> list[dict]:
             "stock": 0 if out_of_stock else 1 + next(rnd) % 50,
             "age_restricted": next(rnd) % 1000 < 30,
             "region_mask": REGION_MASKS[next(rnd) % len(REGION_MASKS)],
-            # a slice is fresh, so the freshness boost fires for some and not others
             "created_at": BASE_DATE - timedelta(days=next(rnd) % 400),
             "promo_multiplier_bps": (10_000 + next(rnd) % 8_000) if promoted else 10_000,
         })
@@ -73,7 +70,6 @@ def build_items(n_items: int, rnd) -> list[dict]:
 
 
 def build_graph(n_items: int, avg_degree: int, rnd) -> list[dict]:
-    """Power-law-ish degrees with a bias towards the head."""
     head = max(1, n_items // 100)
     rows = []
     for src in range(n_items):
@@ -96,7 +92,7 @@ def build_embeddings(n_items: int, rnd) -> list[dict]:
         vec = bytearray(EMBED_DIM)
         norm_sq = 0
         for d in range(EMBED_DIM):
-            v = (next(rnd) % 255) - 127          # int8 range
+            v = (next(rnd) % 255) - 127
             vec[d] = v & 0xFF
             norm_sq += v * v
         norm = max(1, int(norm_sq ** 0.5))
@@ -115,7 +111,6 @@ def build_users(n_users: int, n_items: int, rnd) -> tuple[list[dict], list[dict]
             "age": 16 + next(rnd) % 60,
             "median_basket_cents": 1_000 + next(rnd) % 50_000,
         })
-        # long histories on purpose: the exclusion stage has to be able to empty a page.
         recent = [next(rnd) % n_items for _ in range(5 + next(rnd) % 25)]
         purchased = [next(rnd) % n_items for _ in range(20 + next(rnd) % 120)]
         disliked = [next(rnd) % n_items for _ in range(next(rnd) % 15)]
@@ -176,7 +171,6 @@ async def seed(n_items: int, n_users: int, avg_degree: int) -> None:
 
 
 async def verify(engine: AsyncEngine) -> None:
-    """Refuse to hand over a degenerate fixture."""
 
     checks = [
         ("items.region_mask", select(func.count(distinct(items.c.region_mask))), 3),
@@ -197,7 +191,6 @@ async def verify(engine: AsyncEngine) -> None:
             if got < minimum:
                 problems.append(f"{name}: {got} distinct values, expected >= {minimum}")
 
-        # the rule pipeline must be reachable: every stage has to drop something.
         for region, bit in (("eu", 1), ("us", 2), ("apac", 4)):
             reachable = int((await conn.execute(
                 select(func.count()).where(items.c.region_mask.op("&")(bit) != 0)

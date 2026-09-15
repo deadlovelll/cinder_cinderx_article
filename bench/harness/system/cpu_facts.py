@@ -15,7 +15,6 @@ from bench.harness.system.workqueue_facts import workqueue_facts
 
 
 def cpu_facts(expect: Sequence[int] | None = None) -> dict[str, Any]:
-    """Isolation, affinity, governor and turbo, with a verdict on reservation."""
     facts: dict[str, Any] = {"cpu_count": os.cpu_count()}
     if platform.system() != "Linux":
         facts["verdict"] = "unsupported"

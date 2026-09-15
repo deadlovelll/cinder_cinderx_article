@@ -1,4 +1,3 @@
-"""What the similar-items use case returns to its caller."""
 
 from pydantic import BaseModel
 

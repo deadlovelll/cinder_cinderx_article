@@ -8,7 +8,6 @@ from bench.harness.system.reserved_cpus import reserved_cpus
 
 
 def host_cpus(exclude: Sequence[int] | None = None) -> str:
-    """Every CPU except the reserved ones, as a cpuset for the host's own work."""
     count = os.cpu_count() or 0
     if exclude is None:
         exclude = reserved_cpus()

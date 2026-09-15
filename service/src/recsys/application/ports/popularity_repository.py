@@ -1,4 +1,3 @@
-"""Backfill source for pages the rules emptied."""
 
 from __future__ import annotations
 

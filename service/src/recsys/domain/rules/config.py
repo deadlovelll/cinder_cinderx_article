@@ -1,4 +1,3 @@
-"""Rule tunables. In a real service these come from a config service; here they"""
 
 from datetime import timedelta
 
@@ -13,9 +12,7 @@ PRICE_BAND_PENALTY_BPS = 4_000
 MAX_PER_CATEGORY = 3
 MAX_PER_BRAND = 2
 
-#: Affinity weighted against commercial signal, per segment.
 SEGMENT_WEIGHTS: dict[Segment, tuple[int, int]] = {
-    #                affinity_bps, margin_bps
     Segment.NEW: (12_000, 6_000),
     Segment.CASUAL: (10_000, 10_000),
     Segment.LOYAL: (9_000, 13_000),

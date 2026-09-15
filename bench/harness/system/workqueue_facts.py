@@ -10,7 +10,6 @@ from bench.harness.system.reserved_cpus import reserved_cpus
 
 
 def workqueue_facts(reserved: Sequence[int] | None = None) -> dict[str, Any]:
-    """Whether unbound kernel workqueues may still run on the reserved CPUs."""
     reserved = list(reserved_cpus() if reserved is None else reserved)
     mask = _read(_WQ_CPUMASK)
     facts: dict[str, Any] = {"cpumask": mask, "cpus": None, "leaking": None}

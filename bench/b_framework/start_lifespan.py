@@ -4,7 +4,6 @@ import asyncio
 
 
 def start_lifespan(app, loop) -> None:
-    """FastAPI's router needs its lifespan to have run before it will serve."""
     async def receive():
         return {"type": "lifespan.startup"}
 

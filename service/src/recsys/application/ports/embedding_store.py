@@ -1,4 +1,3 @@
-"""Quantised item embeddings, loaded once before the fork."""
 
 from __future__ import annotations
 

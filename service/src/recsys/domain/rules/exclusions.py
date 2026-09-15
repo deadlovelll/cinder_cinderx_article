@@ -1,4 +1,3 @@
-"""Stage 2: showable in general, but not to this user now."""
 
 from __future__ import annotations
 

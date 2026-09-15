@@ -9,7 +9,6 @@ from bench.harness.system.normal_cdf import _normal_cdf
 
 def mann_kendall(values: Sequence[float],
                  min_effect: float | None = None) -> dict[str, Any]:
-    """Non-parametric monotonic-trend test, with a floor on the size of the trend."""
     n = len(values)
     if n < 8:
         return {"n": n, "verdict": "too_few_samples"}

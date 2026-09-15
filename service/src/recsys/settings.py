@@ -1,4 +1,3 @@
-"""Configuration from the environment. One object, read once, never re-read."""
 
 from __future__ import annotations
 
@@ -29,17 +28,15 @@ class Settings:
     db_password: str
     db_pool_size: int
 
-    # rung of the ladder: off | runtime | jit | jit_static
     cinderx_mode: str
-    # each step of the pre-fork chain, independently switchable
     precompile: bool
     immortalize: bool
     parallel_gc: bool
     perf_trampoline: bool
 
-    kernel: str            # plain | static
-    selection: str         # sorted | bounded -- top-k selection of the plain kernel
-    embeddings: str        # numpy | python
+    kernel: str
+    selection: str
+    embeddings: str
     workers: int
     sampler_interval_ms: int
     sampler_dir: str
@@ -47,7 +44,6 @@ class Settings:
 
     @property
     def dsn(self) -> str:
-        # psycopg3 async, whether the C speedups are installed or not: the driver
         return (f"postgresql+psycopg://{self.db_user}:{self.db_password}"
                 f"@{self.db_host}:{self.db_port}/{self.db_name}")
 

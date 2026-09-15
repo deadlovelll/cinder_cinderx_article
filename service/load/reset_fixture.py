@@ -1,4 +1,3 @@
-"""Return the fixture to the state every rung must start from."""
 
 from __future__ import annotations
 
@@ -13,11 +12,11 @@ from sqlalchemy import func, select, text
 
 from recsys.infrastructure.db.engine import create_engine
 from recsys.infrastructure.db.tables.impressions import impressions
+from recsys.infrastructure.db.tables.interactions import interactions
 from recsys.settings import Settings
 
 
 async def stats(engine) -> dict:
-    """How burned-in the fixture is, in the two numbers that matter."""
     async with engine.connect() as conn:
         total = await conn.scalar(select(func.count()).select_from(impressions))
         users = await conn.scalar(
@@ -25,27 +24,27 @@ async def stats(engine) -> dict:
         capped = await conn.scalar(
             select(func.count()).select_from(impressions)
             .where(impressions.c.shown >= 3))
+        written = await conn.scalar(select(func.count()).select_from(interactions))
     return {"impression_rows": total or 0, "users_with_impressions": users or 0,
-            "rows_at_or_over_cap": capped or 0}
+            "rows_at_or_over_cap": capped or 0, "interaction_rows": written or 0}
 
 
 async def reset(engine) -> None:
-    """TRUNCATE, not DELETE: leave no dead tuples for the next rung to walk past."""
     async with engine.begin() as conn:
-        await conn.execute(text("TRUNCATE TABLE impressions"))
+        await conn.execute(text("TRUNCATE TABLE impressions, interactions"))
 
 
 async def main_async(args) -> int:
     engine = create_engine(Settings.from_env())
     try:
         before = await stats(engine)
-        print(f"  до:  {before}")
+        print(f"  before: {before}")
         if args.reset:
             await reset(engine)
-            print(f"  после: {await stats(engine)}")
+            print(f"  after:  {await stats(engine)}")
         elif before["rows_at_or_over_cap"] > 0:
-            print("  ВНИМАНИЕ: в фикстуре есть позиции, достигшие предела показов. "
-                  "Ступень, запущенная на ней, будет мерить путь backfill.")
+            print("  WARNING: the fixture holds items at the impression cap. A rung "
+                  "run on it would measure the backfill path.")
             return 1
         return 0
     finally:

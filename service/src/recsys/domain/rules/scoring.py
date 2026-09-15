@@ -1,4 +1,3 @@
-"""Stage 3: affinity is one signal among several, and not the decisive one."""
 
 from __future__ import annotations
 

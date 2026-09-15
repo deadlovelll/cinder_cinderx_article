@@ -6,7 +6,6 @@ from bench.b_lazy_imports.constants import MARKER
 
 
 def write_drivers(root: str, n: int) -> tuple[str, str]:
-    """Two scripts in the module directory: imports alone, and imports plus facts."""
     imports = "".join(f"import genmod{i}\n" for i in range(n))
     only = os.path.join(root, "_import_only.py")
     with open(only, "w") as fh:

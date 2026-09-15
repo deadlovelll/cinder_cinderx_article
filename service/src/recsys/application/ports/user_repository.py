@@ -1,4 +1,3 @@
-"""Everything the rule pipeline needs about the user, in one round trip."""
 
 from __future__ import annotations
 

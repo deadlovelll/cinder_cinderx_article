@@ -1,4 +1,3 @@
-"""GET /v1/items/{item_id}/similar -- the C-bound endpoint."""
 
 from typing import Annotated
 

@@ -1,4 +1,3 @@
-"""The container, reached the FastAPI way."""
 
 from typing import Annotated
 
@@ -11,5 +10,4 @@ def get_container(request: Request) -> Container:
     return request.app.state.container
 
 
-#: Spelled once so the four routes do not each repeat the Depends dance.
 Injected = Annotated[Container, Depends(get_container)]

@@ -1,4 +1,3 @@
-"""Denormalised per-user state, so a recommendation is one round trip not four."""
 
 from sqlalchemy import BigInteger, Column, DateTime, String, Table, func
 

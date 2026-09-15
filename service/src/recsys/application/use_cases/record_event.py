@@ -1,4 +1,3 @@
-"""The write path: one interaction in, one INSERT out."""
 
 from __future__ import annotations
 
@@ -6,7 +5,6 @@ from recsys.application.dto.event_payload import EventPayload
 from recsys.application.ports.event_repository import EventRepository
 
 KINDS = frozenset({"view", "cart", "purchase", "dislike"})
-#: Interaction weights: a purchase says more about affinity than a page view.
 WEIGHTS = {"view": 1, "cart": 3, "purchase": 8, "dislike": -4}
 
 

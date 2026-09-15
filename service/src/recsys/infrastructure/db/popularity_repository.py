@@ -1,4 +1,3 @@
-"""PopularityRepository over the Core DSL."""
 
 from __future__ import annotations
 

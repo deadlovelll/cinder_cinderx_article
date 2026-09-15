@@ -1,4 +1,3 @@
-"""Wall-clock implementation of the Clock port."""
 
 from __future__ import annotations
 

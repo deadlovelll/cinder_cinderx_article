@@ -1,4 +1,3 @@
-"""Composition root: the one place that knows every concrete type."""
 
 from __future__ import annotations
 

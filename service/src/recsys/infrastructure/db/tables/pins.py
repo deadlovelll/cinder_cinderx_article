@@ -1,4 +1,3 @@
-"""Merchandiser pins: the rule that outranks the model."""
 
 from sqlalchemy import BigInteger, Column, SmallInteger, String, Table
 

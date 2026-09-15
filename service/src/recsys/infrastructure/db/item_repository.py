@@ -1,4 +1,3 @@
-"""ItemRepository over the Core DSL."""
 
 from __future__ import annotations
 
@@ -14,7 +13,6 @@ from recsys.infrastructure.db.tables.items import items
 class SqlItemRepository:
     def __init__(self, engine: AsyncEngine) -> None:
         self._engine = engine
-        # Compiled once at construction, never rebuilt per request.
         self._stmt = (
             select(
                 items.c.id, items.c.category_id, items.c.brand_id,

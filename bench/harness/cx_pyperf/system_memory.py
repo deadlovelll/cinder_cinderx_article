@@ -4,7 +4,6 @@ import os
 
 
 def system_memory() -> dict[str, int]:
-    """Linux RSS and COW detail; Shared_Clean is the immortalisation probe."""
     out: dict[str, int] = {}
     try:
         with open("/proc/self/statm") as fh:

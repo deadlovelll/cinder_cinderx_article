@@ -1,13 +1,11 @@
-"""Two-hop co-visitation walk, ordinary Python. The candidate generator."""
 
 from __future__ import annotations
 
-DECAY_FIRST = 16        # first-hop weight multiplier
-DECAY_SECOND_SHIFT = 6  # second hop divides by 64
+DECAY_FIRST = 16
+DECAY_SECOND_SHIFT = 6
 
 
 def walk(indptr, indices, weights, seeds, scores, touched) -> int:
-    """Accumulate affinities into `scores`; record visited ids in `touched`."""
     n_touched = 0
     for seed in seeds:
         p = indptr[seed]
@@ -37,7 +35,6 @@ def walk(indptr, indices, weights, seeds, scores, touched) -> int:
 
 
 def select_bounded(scores, touched, n_touched: int, limit: int, exclude) -> list:
-    """Top `limit` by bounded insertion into a descending array."""
     top_ids = [0] * limit
     top_scores = [0] * limit
     n_top = 0
@@ -81,7 +78,6 @@ def select_bounded(scores, touched, n_touched: int, limit: int, exclude) -> list
 
 
 def select_sorted(scores, touched, n_touched: int, limit: int, exclude) -> list:
-    """Top `limit` by sorting. Timsort is C, so this leg is not pure bytecode."""
     pairs = []
     append = pairs.append
     i = 0
@@ -95,14 +91,12 @@ def select_sorted(scores, touched, n_touched: int, limit: int, exclude) -> list:
     return [(cand, score) for score, cand in pairs[:limit]]
 
 
-#: Default selection. `sorted` because that is what production does; the ladder
 take_top = select_sorted
 
 SELECTIONS = {"bounded": select_bounded, "sorted": select_sorted}
 
 
 def reset(scores, touched, n_touched: int) -> None:
-    """Clear only what was written, so the cost is O(touched) not O(catalogue)."""
     i = 0
     while i < n_touched:
         scores[touched[i]] = 0

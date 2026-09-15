@@ -1,4 +1,3 @@
-"""Bulk compilation: blocking, parallel, background, AOT (plan 7.6)."""
 from __future__ import annotations
 
 import argparse

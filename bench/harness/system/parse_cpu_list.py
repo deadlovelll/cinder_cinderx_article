@@ -2,7 +2,6 @@ from __future__ import annotations
 
 
 def parse_cpu_list(text: str | None) -> list[int]:
-    """Parse the kernel's "0-3,7" CPU list syntax."""
     if not text:
         return []
     out: list[int] = []

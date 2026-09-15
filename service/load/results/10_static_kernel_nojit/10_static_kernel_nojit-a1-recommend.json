@@ -1,0 +1,178 @@
+{
+ "endpoint": "recommend",
+ "base_url": "http://127.0.0.1:8100",
+ "criterion": {
+  "p99_budget_ms": 1000,
+  "error_budget": 0.01,
+  "throughput_floor": 0.95,
+  "backfill_ceiling": 4,
+  "declared": "before any number existed"
+ },
+ "profile": {
+  "rates": [
+   25,
+   45,
+   80,
+   140,
+   250,
+   420,
+   700
+  ],
+  "step_seconds": 30,
+  "drain_seconds": 10,
+  "warmup_seconds": 60,
+  "warmup_rate": 25,
+  "zipf_s": 1.1,
+  "n_users": 3000,
+  "n_items": 20000,
+  "model": "open (constant-arrival-rate)"
+ },
+ "capacity_rps": 45,
+ "non_monotonic": false,
+ "steps": [
+  {
+   "rate": 25,
+   "passed": true,
+   "reasons": [],
+   "completed": 750,
+   "offered": 750,
+   "p50": 75.2498525,
+   "p90": 88.3115078,
+   "p99": 100.59132544999999,
+   "p999": 117.5390893730007,
+   "mean": 75.29684490266659,
+   "max": 123.373517,
+   "error_rate": 0,
+   "dropped": 0,
+   "delivered_share": 1,
+   "backfill_per_page": 0,
+   "candidates_considered": 400
+  },
+  {
+   "rate": 45,
+   "passed": true,
+   "reasons": [],
+   "completed": 1351,
+   "offered": 1350,
+   "p50": 78.346589,
+   "p90": 98.368178,
+   "p99": 132.60595899999998,
+   "p999": 152.24333050000092,
+   "mean": 79.85844021317546,
+   "max": 166.138549,
+   "error_rate": 0,
+   "dropped": 0,
+   "delivered_share": 1.0007407407407407,
+   "backfill_per_page": 0,
+   "candidates_considered": 400
+  },
+  {
+   "rate": 80,
+   "passed": false,
+   "reasons": [
+    "p99=15040.5ms",
+    "delivered=85.6%"
+   ],
+   "completed": 2055,
+   "offered": 2400,
+   "p50": 4606.651222,
+   "p90": 8073.8231646,
+   "p99": 15040.510200520004,
+   "p999": 20466.29012873407,
+   "mean": 4718.80712037908,
+   "max": 21115.999051,
+   "error_rate": 0,
+   "dropped": 0,
+   "delivered_share": 0.85625,
+   "backfill_per_page": 0,
+   "candidates_considered": 400
+  },
+  {
+   "rate": 140,
+   "passed": false,
+   "reasons": [
+    "p99=28479.9ms",
+    "delivered=51.4%"
+   ],
+   "completed": 2159,
+   "offered": 4200,
+   "p50": 9416.878791,
+   "p90": 17359.610878800002,
+   "p99": 28479.88588004001,
+   "p999": 30250.469675586002,
+   "mean": 9429.51534119362,
+   "max": 30328.578414,
+   "error_rate": 0.007874015748031496,
+   "dropped": 0,
+   "delivered_share": 0.5140476190476191,
+   "backfill_per_page": 0,
+   "candidates_considered": 400
+  },
+  {
+   "rate": 250,
+   "passed": false,
+   "reasons": [
+    "p99=30282.0ms",
+    "errors=23.13%",
+    "delivered=25.6%"
+   ],
+   "completed": 1920,
+   "offered": 7500,
+   "p50": 23880.9389985,
+   "p90": 30144.9313357,
+   "p99": 30282.027181380003,
+   "p999": 30391.951656331003,
+   "mean": 19558.114885511968,
+   "max": 30464.796403,
+   "error_rate": 0.23125,
+   "dropped": 0,
+   "delivered_share": 0.256,
+   "backfill_per_page": 0,
+   "candidates_considered": 400
+  },
+  {
+   "rate": 420,
+   "passed": false,
+   "reasons": [
+    "p99=30680.0ms",
+    "errors=50.58%",
+    "delivered=21.8%"
+   ],
+   "completed": 2748,
+   "offered": 12600,
+   "p50": 30120.416199,
+   "p90": 30354.342207100002,
+   "p99": 30680.017947940003,
+   "p999": 30944.368053869006,
+   "mean": 24040.594510022907,
+   "max": 31011.895404,
+   "error_rate": 0.5058224163027657,
+   "dropped": 0,
+   "delivered_share": 0.2180952380952381,
+   "backfill_per_page": 0,
+   "candidates_considered": 400
+  },
+  {
+   "rate": 700,
+   "passed": false,
+   "reasons": [
+    "p99=30798.4ms",
+    "errors=68.46%",
+    "delivered=20.1%"
+   ],
+   "completed": 4217,
+   "offered": 21000,
+   "p50": 30191.554496,
+   "p90": 30429.037588,
+   "p99": 30798.37251216,
+   "p999": 31060.962981688015,
+   "mean": 26581.707197068263,
+   "max": 31361.162936,
+   "error_rate": 0.6846099122599004,
+   "dropped": 0,
+   "delivered_share": 0.2008095238095238,
+   "backfill_per_page": 0,
+   "candidates_considered": 400
+  }
+ ]
+}

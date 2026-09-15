@@ -7,7 +7,6 @@ from bench.harness.cx_pyperf.system_memory import system_memory
 
 
 def runtime_metrics() -> dict[str, Any]:
-    """GC, allocator and memory counters; also what the workshop sampler reads."""
     import gc
     import resource
 

@@ -9,7 +9,6 @@ from bench.harness.cx_pyperf import state
 
 
 def interp_facts() -> dict[str, Any]:
-    """Interpreter and CinderX properties that are observations, not timings."""
     gil = None
     if hasattr(sys, "_is_gil_enabled"):
         try:

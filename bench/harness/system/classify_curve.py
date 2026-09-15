@@ -8,7 +8,6 @@ from bench.harness.system.mann_kendall import mann_kendall
 
 
 def classify_curve(values: Sequence[float], *, min_size: int = 5) -> dict[str, Any]:
-    """Barrett et al.'s four regimes, decided from the data rather than assumed."""
     n = len(values)
     if n < 2 * min_size:
         return {"n": n, "verdict": "too_few_samples"}

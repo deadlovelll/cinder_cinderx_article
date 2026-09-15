@@ -1,4 +1,3 @@
-"""Bitmask <-> Region set. The read path's reason for the mask existing."""
 
 from __future__ import annotations
 

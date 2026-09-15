@@ -1,4 +1,3 @@
-"""Cost of one primitive operation (plan 7.7)."""
 from __future__ import annotations
 
 import sys
@@ -44,6 +43,23 @@ def main() -> None:
         suite.bench(case="prim_op", impl=impl, fn=work,
                     params={"n": N}, inner_loops=N,
                     note="one add on the accumulator and one on the counter")
+
+    scale: dict[str, list] = {}
+    for label, fn, extra in (("static/int64", ps.sum_primitive, ()),
+                             ("static/int64-opaque", ps.sum_primitive_opaque, (7,))):
+        if h.jit_on():
+            h.compile_now(fn, warmup=1, run=lambda fn=fn, e=extra: fn(N, *e))
+        for n in (N // 8, N // 2, N, N * 2):
+            work = (lambda fn=fn, n=n, e=extra: fn(n, *e))
+            work()
+            b = suite.bench(case="prim_op_scale", impl=f"{label}@{n}", fn=work,
+                            params={"n": n}, inner_loops=n,
+                            note="per-op cost must not fall as n grows")
+            if b is not None:
+                scale.setdefault(label, []).append(n)
+    suite.facts["scale_sweep"] = scale
+    suite.facts["scale_note"] = ("a per-op cost flat across n means the loop ran; "
+                                 "one falling as 1/n would mean it was folded away")
 
     suite.machine_probe()
     suite.facts["jit"] = jit_info

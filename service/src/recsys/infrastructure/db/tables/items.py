@@ -1,4 +1,3 @@
-"""Catalogue."""
 
 from sqlalchemy import (
     BigInteger, Boolean, Column, DateTime, Index, Integer, SmallInteger, Table, func,

@@ -4,7 +4,6 @@ from bench.b_jit_bulk.constants import GEN_MODULE
 
 
 def make_functions(n: int, salt: str, module: str = GEN_MODULE) -> list:
-    """N distinct functions of similar size; `salt` keeps batches from colliding."""
     ns: dict = {"__name__": module}
     for i in range(n):
         exec(

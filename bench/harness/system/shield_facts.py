@@ -9,7 +9,6 @@ from bench.harness.system.reserved_cpus import reserved_cpus
 
 
 def shield_facts(reserved: Sequence[int] | None = None) -> dict[str, Any]:
-    """Whether everything else has been moved off the reserved CPUs."""
     reserved = list(reserved_cpus() if reserved is None else reserved)
     facts: dict[str, Any] = {"units": {}, "leaking": [], "shielded": None}
     if not reserved:

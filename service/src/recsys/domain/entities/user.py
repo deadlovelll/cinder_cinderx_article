@@ -1,4 +1,3 @@
-"""The user as the rule pipeline sees them."""
 
 from __future__ import annotations
 

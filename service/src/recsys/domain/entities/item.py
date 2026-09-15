@@ -1,4 +1,3 @@
-"""The catalogue item as the rule pipeline sees it."""
 
 from __future__ import annotations
 
@@ -11,7 +10,6 @@ from recsys.domain.values.region import Region
 
 @dataclass(slots=True, frozen=True)
 class Item:
-    """Slotted deliberately: one of these is allocated per candidate per request."""
 
     id: ItemId
     category_id: CategoryId
@@ -23,7 +21,7 @@ class Item:
     age_restricted: bool
     regions: frozenset[Region]
     created_at: datetime
-    promo_multiplier_bps: int  # 10000 == neutral; paid placement raises it
+    promo_multiplier_bps: int
 
     def is_available_in(self, region: Region) -> bool:
         return region in self.regions

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 
 def _close(got: object, expected: object, tol: float) -> tuple[bool, float]:
-    """Relative comparison; `tol` > 0 permits reassociated floating point."""
     if got == expected:
         return True, 0.0
     if isinstance(got, (int, float)) and isinstance(expected, (int, float)):

@@ -1,4 +1,3 @@
-"""Final ordering: pins in their slots, then the model's order."""
 
 from __future__ import annotations
 

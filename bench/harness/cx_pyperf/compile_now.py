@@ -9,7 +9,6 @@ from bench.harness.cx_pyperf.jit_on import jit_on
 
 def compile_now(*fns: Callable[..., Any], warmup: int = 0,
                 run: Callable[[], Any] | None = None) -> dict[str, Any]:
-    """Run `run` `warmup` times, then force_compile every fn."""
     if not jit_on():
         return {"compiled": False, "warmup": warmup}
     for _ in range(warmup):

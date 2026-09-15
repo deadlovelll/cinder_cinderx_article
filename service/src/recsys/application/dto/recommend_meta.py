@@ -1,4 +1,3 @@
-"""Provenance carried on every recommendation result."""
 
 from pydantic import BaseModel
 

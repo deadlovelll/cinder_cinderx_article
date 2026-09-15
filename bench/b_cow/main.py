@@ -1,4 +1,3 @@
-"""Copy-on-write after fork, with and without immortalisation (plan 7.13)."""
 from __future__ import annotations
 
 import argparse

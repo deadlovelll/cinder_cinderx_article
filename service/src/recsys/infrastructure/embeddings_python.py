@@ -1,4 +1,3 @@
-"""EmbeddingStore, pure Python. The Python pole of the same axis."""
 
 from __future__ import annotations
 
@@ -32,7 +31,6 @@ class PythonEmbeddingStore:
                 self._dim = dim
                 self._ids.append(iid)
                 self._norms.append(norm)
-                # int8 stored unsigned in base64; re-sign here, once, at startup
                 self._flat.extend(b - 256 if b > 127 else b
                                   for b in base64.b64decode(vec))
         self._row_of = {iid: i for i, iid in enumerate(self._ids)}
@@ -66,7 +64,6 @@ class PythonEmbeddingStore:
             scores[i] = (acc << SHIFT) // denom if denom else 0
             i += 1
 
-        # k argmax passes rather than a sort: limit is small, n_items is not.
         out: list[tuple[ItemId, int]] = []
         for _ in range(limit):
             best = -1

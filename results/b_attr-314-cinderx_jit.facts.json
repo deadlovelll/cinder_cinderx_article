@@ -1,0 +1,313 @@
+{
+ "suite": "b_attr",
+ "label": "314-cinderx_jit",
+ "cx_config": "cinderx_jit",
+ "interp": {
+  "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+  "version": "3.14.5+meta",
+  "implementation": "CPython",
+  "compiler": "Clang 18.1.3 (1ubuntu1)",
+  "gil_enabled": true,
+  "free_threaded": false,
+  "config_args": "'--prefix=/home/timofei/Desktop/cinder_cinderx_article/build/fork' '--enable-optimizations' '--with-lto' 'PKG_CONFIG_PATH=/opt/intel/oneapi/vtune/2025.10/include/pkgconfig/lib64:/opt/intel/oneapi/tbb/2022.3/env/../lib/pkgconfig:/opt/intel/oneapi/mpi/2021.17/lib/pkgconfig:/opt/intel/oneapi/mkl/2025.3/lib/pkgconfig:/opt/intel/oneapi/ippcp/2025.3/lib/pkgconfig:/opt/intel/oneapi/dpl/2022.10/lib/pkgconfig:/opt/intel/oneapi/dnnl/2025.3/lib/pkgconfig:/opt/intel/oneapi/dal/2025.10/lib/pkgconfig:/opt/intel/oneapi/compiler/2025.3/lib/pkgconfig:/opt/intel/oneapi/ccl/2021.17/lib/pkgconfig/:/opt/intel/oneapi/advisor/2025.4/include/pkgconfig/lib64:' 'CC=clang'",
+  "core_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -fno-semantic-interposition -flto=thin -g -std=c11 -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wstrict-prototypes -Werror=implicit-function-declaration -fvisibility=hidden -fprofile-instr-use=/home/timofei/Desktop/cinder_cinderx_article/cinderx-workshop/cinder/code.profclangd -I./Include/internal -I./Include/internal/mimalloc -I. -I./Include -DPy_BUILD_CORE",
+  "lazy_imports": false,
+  "cx_config": "cinderx_jit",
+  "cinderx_version": "2026.9.14.0",
+  "frame_evaluator": true,
+  "has_parallel_gc": true,
+  "jit_enabled": true,
+  "compile_after_n_calls": null
+ },
+ "machine": {
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "system": "Linux",
+  "cpu_count": 16,
+  "cpu_brand": "Intel(R) Core(TM) Ultra 7 255H"
+ },
+ "preflight": {
+  "aslr": {
+   "reexec": "1",
+   "personality": "0x40000",
+   "addr_no_randomize": true,
+   "randomize_va_space": 2,
+   "layout_stable": true,
+   "layout_samples": [
+    "5555555db000",
+    "5555555db000",
+    "5555555db000"
+   ],
+   "verdict": "off"
+  },
+  "cpu": {
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [],
+   "verdict": "reserved"
+  },
+  "problems": [],
+  "verdict": "ok"
+ },
+ "drift": {
+  "test": "mann_kendall",
+  "alpha": 0.05,
+  "min_effect": 0.01,
+  "benchmarks": {
+   "attr_read/plain/dict": {
+    "n": 60,
+    "S": 504,
+    "z": 3.208,
+    "p": 0.00134,
+    "slope_per_sample": 6.691266734139687e-12,
+    "second_half_over_first": 1.0033,
+    "effect": 0.00329,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "attr_read/plain/slots": {
+    "n": 60,
+    "S": -252,
+    "z": -1.601,
+    "p": 0.10941,
+    "slope_per_sample": -3.6396989691102436e-12,
+    "second_half_over_first": 0.9962,
+    "effect": -0.00376,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "attr_rw/plain/dict": {
+    "n": 60,
+    "S": 100,
+    "z": 0.631,
+    "p": 0.52777,
+    "slope_per_sample": 3.756470258099045e-12,
+    "second_half_over_first": 0.9914,
+    "effect": -0.00856,
+    "min_effect": 0.01,
+    "direction_agrees": false,
+    "verdict": "no_trend"
+   },
+   "attr_rw/plain/slots": {
+    "n": 60,
+    "S": -522,
+    "z": -3.323,
+    "p": 0.00089,
+    "slope_per_sample": -1.0220118780456345e-11,
+    "second_half_over_first": 0.9964,
+    "effect": -0.00358,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "machine_probe/modexp": {
+    "n": 60,
+    "S": -42,
+    "z": -0.261,
+    "p": 0.79371,
+    "slope_per_sample": -1.5344973272127615e-09,
+    "second_half_over_first": 0.9994,
+    "effect": -0.00062,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "machine_probe/digest": {
+    "n": 60,
+    "S": 52,
+    "z": 0.325,
+    "p": 0.74497,
+    "slope_per_sample": 5.258782999185819e-08,
+    "second_half_over_first": 1.0009,
+    "effect": 0.00088,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   }
+  },
+  "slowing": [],
+  "verdict": "ok"
+ },
+ "registered": [
+  "attr_read/plain/dict",
+  "attr_read/plain/slots",
+  "attr_rw/plain/dict",
+  "attr_rw/plain/slots",
+  "machine_probe/modexp",
+  "machine_probe/digest"
+ ],
+ "gate_failures": [
+  {
+   "case": "attr_read",
+   "impl": "cinderx_jit",
+   "status": "unavailable",
+   "note": "the typed leg needs a static config"
+  }
+ ],
+ "facts": {
+  "jit_defaults_applied": {
+   "processes": 6,
+   "values": 10,
+   "warmups": 10
+  },
+  "pin": {
+   "pinned": true,
+   "pin_source": "reserved",
+   "pin_requested": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED",
+   "pin_target": "service"
+  },
+  "jit": {
+   "plain/dict": {
+    "compiled": true,
+    "warmup": 1,
+    "functions": {
+     "read_attr": {
+      "force_compile": true,
+      "is_jit_compiled": true,
+      "interpreted_calls": 2,
+      "compile_time_us": 1,
+      "code_bytes": 968
+     }
+    }
+   },
+   "plain/slots": {
+    "compiled": true,
+    "warmup": 1,
+    "functions": {
+     "read_attr": {
+      "force_compile": false,
+      "is_jit_compiled": true,
+      "interpreted_calls": 5,
+      "compile_time_us": 1,
+      "code_bytes": 968
+     }
+    }
+   }
+  }
+ }
+}

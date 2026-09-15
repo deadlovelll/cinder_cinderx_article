@@ -1,4 +1,3 @@
-"""Lazy imports: what is not executed (plan 7.12)."""
 from __future__ import annotations
 
 import os

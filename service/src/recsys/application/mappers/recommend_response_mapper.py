@@ -1,4 +1,3 @@
-"""Domain RecommendationSet -> the shape of RecommendResponse."""
 
 from recsys.domain.entities.recommendation_set import RecommendationSet
 

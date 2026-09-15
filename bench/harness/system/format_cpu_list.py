@@ -4,7 +4,6 @@ from typing import Sequence
 
 
 def format_cpu_list(cpus: Sequence[int]) -> str:
-    """The inverse of parse_cpu_list: [0, 1, 6, 7, 8] -> "0-1,6-8"."""
     runs: list[list[int]] = []
     for cpu in sorted(set(cpus)):
         if runs and cpu == runs[-1][-1] + 1:

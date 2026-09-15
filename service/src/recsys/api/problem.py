@@ -1,4 +1,3 @@
-"""The error body every failing request returns."""
 
 from pydantic import BaseModel
 

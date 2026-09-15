@@ -1,11 +1,9 @@
-"""The same two-hop walk, compiled as Static Python. Same algorithm, same results."""
 
 import __static__
 from __static__ import Array, box, int64
 
 
 def from_list(src: list, n: int) -> Array[int64]:
-    """The border crossing on the way in. Called at startup, never per request."""
     out = Array[int64](n)
     i: int = 0
     while i < n:
@@ -65,7 +63,6 @@ def take_top_ids(
     out_ids: Array[int64],
     out_scores: Array[int64],
 ) -> int64:
-    """Top `limit` by bounded insertion into a descending Array pair."""
     n_top: int64 = 0
     floor: int64 = 0
     i: int64 = 0
@@ -115,7 +112,6 @@ def reset(scores: Array[int64], touched: Array[int64], n_touched: int64) -> None
 
 
 def boxed_pairs(out_ids: Array[int64], out_scores: Array[int64], n: int64) -> list:
-    """The border crossing on the way out: the only boxing in the whole kernel."""
     res = []
     i: int64 = 0
     while i < n:
@@ -130,7 +126,6 @@ def select_sorted(
     n_touched: int64,
     limit: int64,
 ) -> list:
-    """Top `limit` by sorting, from a static module. The fourth leg of the matrix."""
     pairs = []
     i: int64 = 0
     while i < n_touched:

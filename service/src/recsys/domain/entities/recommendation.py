@@ -1,4 +1,3 @@
-"""One ranked item on the page."""
 
 from __future__ import annotations
 

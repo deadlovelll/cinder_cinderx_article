@@ -1,4 +1,3 @@
-"""What the event-recording use case accepts."""
 
 from typing import Literal
 

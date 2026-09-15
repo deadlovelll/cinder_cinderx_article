@@ -1,4 +1,3 @@
-"""Preconditions a timing is allowed to depend on, and the checks that prove them."""
 from __future__ import annotations
 
 import sys
@@ -14,7 +13,6 @@ from bench.harness.system.preflight import preflight
 
 
 def cli() -> None:
-    """The preconditions as a command: the campaign asks before it measures."""
     if "--cpu-budget" in sys.argv:
         budget = cpu_budget()
         rest = sys.argv[sys.argv.index("--cpu-budget") + 1:]

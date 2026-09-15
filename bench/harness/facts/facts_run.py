@@ -10,7 +10,6 @@ from bench.harness.cx_pyperf import (
 
 
 class FactsRun:
-    """Sidecar-only run: observations, no timings, no pyperf."""
 
     def __init__(self, name: str, *, label: str | None = None) -> None:
         self.name = name
@@ -19,7 +18,6 @@ class FactsRun:
         self.problems: list[dict[str, Any]] = []
 
     def record(self, key: str, value: Any) -> None:
-        """Attach one observation. Repeated keys accumulate into a list."""
         if key in self.facts:
             existing = self.facts[key]
             if isinstance(existing, list):
@@ -30,7 +28,6 @@ class FactsRun:
             self.facts[key] = value
 
     def unavailable(self, *, case: str, note: str) -> None:
-        """A non-ok status is itself a result, not a reason to report nothing."""
         self.problems.append({"case": case, "status": "unavailable", "note": note[:300]})
         print(f"  UNAVAILABLE {case:<28} {note[:80]}", flush=True)
 

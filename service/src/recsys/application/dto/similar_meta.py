@@ -1,4 +1,3 @@
-"""Provenance for the similar-items result."""
 
 from pydantic import BaseModel
 

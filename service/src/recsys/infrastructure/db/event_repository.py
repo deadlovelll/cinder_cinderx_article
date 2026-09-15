@@ -1,4 +1,3 @@
-"""EventRepository over the Core DSL: the write path."""
 
 from __future__ import annotations
 
@@ -20,7 +19,6 @@ class SqlEventRepository:
         self._insert = insert(interactions)
         self._pending: set[asyncio.Task] = set()
         self._log = logging.getLogger(__name__)
-        # ON CONFLICT rather than read-then-write: the counter is contended.
         self._impr_upsert = (
             pg_insert(impressions)
             .values(user_id=bindparam("user_id"), item_id=bindparam("item_id"),
@@ -41,7 +39,6 @@ class SqlEventRepository:
 
     def schedule_impressions(self, user_id: UserId,
                              item_ids: list[ItemId]) -> None:
-        """Queue the write; do not make the caller wait for it."""
         if not item_ids:
             return
         task = asyncio.create_task(self.log_impressions(user_id, item_ids))

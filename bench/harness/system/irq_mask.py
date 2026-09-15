@@ -7,7 +7,6 @@ from bench.harness.system.reserved_cpus import reserved_cpus
 
 
 def irq_mask(exclude: Sequence[int] | None = None) -> str:
-    """A /proc/irq/*/smp_affinity mask covering every CPU except the reserved ones."""
     count = os.cpu_count() or 0
     if exclude is None:
         exclude = reserved_cpus()

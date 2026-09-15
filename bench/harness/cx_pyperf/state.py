@@ -1,4 +1,3 @@
-"""Per-process caches the harness fills in once, in boot()."""
 from __future__ import annotations
 
 from typing import Any

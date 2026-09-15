@@ -1,4 +1,3 @@
-"""Co-visitation graph, loaded once in the parent before the fork."""
 
 from __future__ import annotations
 

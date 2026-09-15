@@ -1,4 +1,3 @@
-"""The same Life, as Static Python. Same algorithm, same results, typed storage."""
 
 import __static__
 from __static__ import Array, box, int64

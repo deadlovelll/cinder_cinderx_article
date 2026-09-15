@@ -1,4 +1,3 @@
-"""Measurement harness: a thin layer over pyperf, which does all the timing."""
 from __future__ import annotations
 
 from bench.harness.cx_pyperf.bench_tag import bench_tag

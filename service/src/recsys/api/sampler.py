@@ -1,4 +1,3 @@
-"""Per-worker metric sampler: one JSONL line per tick, timestamped."""
 
 from __future__ import annotations
 
@@ -53,7 +52,6 @@ class MetricSampler:
             "gc_stats": gc.get_stats(),
             "gc_count": list(gc.get_count()),
             "allocated_blocks": __import__("sys").getallocatedblocks(),
-            # macOS reports ru_maxrss in bytes, Linux in kilobytes
             "maxrss_kb": ru.ru_maxrss // (1024 if __import__("sys").platform == "darwin" else 1),
             "minflt": ru.ru_minflt,
             "majflt": ru.ru_majflt,
@@ -67,7 +65,6 @@ class MetricSampler:
 
 
 def _proc_memory() -> dict[str, int]:
-    """Shared_Clean is the direct measurement of what immortalisation bought."""
     out: dict[str, int] = {}
     try:
         with open("/proc/self/statm") as fh:
@@ -107,7 +104,6 @@ def _jit_metrics() -> dict[str, Any]:
 
 
 def _loop_metrics() -> dict[str, Any]:
-    """Event-loop lag is the indicator that matters for an async service under"""
     import asyncio
 
     try:

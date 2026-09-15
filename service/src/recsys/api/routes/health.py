@@ -1,4 +1,3 @@
-"""GET /healthz -- and the run's identity, which is not decoration."""
 
 import sys
 

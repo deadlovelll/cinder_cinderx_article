@@ -9,7 +9,6 @@ from bench.harness.system.constants import ADDR_NO_RANDOMIZE, _REEXEC_GUARD
 
 
 def aslr_disable_and_reexec(argv: list[str] | None = None) -> None:
-    """Ask the kernel to stop randomising, then re-exec so it takes effect."""
     if os.environ.get(_REEXEC_GUARD) == "1":
         return
     if platform.system() != "Linux":

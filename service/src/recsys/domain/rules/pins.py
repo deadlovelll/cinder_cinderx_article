@@ -1,4 +1,3 @@
-"""Stage 5: merchandising outranks the model -- but not eligibility."""
 
 from __future__ import annotations
 
@@ -9,7 +8,6 @@ from recsys.domain.values.ids import ItemId
 
 def apply_pins(chosen: list[Candidate], ctx: UserContext,
                by_id: dict[ItemId, Candidate], limit: int) -> list[Candidate]:
-    """Force pinned items into leading slots, dropping the tail to make room."""
     if not ctx.pinned:
         return chosen
 

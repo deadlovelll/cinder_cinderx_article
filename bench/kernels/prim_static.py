@@ -1,4 +1,3 @@
-"""Both legs of the primitive-cost comparison in one static module."""
 
 import __static__
 from __static__ import box, int64
@@ -20,3 +19,12 @@ def sum_boxed(n: int) -> int:
         s = s + i
         i = i + 1
     return s
+
+
+def sum_primitive_opaque(n: int64, seed: int64) -> int:
+    s: int64 = seed
+    i: int64 = 0
+    while i < n:
+        s = (s * 31 + i) & 1048575
+        i = i + 1
+    return box(s)

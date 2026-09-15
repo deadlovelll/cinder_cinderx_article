@@ -1,4 +1,3 @@
-"""What the recommendation use case accepts."""
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -9,7 +8,6 @@ MAX_CANDIDATES = 2_000
 
 
 class RecommendPayload(BaseModel):
-    """`extra="forbid"`: a typo in a field name must fail, not serve a default."""
 
     model_config = ConfigDict(extra="forbid")
 

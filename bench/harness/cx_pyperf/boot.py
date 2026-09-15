@@ -10,7 +10,6 @@ from bench.harness.cx_pyperf.constants import CONFIGS, _CONFIG_ENV
 
 def boot(config: str | None = None, *, strict: bool | None = None,
          pin: str = "service") -> str:
-    """First statement of every bench script. pin: "service" or "threads"."""
 
     system.aslr_disable_and_reexec()
 

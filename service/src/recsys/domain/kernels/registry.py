@@ -1,4 +1,3 @@
-"""Which candidate-generation kernel is in use, decided once at import."""
 
 from __future__ import annotations
 
@@ -12,7 +11,6 @@ def kernel_name() -> str:
 
 
 def load_kernel():
-    """Return the kernel module. Falls back loudly, never silently."""
     if _MODE == "static":
         from recsys.domain.kernels import walk_static
 

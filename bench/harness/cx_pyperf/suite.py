@@ -22,7 +22,6 @@ from bench.harness.system import RESERVED_ENV, _REEXEC_GUARD
 
 
 class Suite:
-    """A pyperf runner plus the bookkeeping the figures, the gate and drift need."""
 
     def __init__(self, name: str, *, forward: Sequence[str] = (),
                  label_arg: bool = True) -> None:
@@ -121,7 +120,6 @@ class Suite:
 
     def gate(self, *, case: str, impl: str, got: object, expected: object,
              tol: float = 0.0, note: str = "") -> bool:
-        """True if `impl` may be timed. Cheap, deterministic, run everywhere."""
         ok, dev = _close(got, expected, tol)
         if not ok:
             self.gate_failures.append({
@@ -140,7 +138,6 @@ class Suite:
 
     def check_once(self, key: object, verify: Callable[[], object],
                    expected: object, tol: float = 0.0) -> None:
-        """Verify a timed callable once per worker process, before it is timed."""
         if key in self._checked:
             return
         self._checked.add(key)
@@ -183,7 +180,6 @@ class Suite:
                    time_fn: Callable[[int], float],
                    params: Mapping[str, Any] | None = None, note: str = "",
                    inner_loops: int | None = None) -> Any:
-        """For work that consumes or mutates its input: the rebuild is untimed."""
         name = self._register(case, impl)
         b = self.runner.bench_time_func(name, time_fn,
                                         metadata=self._md(case, impl, params, note),
@@ -195,7 +191,6 @@ class Suite:
     def bench_command(self, *, case: str, impl: str, command: Sequence[str],
                       params: Mapping[str, Any] | None = None,
                       note: str = "") -> Any:
-        """Whole-process timing: start-up, import latency, AOT load."""
         name = self._register(case, impl)
         self.facts.setdefault("commands", {})[name] = {
             "command": list(command), "params": params or {}, "note": note}
@@ -205,7 +200,6 @@ class Suite:
         return b
 
     def machine_probe(self) -> None:
-        """A fixed workload that measures the host and not the interpreter."""
         base, exp, mod = (1 << 2047) | 12345, 20_000, (1 << 2048) - 173
         self.bench(case="machine_probe", impl="modexp",
                    fn=lambda: pow(base, exp, mod),
@@ -222,7 +216,6 @@ class Suite:
 
 
     def drift(self) -> dict[str, Any]:
-        """Monotonic-trend test over each benchmark's samples in temporal order."""
         values = {}
         for name, b in self._benchmarks.items():
             try:
@@ -234,7 +227,6 @@ class Suite:
         return system.drift_report(values)
 
     def write_sidecar(self) -> None:
-        """Facts, gate failures and the drift verdict. Master only."""
         if not self.is_master:
             return
         os.makedirs(RESULTS, exist_ok=True)

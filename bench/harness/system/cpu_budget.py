@@ -10,7 +10,6 @@ from bench.harness.system.reserved_cpus import reserved_cpus
 
 
 def cpu_budget(service: Sequence[int] | None = None) -> dict[str, list[int]]:
-    """Which CPUs go to the measured service, the database, the load generator, the rest."""
     count = os.cpu_count() or 0
     if service is None:
         service = reserved_cpus()

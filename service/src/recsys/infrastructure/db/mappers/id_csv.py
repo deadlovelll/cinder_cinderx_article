@@ -1,4 +1,3 @@
-"""Parse the packed id lists of user_state."""
 
 from __future__ import annotations
 

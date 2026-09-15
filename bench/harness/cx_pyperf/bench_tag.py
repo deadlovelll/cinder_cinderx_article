@@ -8,7 +8,6 @@ from bench.harness.cx_pyperf import state
 
 
 def bench_tag() -> str:
-    """Short tag identifying the running interpreter and configuration."""
     v = sys.version_info
     ft = "t" if sysconfig.get_config_var("Py_GIL_DISABLED") else ""
     impl = platform.python_implementation().lower()

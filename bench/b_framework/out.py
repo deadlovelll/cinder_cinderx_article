@@ -7,7 +7,6 @@ from bench.b_framework.meta_out import MetaOut
 
 
 class Out(BaseModel):
-    """The response the framework serialises, models and all."""
 
     user_id: int
     items: list[ItemOut]

@@ -1,9 +1,7 @@
-"""Map exceptions onto the problem body the previous version returned."""
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-# starlette's and not fastapi's: fastapi.HTTPException subclasses it, so a handler
 from starlette.exceptions import HTTPException
 
 
@@ -11,13 +9,11 @@ def install_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(RequestValidationError)
     async def _validation(request: Request, exc: RequestValidationError) -> JSONResponse:
         first = exc.errors()[0] if exc.errors() else {}
-        # Not JSON at all is a malformed request (400), not a validation failure (422).
         if first.get("type") == "json_invalid":
             return JSONResponse(
                 {"title": "malformed_json", "detail": first.get("msg", ""),
                  "status": 400},
                 status_code=400)
-        # loc is ("body", "user_id"); the field name is what the old message carried
         field = ".".join(str(p) for p in first.get("loc", ())[1:]) or "body"
         return JSONResponse(
             {"title": "validation_error",

@@ -6,7 +6,6 @@ from bench.b_framework.constants import MAX_CANDIDATES, MAX_LIMIT
 
 
 class In(BaseModel):
-    """The request as the framework validates it."""
 
     user_id: int = Field(gt=0)
     limit: int = Field(default=20, ge=1, le=MAX_LIMIT)

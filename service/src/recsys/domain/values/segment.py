@@ -1,4 +1,3 @@
-"""Behavioural segment. Chooses which weights the ranker applies."""
 
 from enum import Enum
 

@@ -1,4 +1,3 @@
-"""Stage 4: a page of eight things from one brand is a bug, not a ranking."""
 
 from __future__ import annotations
 
@@ -7,7 +6,6 @@ from recsys.domain.rules.config import MAX_PER_BRAND, MAX_PER_CATEGORY
 
 
 def apply_diversity(candidates: list[Candidate], limit: int) -> list[Candidate]:
-    """One greedy pass over score order with a per-category and per-brand cap."""
     per_category: dict[int, int] = {}
     per_brand: dict[int, int] = {}
     chosen: list[Candidate] = []

@@ -1,4 +1,3 @@
-"""The item catalogue, held in memory and loaded once before the fork."""
 
 from __future__ import annotations
 

@@ -1,4 +1,3 @@
-"""Impression counters inside the dedup window."""
 
 from sqlalchemy import BigInteger, Column, DateTime, Integer, Table, func
 

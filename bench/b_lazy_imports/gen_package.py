@@ -6,7 +6,6 @@ from bench.b_lazy_imports.constants import PKG
 
 
 def gen_package(root: str, n: int) -> tuple[list[str], object]:
-    """A package whose main module imports n others, byte-compiled before timing."""
     import compileall
 
     pkg = os.path.join(root, PKG)

@@ -1,4 +1,3 @@
-"""Stage 6: an empty page is worse than a mediocre one."""
 
 from __future__ import annotations
 
@@ -7,7 +6,6 @@ from recsys.domain.entities.candidate import Candidate
 
 def apply_backfill(chosen: list[Candidate], popular: list[Candidate],
                    limit: int) -> tuple[list[Candidate], int]:
-    """Top up from popularity when the rules left too few survivors."""
     if len(chosen) >= limit:
         return chosen, 0
     have = {c.item_id for c in chosen}

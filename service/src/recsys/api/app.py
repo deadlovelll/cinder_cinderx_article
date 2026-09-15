@@ -1,4 +1,3 @@
-"""The ASGI application: FastAPI, explicit wiring."""
 
 from __future__ import annotations
 
@@ -15,28 +14,29 @@ from recsys.settings import Settings
 
 SETTINGS = Settings.from_env()
 
-# steps 1-2 of the pre-fork chain, before the kernels are imported
 BOOTSTRAP = bootstrap.install_runtime(SETTINGS)
 bootstrap.verify_kernel(BOOTSTRAP)
 
-# imported after the runtime is installed, never before
-from recsys.api import container as container_module  # noqa: E402
-from recsys.api.routes import events, health, recommend, similar  # noqa: E402
-from recsys.infrastructure.graph import CovisitationGraph, count_items  # noqa: E402
-from recsys.infrastructure.memory_catalogue import MemoryCatalogue  # noqa: E402
+from recsys.api import container as container_module
+from recsys.api.routes import events, health, recommend, similar
+from recsys.infrastructure.graph import CovisitationGraph, count_items
+from recsys.infrastructure.memory_catalogue import MemoryCatalogue
 
 if SETTINGS.embeddings == "numpy":
-    from recsys.infrastructure.embeddings_numpy import (  # noqa: E402
+    from recsys.infrastructure.embeddings_numpy import (
         NumpyEmbeddingStore as EmbeddingStoreImpl,
     )
+elif SETTINGS.embeddings == "static":
+    from recsys.infrastructure.embeddings_static import (
+        StaticEmbeddingStore as EmbeddingStoreImpl,
+    )
 else:
-    from recsys.infrastructure.embeddings_python import (  # noqa: E402
+    from recsys.infrastructure.embeddings_python import (
         PythonEmbeddingStore as EmbeddingStoreImpl,
     )
 
 
 async def _startup(app: FastAPI) -> None:
-    """Runs per worker. Loads what the parent could not share and builds the engine."""
     from recsys.infrastructure.db.engine import create_engine
 
     if not hasattr(app.state, "graph"):
@@ -76,7 +76,6 @@ async def _shutdown(app: FastAPI) -> None:
 
 @asynccontextmanager
 async def _lifespan(application: FastAPI):
-    """Setup and teardown as one scope: a failed worker is never left half-wired."""
     await _startup(application)
     try:
         yield

@@ -6,7 +6,6 @@ from bench.b_install_order.constants import N, REPS
 
 
 def run_combo(combo: str) -> dict:
-    """Set up exactly one combination, then observe what the module became."""
     evaluator = combo in ("both", "evaluator")
     loader = combo in ("both", "loader")
 

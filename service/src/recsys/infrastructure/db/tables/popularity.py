@@ -1,4 +1,3 @@
-"""Backfill source."""
 
 from sqlalchemy import BigInteger, Column, Index, Integer, Table
 

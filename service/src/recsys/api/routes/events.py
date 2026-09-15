@@ -1,4 +1,3 @@
-"""POST /v1/events -- the I/O-bound endpoint."""
 
 from fastapi import APIRouter, HTTPException
 

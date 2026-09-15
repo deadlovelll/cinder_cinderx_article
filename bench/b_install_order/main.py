@@ -1,4 +1,3 @@
-"""What each half of the installation actually buys (plan 7.11)."""
 from __future__ import annotations
 
 import argparse

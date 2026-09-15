@@ -1,4 +1,3 @@
-"""How much work each stage did. Reported, not inferred."""
 
 from __future__ import annotations
 

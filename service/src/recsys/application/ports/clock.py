@@ -1,4 +1,3 @@
-"""Injected because the freshness boost depends on it and a test must not depend"""
 
 from __future__ import annotations
 

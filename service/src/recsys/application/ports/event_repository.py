@@ -1,4 +1,3 @@
-"""The write path: interactions and impression counters."""
 
 from __future__ import annotations
 

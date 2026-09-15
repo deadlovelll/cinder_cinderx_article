@@ -6,7 +6,6 @@ from typing import Any
 
 
 def _aslr_empirical(trials: int = 3) -> dict[str, Any]:
-    """The check that cannot be fooled: does a child map itself at the same place?"""
     probe = (
         "import sys;"
         "print([l.split('-')[0] for l in open('/proc/self/maps')"

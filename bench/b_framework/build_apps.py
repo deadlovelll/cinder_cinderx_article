@@ -11,7 +11,6 @@ from bench.b_framework.render_by_hand import render_by_hand
 
 
 def build_apps():
-    """Built lazily so an import failure is reported as unavailable, not a crash."""
     from fastapi import FastAPI
     from fastapi.responses import JSONResponse
     from starlette.applications import Starlette

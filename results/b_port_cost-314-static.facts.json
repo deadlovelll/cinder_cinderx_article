@@ -1,0 +1,184 @@
+{
+ "suite": "b_port_cost",
+ "label": "314-static",
+ "cx_config": "static",
+ "kind": "observations",
+ "interp": {
+  "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+  "version": "3.14.5+meta",
+  "implementation": "CPython",
+  "compiler": "Clang 18.1.3 (1ubuntu1)",
+  "gil_enabled": true,
+  "free_threaded": false,
+  "config_args": "'--prefix=/home/timofei/Desktop/cinder_cinderx_article/build/fork' '--enable-optimizations' '--with-lto' 'PKG_CONFIG_PATH=/opt/intel/oneapi/vtune/2025.10/include/pkgconfig/lib64:/opt/intel/oneapi/tbb/2022.3/env/../lib/pkgconfig:/opt/intel/oneapi/mpi/2021.17/lib/pkgconfig:/opt/intel/oneapi/mkl/2025.3/lib/pkgconfig:/opt/intel/oneapi/ippcp/2025.3/lib/pkgconfig:/opt/intel/oneapi/dpl/2022.10/lib/pkgconfig:/opt/intel/oneapi/dnnl/2025.3/lib/pkgconfig:/opt/intel/oneapi/dal/2025.10/lib/pkgconfig:/opt/intel/oneapi/compiler/2025.3/lib/pkgconfig:/opt/intel/oneapi/ccl/2021.17/lib/pkgconfig/:/opt/intel/oneapi/advisor/2025.4/include/pkgconfig/lib64:' 'CC=clang'",
+  "core_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -fno-semantic-interposition -flto=thin -g -std=c11 -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wstrict-prototypes -Werror=implicit-function-declaration -fvisibility=hidden -fprofile-instr-use=/home/timofei/Desktop/cinder_cinderx_article/cinderx-workshop/cinder/code.profclangd -I./Include/internal -I./Include/internal/mimalloc -I. -I./Include -DPy_BUILD_CORE",
+  "lazy_imports": false,
+  "cx_config": "static",
+  "cinderx_version": "2026.9.14.0",
+  "frame_evaluator": true,
+  "has_parallel_gc": true,
+  "jit_enabled": false,
+  "compile_after_n_calls": null
+ },
+ "machine": {
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "system": "Linux",
+  "cpu_count": 16,
+  "cpu_brand": "Intel(R) Core(TM) Ultra 7 255H"
+ },
+ "preflight": {
+  "aslr": {
+   "reexec": "1",
+   "personality": "0x40000",
+   "addr_no_randomize": true,
+   "randomize_va_space": 2,
+   "layout_stable": true,
+   "layout_samples": [
+    "5555555db000",
+    "5555555db000",
+    "5555555db000"
+   ],
+   "verdict": "off"
+  },
+  "cpu": {
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [],
+   "verdict": "reserved"
+  },
+  "problems": [],
+  "verdict": "ok"
+ },
+ "problems": [],
+ "facts": {
+  "snippets": [
+   {
+    "snippet": "e01_range_to_int64",
+    "what": "range() yields dynamic, and dynamic -> int64 is not an allowed conversion",
+    "rejected": true,
+    "exit_code": 1,
+    "diagnostic": "cinderx.compiler.errors.TypedSyntaxError: type mismatch: dynamic cannot be assigned to int64",
+    "error_kind": "TypedSyntaxError"
+   },
+   {
+    "snippet": "e02_module_level_primitive",
+    "what": "a primitive declared at module scope",
+    "rejected": true,
+    "exit_code": 1,
+    "diagnostic": "cinderx.compiler.errors.TypedSyntaxError: cannot use primitives in global or closure scope",
+    "error_kind": "TypedSyntaxError"
+   },
+   {
+    "snippet": "e03_primitive_as_call_arg",
+    "what": "passing a primitive to a dynamic call",
+    "rejected": true,
+    "exit_code": 1,
+    "diagnostic": "cinderx.compiler.errors.TypedSyntaxError: Call argument cannot be a primitive",
+    "error_kind": "TypedSyntaxError"
+   },
+   {
+    "snippet": "e04_multiple_inheritance",
+    "what": "two static bases with instance layout",
+    "rejected": true,
+    "exit_code": 1,
+    "diagnostic": "SystemError: /home/timofei/Desktop/cinder_cinderx_article/dialect/errors/e04_multiple_inheritance.py:4: unknown opcode 126",
+    "error_kind": "SystemError"
+   },
+   {
+    "snippet": "e05_attr_method_conflict",
+    "what": "an attribute and a method sharing one name, so one slot is claimed twice",
+    "rejected": true,
+    "exit_code": 1,
+    "diagnostic": "cinderx.compiler.errors.TypedSyntaxError: function conflicts with other member attr in Type[e05_attr_method_conflict.C]",
+    "error_kind": "TypedSyntaxError"
+   },
+   {
+    "snippet": "e06_redefinition",
+    "what": "the same name annotated in both arms of a branch",
+    "rejected": true,
+    "exit_code": 1,
+    "diagnostic": "cinderx.compiler.errors.TypedSyntaxError: Cannot redefine local variable x",
+    "error_kind": "TypedSyntaxError"
+   },
+   {
+    "snippet": "e07_primitive_union",
+    "what": "short-circuit producing cbool on one side and bool on the other",
+    "rejected": true,
+    "exit_code": 1,
+    "diagnostic": "cinderx.compiler.errors.TypedSyntaxError: invalid union type Union[cbool, dynamic]; unions cannot include primitive types",
+    "error_kind": "TypedSyntaxError"
+   },
+   {
+    "snippet": "e08_final_override",
+    "what": "overriding a method marked final",
+    "rejected": true,
+    "exit_code": 1,
+    "diagnostic": "cinderx.compiler.errors.TypedSyntaxError: Cannot assign to a Final attribute of e08_final_override.Child:function e08_final_override.Base.m",
+    "error_kind": "TypedSyntaxError"
+   }
+  ],
+  "total": 8,
+  "rejected": 8,
+  "error_kinds": {
+   "TypedSyntaxError": 7,
+   "SystemError": 1
+  }
+ }
+}

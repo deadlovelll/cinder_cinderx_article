@@ -9,7 +9,6 @@ from bench.harness.system.parse_cpu_list import parse_cpu_list
 
 
 def pin_to_reserved(cpus: Sequence[int] | None = None) -> dict[str, Any]:
-    """Confine this process to the reserved CPUs; CX_BENCH_CPUS overrides them."""
     facts = cpu_facts()
     source = "argument"
     if cpus is None:

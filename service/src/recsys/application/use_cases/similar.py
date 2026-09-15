@@ -1,4 +1,3 @@
-"""The "similar items" use case: same business function, different implementation."""
 
 from __future__ import annotations
 
@@ -34,7 +33,6 @@ class SimilarResult:
 
 
 class SimilarUseCase:
-    """Anonymous endpoint: no user, so no exclusions, no pins, no backfill."""
 
     def __init__(self, *, embeddings: EmbeddingStore, items: ItemRepository,
                  clock: Clock) -> None:
@@ -66,7 +64,6 @@ class SimilarUseCase:
 
 
 class _AnonymousContext:
-    """The eligibility rule needs a viewer; an anonymous request has none."""
 
     __slots__ = ("user", "recent_items", "purchased", "disliked", "impressions",
                  "pinned")

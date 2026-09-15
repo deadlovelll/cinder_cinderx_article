@@ -1,4 +1,3 @@
-"""The candidate generator across the full matrix, measured directly."""
 
 from __future__ import annotations
 
@@ -18,7 +17,6 @@ CANDIDATE_LIMIT = 400
 
 
 def install_runtime(mode: str) -> dict:
-    """mode: off | runtime | jit. Must run before the kernels are imported."""
     facts = {"mode": mode, "frame_evaluator": False, "jit": False, "static_loader": False}
     if mode == "off":
         return facts
@@ -50,7 +48,6 @@ async def load_inputs(n_users: int):
     n_items = await count_items(engine)
     graph = CovisitationGraph(engine, n_items)
     await graph.load()
-    # load_context() reads pins through the catalogue, so it has to be loaded
     catalogue = MemoryCatalogue(engine)
     await catalogue.load()
     users = SqlUserRepository(engine, catalogue)
@@ -65,23 +62,11 @@ async def load_inputs(n_users: int):
     return graph.csr(), n_items, contexts
 
 
-def make_cells(csr, n_items: int):
-    """One callable per cell, plus what to force_compile for it."""
+def make_cells(csr, n_items: int, with_static: bool = True):
     from recsys.domain.kernels import walk_plain as wp
-    from recsys.domain.kernels import walk_static as ws
-
-    # ws.walk is typed: once the static loader compiles it, a list is refused.
-    static_indptr = ws.from_list(csr.indptr, len(csr.indptr))
-    static_indices = ws.from_list(csr.indices, len(csr.indices))
-    static_weights = ws.from_list(csr.weights, len(csr.weights))
 
     plain_scores = [0] * n_items
     plain_touched = [0] * n_items
-    static_scores = ws.from_list(plain_scores, n_items)
-    static_touched = ws.from_list(plain_touched, n_items)
-    out_ids = ws.from_list([0] * CANDIDATE_LIMIT, CANDIDATE_LIMIT)
-    out_scores = ws.from_list([0] * CANDIDATE_LIMIT, CANDIDATE_LIMIT)
-    seed_cache: dict[int, object] = {}
 
     def plain(select, ctx):
         n = wp.walk(csr.indptr, csr.indices, csr.weights, ctx.recent_items,
@@ -89,6 +74,27 @@ def make_cells(csr, n_items: int):
         result = select(plain_scores, plain_touched, n, CANDIDATE_LIMIT, frozenset())
         wp.reset(plain_scores, plain_touched, n)
         return result
+
+    cells = {
+        "plain/bounded": (lambda ctx: plain(wp.select_bounded, ctx),
+                          [wp.walk, wp.select_bounded, wp.reset]),
+        "plain/sorted": (lambda ctx: plain(wp.select_sorted, ctx),
+                         [wp.walk, wp.select_sorted, wp.reset]),
+    }
+    if not with_static:
+        return cells
+
+    from recsys.domain.kernels import walk_static as ws
+
+    static_indptr = ws.from_list(csr.indptr, len(csr.indptr))
+    static_indices = ws.from_list(csr.indices, len(csr.indices))
+    static_weights = ws.from_list(csr.weights, len(csr.weights))
+
+    static_scores = ws.from_list(plain_scores, n_items)
+    static_touched = ws.from_list(plain_touched, n_items)
+    out_ids = ws.from_list([0] * CANDIDATE_LIMIT, CANDIDATE_LIMIT)
+    out_scores = ws.from_list([0] * CANDIDATE_LIMIT, CANDIDATE_LIMIT)
+    seed_cache: dict[int, object] = {}
 
     def static_seeds(ctx):
         key = id(ctx)
@@ -116,20 +122,14 @@ def make_cells(csr, n_items: int):
         ws.reset(static_scores, static_touched, n)
         return result
 
-    return {
-        "plain/bounded": (lambda ctx: plain(wp.select_bounded, ctx),
-                          [wp.walk, wp.select_bounded, wp.reset]),
-        "plain/sorted": (lambda ctx: plain(wp.select_sorted, ctx),
-                         [wp.walk, wp.select_sorted, wp.reset]),
-        "static/bounded": (static_bounded,
-                           [ws.walk, ws.take_top_ids, ws.reset, ws.boxed_pairs]),
-        "static/sorted": (static_sorted,
-                          [ws.walk, ws.select_sorted, ws.reset]),
-    }
+    cells["static/bounded"] = (static_bounded,
+                               [ws.walk, ws.take_top_ids, ws.reset, ws.boxed_pairs])
+    cells["static/sorted"] = (static_sorted,
+                              [ws.walk, ws.select_sorted, ws.reset])
+    return cells
 
 
 def reference(cells, contexts) -> dict[int, list]:
-    """plain/sorted is the reference every other cell must reproduce."""
     fn, _ = cells["plain/sorted"]
     return {i: sorted(fn(ctx)) for i, ctx in enumerate(contexts)}
 
@@ -142,10 +142,6 @@ def main() -> None:
     ap.add_argument("--out", default=str(ROOT / "load" / "results"))
     args = ap.parse_args()
 
-    # The graph hands out whichever representation RECSYS_KERNEL asks for, but
-    # this matrix needs both at once: plain lists for wp, staticarray for ws.
-    # It takes the plain form as its source and builds the static one in
-    # make_cells, so the mode is pinned before anything imports the registry.
     os.environ["RECSYS_KERNEL"] = "plain"
 
     facts = install_runtime(args.mode)
@@ -153,17 +149,18 @@ def main() -> None:
     if not contexts:
         raise SystemExit("no users with recent items: seed the fixture first")
 
-    cells = make_cells(csr, n_items)
+    if args.mode == "off":
+        print("   static cells skipped in mode off: the loader is not installed")
+    cells = make_cells(csr, n_items, with_static=args.mode != "off")
     expected = reference(cells, contexts)
 
     have_jit = facts["jit"]
     jit = None
     if have_jit:
-        import cinderx.jit as jit  # noqa: PLC0415
+        import cinderx.jit as jit
 
     records = []
     for name, (fn, hot) in cells.items():
-        # one warm pass: also the correctness gate, per context
         mismatches = 0
         for i, ctx in enumerate(contexts):
             if sorted(fn(ctx)) != expected[i]:
@@ -173,7 +170,7 @@ def main() -> None:
             for target in hot:
                 if jit.force_compile(target):
                     compiled += 1
-            for ctx in contexts:      # run once more so the compiled path is warm
+            for ctx in contexts:
                 fn(ctx)
 
         per_request = []

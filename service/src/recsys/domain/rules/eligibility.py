@@ -1,4 +1,3 @@
-"""Stage 1: is this item showable to anyone, right now."""
 
 from __future__ import annotations
 

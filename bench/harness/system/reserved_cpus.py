@@ -8,7 +8,6 @@ from bench.harness.system.read import _read
 
 
 def reserved_cpus() -> list[int]:
-    """The CPUs kept for the thing being measured, however they were reserved."""
     explicit = parse_cpu_list(os.environ.get(RESERVED_ENV))
     if explicit:
         return explicit

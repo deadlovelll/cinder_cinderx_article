@@ -10,8 +10,6 @@ MANIFEST="$BUILD/manifest.json"
 
 CINDERX_VERSION="${CINDERX_VERSION:-2026.9.13.0}"
 
-# Nothing is ever downloaded: the three trees must already be on disk. They live
-# under $WORK by default; point these at another local tree instead.
 CPYTHON_SRC="${CPYTHON_SRC:-$WORK/cpython}"
 CINDER_SRC="${CINDER_SRC:-$WORK/cinder}"
 CINDERX_SRC="${CINDERX_SRC:-$WORK/cinderx}"
@@ -32,6 +30,14 @@ VENV_TIER2="$BUILD/venv-tier2"
 VENV_FORK="$BUILD/venv-fork"
 
 BENCH_ARGS="${BENCH_ARGS:-}"
+
+ENDPOINTS="${ENDPOINTS:-recommend,similar,events}"
+RATES="${RATES:-recommend=25,45,80,140,250,420,700;similar=10,20,35,60,110,190,330,570;events=200,400,800,1400,2400,4000}"
+STEP_SECONDS="${STEP_SECONDS:-30}"
+DRAIN_SECONDS="${DRAIN_SECONDS:-10}"
+WARMUP_SECONDS="${WARMUP_SECONDS:-60}"
+WARMUP_RATE="${WARMUP_RATE:-25}"
+LADDER_REPEATS="${LADDER_REPEATS:-1}"
 
 RESULTS="${BENCH_RESULTS_DIR:-$ROOT/results}"
 LADDER_OUT="$ROOT/service/load/results"
@@ -65,17 +71,28 @@ on_cpus() {
   fi
 }
 
+CURRENT_STAGE=""
+
 stage() {
   local name="$1"; shift
-  if "$@"; then
-    return 0
-  fi
+  CURRENT_STAGE="$name"
   if [ "$KEEP_GOING" = "1" ]; then
-    warn "stage '$name' failed; continuing because KEEP_GOING=1"
-    return 0
+    "$@" || warn "stage '$name' failed; continuing because KEEP_GOING=1"
+  else
+    "$@"
   fi
-  die "stage '$name' failed"
+  CURRENT_STAGE=""
 }
+
+on_exit() {
+  local rc=$?
+  [ "$rc" = "0" ] && return 0
+  [ -n "$CURRENT_STAGE" ] &&
+    printf '\033[31m   x stage '"'"'%s'"'"' failed (exit %s)\033[0m\n' \
+           "$CURRENT_STAGE" "$rc" >&2
+  return 0
+}
+trap on_exit EXIT
 
 record() {
   mkdir -p "$BUILD"
@@ -370,8 +387,6 @@ cmd_check() {
   fi
 }
 
-# What identifies a source tree here is the tree itself, hashed: the checkouts
-# carry no history, and nothing in the campaign needs one.
 tree_sha256() {
   local dir="$1"
   [ -d "$dir" ] || { echo "unknown"; return 0; }
@@ -649,6 +664,10 @@ cmd_bench() {
     pyb "$c" b_framework
   done
 
+  for c in stock cinderx cinderx_jit static static_jit; do
+    pyb "$c" b_attr
+  done
+
   for v in visible frozen immortal; do
     pyb cinderx b_gc_collect --visibility "$v" --label "$v"
   done
@@ -761,15 +780,20 @@ cmd_workshop() {
       -m recsys.infrastructure.seed \
       --items "${SEED_ITEMS:-100000}" --users "${SEED_USERS:-20000}" \
       --avg-degree "${SEED_DEGREE:-24}")
-  (cd "$ROOT/service" && PYTHONPATH=src on_cpus "$RECSYS_LOAD_CPUSET" "$py" \
-      load/reset_fixture.py --stats)
+  local fixture
+  fixture="$(cd "$ROOT/service" && PYTHONPATH=src on_cpus "$RECSYS_LOAD_CPUSET" \
+      "$py" load/reset_fixture.py --stats)"
+  printf '%s\n' "$fixture"
+  record "fixture_at_start" "$(printf '%s' "$fixture" | tr '\n' ' ')"
 
   say "ladder: the stock baseline"
   (cd "$ROOT/service" && "$py" load/ladder.py --run \
       --python "$py" --db-host "$RECSYS_DB_HOST" \
       --available-images stock-3.14 --only 01_stock \
-      --endpoints "${ENDPOINTS:-recommend,similar,events}" \
-      --rates "${RATES:-200,400,800,1600,3200}" \
+      --endpoints "$ENDPOINTS" --rates "$RATES" \
+      --step-seconds "$STEP_SECONDS" --drain-seconds "$DRAIN_SECONDS" \
+      --warmup-seconds "$WARMUP_SECONDS" --warmup-rate "$WARMUP_RATE" \
+      --repeats "$LADDER_REPEATS" \
       --workers "$workers" --out "$LADDER_OUT")
 
   if [ -x "$VENV_TIER2/bin/python" ]; then
@@ -777,8 +801,10 @@ cmd_workshop() {
     (cd "$ROOT/service" && "$VENV_TIER2/bin/python" load/ladder.py --run \
         --python "$VENV_TIER2/bin/python" --db-host "$RECSYS_DB_HOST" \
         --available-images python-3.14-jit --only 02_stock_tier2 \
-        --endpoints "${ENDPOINTS:-recommend,similar,events}" \
-        --rates "${RATES:-200,400,800,1600,3200}" \
+        --endpoints "$ENDPOINTS" --rates "$RATES" --no-repeat-first \
+        --step-seconds "$STEP_SECONDS" --drain-seconds "$DRAIN_SECONDS" \
+        --warmup-seconds "$WARMUP_SECONDS" --warmup-rate "$WARMUP_RATE" \
+        --repeats "$LADDER_REPEATS" \
         --workers "$workers" --out "$LADDER_OUT")
   else
     warn "tier2 rung skipped: no tier2 venv"
@@ -789,9 +815,11 @@ cmd_workshop() {
     (cd "$ROOT/service" && "$VENV_FORK/bin/python" load/ladder.py --run \
         --python "$VENV_FORK/bin/python" --db-host "$RECSYS_DB_HOST" \
         --available-images meta-3.14 \
-        --only 03_fork,04_runtime,05_jit,06_jit_precompiled,07_lazy_imports,08_immortalized,09_parallel_gc,10_static_kernel_nojit,11_static_kernel \
-        --endpoints "${ENDPOINTS:-recommend,similar,events}" \
-        --rates "${RATES:-200,400,800,1600,3200}" \
+        --only 03_fork,04_runtime,05_jit,06_jit_precompiled,07_lazy_imports,08_immortalized,09_parallel_gc,10_static_kernel_nojit,11_static_kernel,12_static_embeddings \
+        --endpoints "$ENDPOINTS" --rates "$RATES" \
+        --step-seconds "$STEP_SECONDS" --drain-seconds "$DRAIN_SECONDS" \
+        --warmup-seconds "$WARMUP_SECONDS" --warmup-rate "$WARMUP_RATE" \
+        --repeats "$LADDER_REPEATS" \
         --workers "$workers" --out "$LADDER_OUT")
   else
     warn "fork rungs skipped: no fork venv"
@@ -806,6 +834,18 @@ cmd_workshop() {
     fi
     (cd "$ROOT/service" && PYTHONPATH=src on_cpus "$RECSYS_SERVICE_CPUSET" "$matrix_py" \
         load/kernel_matrix.py --mode "$mode" --users "${MATRIX_USERS:-40}")
+  done
+
+  say "embeddings matrix"
+  for mode in off runtime jit; do
+    local emb_py="$py"
+    if [ "$mode" != "off" ]; then
+      emb_py="$VENV_FORK/bin/python"
+      [ -x "$emb_py" ] || { warn "embeddings matrix $mode skipped: no fork venv"; continue; }
+    fi
+    (cd "$ROOT/service" && PYTHONPATH=src on_cpus "$RECSYS_SERVICE_CPUSET" "$emb_py" \
+        load/embeddings_matrix.py --mode "$mode" \
+        --items "${MATRIX_ITEMS:-3}" --reps "${MATRIX_REPS:-3}")
   done
   info "verdicts in $LADDER_OUT"
 }

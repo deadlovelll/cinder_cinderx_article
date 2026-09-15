@@ -1,0 +1,286 @@
+{
+ "suite": "b_lazy_imports",
+ "label": "314-stock",
+ "cx_config": "stock",
+ "interp": {
+  "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+  "version": "3.14.5+meta",
+  "implementation": "CPython",
+  "compiler": "Clang 18.1.3 (1ubuntu1)",
+  "gil_enabled": true,
+  "free_threaded": false,
+  "config_args": "'--prefix=/home/timofei/Desktop/cinder_cinderx_article/build/fork' '--enable-optimizations' '--with-lto' 'PKG_CONFIG_PATH=/opt/intel/oneapi/vtune/2025.10/include/pkgconfig/lib64:/opt/intel/oneapi/tbb/2022.3/env/../lib/pkgconfig:/opt/intel/oneapi/mpi/2021.17/lib/pkgconfig:/opt/intel/oneapi/mkl/2025.3/lib/pkgconfig:/opt/intel/oneapi/ippcp/2025.3/lib/pkgconfig:/opt/intel/oneapi/dpl/2022.10/lib/pkgconfig:/opt/intel/oneapi/dnnl/2025.3/lib/pkgconfig:/opt/intel/oneapi/dal/2025.10/lib/pkgconfig:/opt/intel/oneapi/compiler/2025.3/lib/pkgconfig:/opt/intel/oneapi/ccl/2021.17/lib/pkgconfig/:/opt/intel/oneapi/advisor/2025.4/include/pkgconfig/lib64:' 'CC=clang'",
+  "core_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -fno-semantic-interposition -flto=thin -g -std=c11 -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wstrict-prototypes -Werror=implicit-function-declaration -fvisibility=hidden -fprofile-instr-use=/home/timofei/Desktop/cinder_cinderx_article/cinderx-workshop/cinder/code.profclangd -I./Include/internal -I./Include/internal/mimalloc -I. -I./Include -DPy_BUILD_CORE",
+  "lazy_imports": false,
+  "cx_config": "stock"
+ },
+ "machine": {
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "system": "Linux",
+  "cpu_count": 16,
+  "cpu_brand": "Intel(R) Core(TM) Ultra 7 255H"
+ },
+ "preflight": {
+  "aslr": {
+   "reexec": "1",
+   "personality": "0x40000",
+   "addr_no_randomize": true,
+   "randomize_va_space": 2,
+   "layout_stable": true,
+   "layout_samples": [
+    "5555555db000",
+    "5555555db000",
+    "5555555db000"
+   ],
+   "verdict": "off"
+  },
+  "cpu": {
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [],
+   "verdict": "reserved"
+  },
+  "problems": [],
+  "verdict": "ok"
+ },
+ "drift": {
+  "test": "mann_kendall",
+  "alpha": 0.05,
+  "min_effect": 0.01,
+  "benchmarks": {
+   "lazy_imports/stock/eager_200": {
+    "n": 60,
+    "S": -498,
+    "z": -3.17,
+    "p": 0.00153,
+    "slope_per_sample": -2.828298351453144e-06,
+    "second_half_over_first": 0.9964,
+    "effect": -0.00355,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "lazy_imports/stock/lazy_200": {
+    "n": 60,
+    "S": 124,
+    "z": 0.784,
+    "p": 0.43276,
+    "slope_per_sample": 2.5475094660231705e-07,
+    "second_half_over_first": 1.0004,
+    "effect": 0.00044,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "import_in_process/stock/eager": {
+    "n": 60,
+    "S": 102,
+    "z": 0.644,
+    "p": 0.51946,
+    "slope_per_sample": 5.737419157342698e-07,
+    "second_half_over_first": 1.0015,
+    "effect": 0.00154,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "import_in_process/stock/lazy": {
+    "n": 60,
+    "S": -296,
+    "z": -1.881,
+    "p": 0.05991,
+    "slope_per_sample": -1.1145511398723075e-10,
+    "second_half_over_first": 0.9822,
+    "effect": -0.01775,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   }
+  },
+  "slowing": [],
+  "verdict": "ok"
+ },
+ "registered": [
+  "lazy_imports/stock/eager_200",
+  "lazy_imports/stock/lazy_200",
+  "import_in_process/stock/eager",
+  "import_in_process/stock/lazy"
+ ],
+ "gate_failures": [],
+ "facts": {
+  "jit_defaults_applied": {},
+  "pin": {
+   "pinned": true,
+   "pin_source": "reserved",
+   "pin_requested": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED",
+   "pin_target": "service"
+  },
+  "commands": {
+   "lazy_imports/stock/eager_200": {
+    "command": [
+     "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+     "/home/timofei/Desktop/cinder_cinderx_article/results/_genmods_314-stock_2822950/_import_only.py"
+    ],
+    "params": {
+     "modules": 200,
+     "lazy": false
+    },
+    "note": "PYTHONPATH=/home/timofei/Desktop/cinder_cinderx_article/results/_genmods_314-stock_2822950; PYTHONLAZYIMPORTSALL=unset; whole process, import latency"
+   },
+   "lazy_imports/stock/lazy_200": {
+    "command": [
+     "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+     "/home/timofei/Desktop/cinder_cinderx_article/results/_genmods_314-stock_2822950/_import_only.py"
+    ],
+    "params": {
+     "modules": 200,
+     "lazy": true
+    },
+    "note": "PYTHONPATH=/home/timofei/Desktop/cinder_cinderx_article/results/_genmods_314-stock_2822950; PYTHONLAZYIMPORTSALL=1; whole process, import latency"
+   }
+  },
+  "eager": {
+   "lazy_imports_flag": false,
+   "bodies_executed_after_import": 200,
+   "bodies_executed_after_first_touch": 200,
+   "deferred": 0,
+   "first_touch_ms": 0.0041230086935684085
+  },
+  "lazy": {
+   "lazy_imports_flag": true,
+   "bodies_executed_after_import": 0,
+   "bodies_executed_after_first_touch": 1,
+   "deferred": 200,
+   "first_touch_ms": 0.15403800352942199
+  },
+  "in_process_eager_bodies": 0,
+  "in_process_first_touch_ms": 0.9626639948692173,
+  "in_process_lazy_deferred": 200,
+  "modules": 200,
+  "lazy_imports_flag": false
+ }
+}

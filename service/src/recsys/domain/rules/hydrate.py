@@ -1,4 +1,3 @@
-"""Attach fetched item data to candidates. The only stage that is not a decision."""
 
 from __future__ import annotations
 

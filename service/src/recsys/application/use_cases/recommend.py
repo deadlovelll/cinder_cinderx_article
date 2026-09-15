@@ -1,4 +1,3 @@
-"""The recommendation use case: orchestration only, no business logic, no SQL."""
 
 from __future__ import annotations
 
@@ -22,7 +21,7 @@ from recsys.domain.rules.scoring import apply_scoring
 
 
 class UserNotFound(Exception):
-    """Raised rather than returned: an unknown user is a 404, not an empty page."""
+    pass
 
 
 class RecommendUseCase:
@@ -36,11 +35,9 @@ class RecommendUseCase:
         self._kernel = kernel
         self._clock = clock
         self._log_impressions = log_impressions
-        # Which top-k selection the plain kernel uses. `sorted` is what production
         self._selection = selection
         self._select = getattr(kernel, "SELECTIONS", {}).get(
             selection, getattr(kernel, "take_top", None))
-        # Scratch is per worker, not per request, and that is a correctness claim
         self._scratch: dict[str, object] = {}
 
     async def execute(self, request: RecommendPayload) -> RecommendationSet:
@@ -52,7 +49,6 @@ class RecommendUseCase:
         candidates = [Candidate(item_id=iid, affinity=affinity)
                       for iid, affinity in raw]
 
-        # a dict lookup, not a round trip: the catalogue is resident
         items = self._catalogue.get_many([c.item_id for c in candidates])
         hydrate(candidates, items)
 
@@ -71,7 +67,6 @@ class RecommendUseCase:
         recommendations = to_recommendations(chosen)
 
         if self._log_impressions and recommendations:
-            # Off the critical path: nobody waits for a write they will never read.
             self._events.schedule_impressions(
                 ctx.user.id, [r.item_id for r in recommendations])
 
@@ -86,7 +81,6 @@ class RecommendUseCase:
         )
 
     def _generate_candidates(self, ctx, candidate_limit: int) -> list[tuple[int, int]]:
-        """Two-hop walk from the user's recent items. Delegates to the kernel."""
         csr = self._graph.csr()
         seeds = ctx.recent_items
         if not seeds:
@@ -94,7 +88,6 @@ class RecommendUseCase:
         return self._kernel_walk(csr, seeds, candidate_limit, ctx)
 
     def _static_scratch(self, n: int, candidate_limit: int) -> dict:
-        """Per-worker buffers for the static kernel, built once."""
         scratch = self._scratch.get("static")
         if scratch is None:
             from recsys.domain.kernels import walk_static as ws
@@ -132,7 +125,6 @@ class RecommendUseCase:
             n_out = ws.take_top_ids(scores, touched, n_touched, candidate_limit,
                                     buf["out_ids"], buf["out_scores"])
             result = ws.boxed_pairs(buf["out_ids"], buf["out_scores"], n_out)
-            # clearing only what was written is O(touched), not O(catalogue)
             ws.reset(scores, touched, n_touched)
             return result
 
@@ -152,7 +144,6 @@ class RecommendUseCase:
         popular = [Candidate(item_id=iid, affinity=score, score=score,
                              item=popular_items.get(iid))
                    for iid, score in popular_rows]
-        # backfill is still subject to eligibility: a promoted out-of-stock item
         for cand in popular:
             if cand.item is None or not cand.item.active or cand.item.stock <= 0:
                 cand.drop("backfill_ineligible")

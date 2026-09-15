@@ -6,7 +6,6 @@ from bench.harness.cx_pyperf import state
 
 
 def jit_snapshot() -> dict[str, Any]:
-    """JIT state worth recording next to any timing taken under it."""
     if state.jit is None:
         return {}
     snap: dict[str, Any] = {

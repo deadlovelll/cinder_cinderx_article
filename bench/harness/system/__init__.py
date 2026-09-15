@@ -1,4 +1,3 @@
-"""Preconditions a timing is allowed to depend on, and the checks that prove them."""
 from __future__ import annotations
 
 from bench.harness.system.aslr_disable_and_reexec import aslr_disable_and_reexec

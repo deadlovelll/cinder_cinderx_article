@@ -1,0 +1,38 @@
+{
+ "facts": {
+  "mode": "off",
+  "frame_evaluator": false,
+  "jit": false,
+  "static_loader": false
+ },
+ "n_items": 100000,
+ "candidate_limit": 400,
+ "cells": [
+  {
+   "cell": "plain/bounded",
+   "mode": "off",
+   "jit": false,
+   "median_ms": 16.232563650191878,
+   "min_ms": 16.21095027512638,
+   "max_ms": 16.305252675010706,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 0,
+   "deopts": 0,
+   "mismatches": 0
+  },
+  {
+   "cell": "plain/sorted",
+   "mode": "off",
+   "jit": false,
+   "median_ms": 13.191820824795286,
+   "min_ms": 13.168531725023058,
+   "max_ms": 13.21265732512984,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 0,
+   "deopts": 0,
+   "mismatches": 0
+  }
+ ]
+}

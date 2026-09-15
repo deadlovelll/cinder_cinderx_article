@@ -1,4 +1,3 @@
-"""The configuration ladder (plan 7.3). One workload, every configuration."""
 from __future__ import annotations
 
 import sys
@@ -70,7 +69,6 @@ def main() -> None:
             return
 
     def timed(loops: int) -> float:
-        """The rebuild is outside the clock; only the generations are timed."""
         total = 0.0
         for _ in range(loops):
             reset()

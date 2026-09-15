@@ -1,4 +1,3 @@
-"""Users."""
 
 from sqlalchemy import BigInteger, Column, Integer, SmallInteger, String, Table
 

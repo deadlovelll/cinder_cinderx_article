@@ -1,4 +1,3 @@
-"""Catalogue adapter: one scan at startup, dict lookups afterwards."""
 
 from __future__ import annotations
 

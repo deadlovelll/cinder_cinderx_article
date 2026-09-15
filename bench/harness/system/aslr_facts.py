@@ -8,7 +8,6 @@ from bench.harness.system.constants import ADDR_NO_RANDOMIZE, _REEXEC_GUARD
 
 
 def aslr_facts() -> dict[str, Any]:
-    """What the kernel says, and what two child processes actually do."""
     facts: dict[str, Any] = {"reexec": os.environ.get(_REEXEC_GUARD, "not_attempted")}
 
     try:

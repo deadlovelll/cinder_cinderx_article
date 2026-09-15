@@ -1,4 +1,3 @@
-"""Co-visitation graph: loaded once, in the parent, before the fork."""
 
 from __future__ import annotations
 
@@ -20,7 +19,6 @@ class LoadedCSR:
 
 
 class CovisitationGraph:
-    """GraphStore adapter. Streamed in src order so the load is one sequential scan."""
 
     def __init__(self, engine: AsyncEngine, n_items: int, *,
                  batch_rows: int = 200_000) -> None:
@@ -34,7 +32,6 @@ class CovisitationGraph:
         degrees = [0] * (self._n_items + 1)
         stmt = select(covisitation.c.src, covisitation.c.dst, covisitation.c.weight)
 
-        # two passes: count degrees, then fill, so no per-node list is allocated.
         async with self._engine.connect() as conn:
             result = await conn.stream(stmt.order_by(covisitation.c.src))
             async for src, _dst, _w in result:

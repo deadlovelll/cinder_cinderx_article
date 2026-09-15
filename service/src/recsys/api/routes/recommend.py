@@ -1,4 +1,3 @@
-"""POST /v1/recommendations -- the Python-bytecode-bound endpoint."""
 
 from fastapi import APIRouter, HTTPException
 

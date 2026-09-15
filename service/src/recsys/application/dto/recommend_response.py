@@ -1,4 +1,3 @@
-"""What the recommendation use case returns to its caller."""
 
 from pydantic import BaseModel
 

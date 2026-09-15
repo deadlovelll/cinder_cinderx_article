@@ -5,7 +5,6 @@ from bench.b_framework.hand_validation_error import HandValidationError
 
 
 def parse_by_hand(body):
-    """The service's previous validator, field for field."""
     if not isinstance(body, dict):
         raise HandValidationError("body")
     user_id = body.get("user_id")

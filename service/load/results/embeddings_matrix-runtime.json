@@ -1,0 +1,51 @@
+{
+ "facts": {
+  "mode": "runtime",
+  "frame_evaluator": true,
+  "jit": false,
+  "static_loader": true
+ },
+ "candidate_limit": 200,
+ "reference": "the first implementation listed",
+ "cells": [
+  {
+   "impl": "numpy",
+   "mode": "runtime",
+   "jit": false,
+   "median_ms": 7.770922001024398,
+   "min_ms": 7.741857664465594,
+   "max_ms": 7.774828331700216,
+   "reps": 3,
+   "items": 3,
+   "compiled_functions": 0,
+   "mismatches": 0,
+   "tie_breaks": 0
+  },
+  {
+   "impl": "python",
+   "mode": "runtime",
+   "jit": false,
+   "median_ms": 1885.6760146688127,
+   "min_ms": 1870.7989096680346,
+   "max_ms": 1895.0727436652717,
+   "reps": 3,
+   "items": 3,
+   "compiled_functions": 0,
+   "mismatches": 0,
+   "tie_breaks": 1
+  },
+  {
+   "impl": "static",
+   "mode": "runtime",
+   "jit": false,
+   "median_ms": 6325.490527000511,
+   "min_ms": 6323.280570664792,
+   "max_ms": 6325.7643076697905,
+   "reps": 3,
+   "items": 3,
+   "compiled_functions": 0,
+   "mismatches": 0,
+   "tie_breaks": 1
+  }
+ ]
+}

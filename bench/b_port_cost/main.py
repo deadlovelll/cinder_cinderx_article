@@ -1,4 +1,3 @@
-"""The cost of porting, measured as what the compiler refuses (plan 7.8)."""
 from __future__ import annotations
 
 import os

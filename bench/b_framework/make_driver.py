@@ -6,7 +6,6 @@ from bench.b_framework.receive import _receive
 
 
 def make_driver(app, loop):
-    """BATCH requests through the ASGI callable inside one loop entry."""
     async def call():
         i = 0
         while i < BATCH:

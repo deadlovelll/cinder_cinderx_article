@@ -6,7 +6,6 @@ from bench.b_lazy_imports.constants import MARKER
 
 
 def generate(root: str, n: int) -> None:
-    """N modules with a body heavy enough to be worth deferring."""
     os.makedirs(root, exist_ok=True)
     for i in range(n):
         with open(os.path.join(root, f"genmod{i}.py"), "w") as fh:

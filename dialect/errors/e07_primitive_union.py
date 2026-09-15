@@ -1,4 +1,3 @@
-# short-circuit producing cbool on one side and bool on the other
 import __static__
 from __static__ import int64
 

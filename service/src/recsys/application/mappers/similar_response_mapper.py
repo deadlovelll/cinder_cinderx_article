@@ -1,4 +1,3 @@
-"""Domain SimilarResult -> the shape of SimilarResponse."""
 
 from recsys.application.use_cases.similar import SimilarResult
 

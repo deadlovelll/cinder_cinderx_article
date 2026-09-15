@@ -1,4 +1,3 @@
-"""What the similar-items use case accepts."""
 
 from pydantic import BaseModel, ConfigDict, Field
 

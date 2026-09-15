@@ -1,4 +1,3 @@
-"""Catalogue read. One round trip per request, never one per candidate."""
 
 from __future__ import annotations
 

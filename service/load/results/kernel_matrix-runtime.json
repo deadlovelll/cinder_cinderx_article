@@ -1,0 +1,64 @@
+{
+ "facts": {
+  "mode": "runtime",
+  "frame_evaluator": true,
+  "jit": false,
+  "static_loader": true
+ },
+ "n_items": 100000,
+ "candidate_limit": 400,
+ "cells": [
+  {
+   "cell": "plain/bounded",
+   "mode": "runtime",
+   "jit": false,
+   "median_ms": 17.923140099810553,
+   "min_ms": 17.827182900146,
+   "max_ms": 17.962722625088645,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 0,
+   "deopts": 0,
+   "mismatches": 0
+  },
+  {
+   "cell": "plain/sorted",
+   "mode": "runtime",
+   "jit": false,
+   "median_ms": 13.70851417486847,
+   "min_ms": 13.693857774705975,
+   "max_ms": 13.741415624826914,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 0,
+   "deopts": 0,
+   "mismatches": 0
+  },
+  {
+   "cell": "static/bounded",
+   "mode": "runtime",
+   "jit": false,
+   "median_ms": 66.32315627502976,
+   "min_ms": 66.21633389986528,
+   "max_ms": 66.42325825014268,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 0,
+   "deopts": 0,
+   "mismatches": 0
+  },
+  {
+   "cell": "static/sorted",
+   "mode": "runtime",
+   "jit": false,
+   "median_ms": 28.48528635004186,
+   "min_ms": 28.405818050305243,
+   "max_ms": 28.54705372483295,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 0,
+   "deopts": 0,
+   "mismatches": 0
+  }
+ ]
+}

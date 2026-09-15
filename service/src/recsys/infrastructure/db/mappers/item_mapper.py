@@ -1,4 +1,3 @@
-"""Row tuple -> Item. Explicit, in a loop, in Python."""
 
 from __future__ import annotations
 

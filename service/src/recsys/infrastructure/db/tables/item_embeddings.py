@@ -1,4 +1,3 @@
-"""Quantised embeddings, values packed so the startup load does not build 10^5"""
 
 from sqlalchemy import BigInteger, Column, Integer, SmallInteger, String, Table
 
@@ -9,6 +8,6 @@ item_embeddings = Table(
     metadata,
     Column("item_id", BigInteger, primary_key=True, autoincrement=False),
     Column("dim", SmallInteger, nullable=False),
-    Column("vec", String, nullable=False),   # base64 of int8 values
+    Column("vec", String, nullable=False),
     Column("norm", Integer, nullable=False),
 )

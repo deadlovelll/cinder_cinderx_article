@@ -7,7 +7,6 @@ from bench.harness.system.mann_kendall import mann_kendall
 
 
 def drift_report(named_values: dict[str, Sequence[float]]) -> dict[str, Any]:
-    """Run the trend test over every benchmark's samples in temporal order."""
     per_bench = {name: mann_kendall(vals) for name, vals in named_values.items()}
     slowing = sorted(n for n, r in per_bench.items() if r.get("verdict") == "SLOWING")
     return {

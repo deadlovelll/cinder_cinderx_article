@@ -4,7 +4,6 @@ from typing import Sequence
 
 
 def _l2_cost(values: Sequence[float]):
-    """Segment cost for a mean-shift model, O(1) per query via prefix sums."""
     n = len(values)
     s = [0.0] * (n + 1)
     s2 = [0.0] * (n + 1)
