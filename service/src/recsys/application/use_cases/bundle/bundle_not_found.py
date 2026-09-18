@@ -1,0 +1,2 @@
+class BundleNotFound(Exception):
+    pass

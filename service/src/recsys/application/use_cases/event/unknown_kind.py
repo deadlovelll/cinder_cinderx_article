@@ -1,0 +1,2 @@
+class UnknownKind(Exception):
+    pass

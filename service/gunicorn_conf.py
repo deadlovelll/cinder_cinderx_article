@@ -21,11 +21,15 @@ loglevel = "info"
 
 
 def on_starting(server) -> None:
-    from recsys.api.app import BOOTSTRAP, SETTINGS, EmbeddingStoreImpl, app
-    from recsys.api.bootstrap import prepare_for_fork
-    from recsys.infrastructure.db.engine import create_engine
-    from recsys.infrastructure.graph import CovisitationGraph, count_items
-    from recsys.infrastructure.memory_catalogue import MemoryCatalogue
+    from recsys.infrastructure.app.asgi import app
+    from recsys.infrastructure.embeddings.embedding_store_impl import embedding_store_impl
+    from recsys.infrastructure.bootstrap.runtime_report import BOOTSTRAP
+    from recsys.infrastructure.bootstrap.settings_instance import SETTINGS
+    from recsys.infrastructure.bootstrap.prepare_for_fork import prepare_for_fork
+    from recsys.infrastructure.db.create_engine import create_engine
+    from recsys.infrastructure.graph.count_items import count_items
+    from recsys.infrastructure.graph.covisitation_graph import CovisitationGraph
+    from recsys.infrastructure.catalogue.memory_catalogue import MemoryCatalogue
 
     async def load() -> tuple[object, object]:
         engine = create_engine(SETTINGS)
@@ -33,7 +37,7 @@ def on_starting(server) -> None:
             n_items = await count_items(engine)
             graph = CovisitationGraph(engine, n_items)
             await graph.load()
-            embeddings = EmbeddingStoreImpl(engine)
+            embeddings = embedding_store_impl(SETTINGS)(engine)
             await embeddings.load()
             catalogue = MemoryCatalogue(engine)
             await catalogue.load()
@@ -46,7 +50,7 @@ def on_starting(server) -> None:
     app.state.embeddings = embeddings
     app.state.catalogue = catalogue
 
-    from recsys.domain.kernels.registry import load_kernel
+    from recsys.domain.kernels.load_kernel import load_kernel
     from recsys.domain.rules import (
         assemble, backfill, diversity, eligibility, exclusions, hydrate, pins, scoring,
     )
@@ -59,6 +63,10 @@ def on_starting(server) -> None:
     hot += [fn for fn in (
         getattr(kernel, "take_top", None), getattr(kernel, "take_top_ids", None),
     ) if fn is not None]
+    from recsys.domain.rules.score_slots import score_slots
+    from recsys.domain.rules.take_top_slots import take_top_slots
+
+    hot += [score_slots, take_top_slots]
     hot += [
         eligibility.apply_eligibility, exclusions.apply_exclusions,
         scoring.apply_scoring, diversity.apply_diversity, pins.apply_pins,
@@ -81,6 +89,6 @@ def on_starting(server) -> None:
 
 
 def post_fork(server, worker) -> None:
-    from recsys.api.bootstrap import after_fork_child
+    from recsys.infrastructure.bootstrap.after_fork_child import after_fork_child
 
     after_fork_child()

@@ -22,4 +22,5 @@ async def healthz(request: Request) -> JSONResponse:
         "graph_edges": state.graph.loaded_edges(),
         "catalogue_items": state.catalogue.size(),
         "embeddings": state.embeddings.implementation(),
+        "bundle_cache": state.bundles.stats(),
     })

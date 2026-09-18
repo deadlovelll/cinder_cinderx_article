@@ -46,45 +46,18 @@ def ladder(dep_extra: str) -> list[Rung]:
                      "bootstrap.cpython_jit": True},
              image="python-3.14-jit",
              note="CPython's own copy-and-patch JIT: the reader's real alternative"),
-        Rung("03_fork", env(RECSYS_CINDERX_MODE="off"),
-             expect={"bootstrap.mode": "off", "bootstrap.frame_evaluator": False},
-             image="meta-3.14",
-             note="the meta fork without the extension: isolates the fork itself"),
-        Rung("04_runtime", env(RECSYS_CINDERX_MODE="runtime"),
-             expect={"bootstrap.frame_evaluator": True,
-                     "bootstrap.jit_enabled": False},
-             image="meta-3.14",
-             note="CinderX interpreter, JIT off: what the runtime costs by itself"),
-        Rung("05_jit", env(RECSYS_CINDERX_MODE="jit"),
-             expect={"bootstrap.jit_enabled": True},
-             image="meta-3.14",
-             note="JIT on, nothing precompiled: what auto() gives an application"),
-        Rung("06_jit_precompiled", env(RECSYS_CINDERX_MODE="jit", RECSYS_PRECOMPILE=1),
-             expect={"bootstrap.jit_enabled": True, "bootstrap.precompiled_gt": 0},
-             image="meta-3.14",
-             note="precompiled before the fork: the compiler's ceiling. auto()'s "
-                  "threshold is 1000 calls, so 05 and 06 are different programs"),
-        Rung("07_lazy_imports", env(RECSYS_CINDERX_MODE="jit", RECSYS_PRECOMPILE=1),
-             image="meta-3.14",
-             note="lazy imports: fork-only, so this rung needs rung 03's image"),
         Rung("08_immortalized",
              env(RECSYS_CINDERX_MODE="jit", RECSYS_PRECOMPILE=1, RECSYS_IMMORTALIZE=1),
              expect={"bootstrap.immortalized": True},
              image="meta-3.14",
-             note="immortalize_heap() before the fork: refcounts stop moving"),
+             note="immortalize without the parallel collector: separates which of "
+                  "the two actually shortens the tail"),
         Rung("09_parallel_gc",
              env(RECSYS_CINDERX_MODE="jit", RECSYS_PRECOMPILE=1, RECSYS_IMMORTALIZE=1,
                  RECSYS_PARALLEL_GC=1),
              expect={"bootstrap.parallel_gc": True},
              image="meta-3.14",
              note="parallel collector, only after 08: before it, a measured loss"),
-        Rung("10_static_kernel_nojit",
-             env(RECSYS_CINDERX_MODE="runtime", RECSYS_KERNEL="static"),
-             expect={"bootstrap.kernel_is_static": True,
-                     "bootstrap.jit_enabled": False},
-             image="meta-3.14",
-             note="Static Python without the JIT: the rung that answers whether "
-                  "types pay on their own"),
         Rung("11_static_kernel",
              env(RECSYS_CINDERX_MODE="jit_static", RECSYS_KERNEL="static",
                  RECSYS_PRECOMPILE=1, RECSYS_IMMORTALIZE=1),
@@ -243,7 +216,7 @@ def start_service(rung: Rung, args) -> subprocess.Popen:
     Path(env["RECSYS_SAMPLER_DIR"]).mkdir(parents=True, exist_ok=True)
     cmd = [*on_cpus(args.service_cpus), args.python, "-m", "gunicorn",
            "-c", str(ROOT / "gunicorn_conf.py"),
-           "-b", f"127.0.0.1:{args.port}", "recsys.api.app:app"]
+           "-b", f"127.0.0.1:{args.port}", "recsys.infrastructure.app.asgi:app"]
     log = open(Path(args.out) / rung.name / "service.log", "w")
     return subprocess.Popen(cmd, cwd=ROOT, env=env, stdout=log, stderr=log,
                             start_new_session=True)
@@ -324,7 +297,12 @@ def run_rung(rung: Rung, args, attempt: int) -> dict:
             return record
 
         record["health"] = health
-        problems = verify(health, rung.expect)
+        expect = dict(rung.expect)
+        if "bundle" in args.endpoints:
+            # ручку /bundle без прогретого кэша мерить бессмысленно: она
+            # отдавала бы 404 и мерила бы пустоту
+            expect["bundle_cache.bundles_gt"] = 19_000
+        problems = verify(health, expect)
         if problems:
             record["status"] = "mismatch"
             record["problems"] = problems
@@ -407,7 +385,7 @@ def main() -> None:
     ap.add_argument("--run", action="store_true")
     ap.add_argument("--list", action="store_true")
     ap.add_argument("--only", default="", help="comma-separated rung names")
-    ap.add_argument("--endpoints", default="recommend,similar,events")
+    ap.add_argument("--endpoints", default="recommend,similar,bundle")
     ap.add_argument("--dep-extra", default="c", choices=("c", "pure"),
                     help="the C-vs-Python axis: which dependency pole to measure")
     ap.add_argument("--rates", default="100,200,300,500,1000",

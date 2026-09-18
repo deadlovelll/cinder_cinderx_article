@@ -1,0 +1,446 @@
+[2026-09-18 03:32:22 +0300] [1141783] [INFO] Starting gunicorn 26.2.0
+[2026-09-18 03:33:26 +0300] [1141783] [INFO] bootstrap: {'mode': 'jit_static', 'cpython_jit': False, 'frame_evaluator': True, 'static_loader': True, 'kernel_requested': 'static', 'kernel_actual': 'static', 'kernel_is_static': True, 'embeddings_requested': 'numpy', 'embeddings_is_static': None, 'jit_enabled': True, 'compile_after_n_calls': None, 'precompiled': 13, 'immortalized': True, 'parallel_gc': False, 'parallel_gc_settings': None, 'perf_trampoline': False, 'problems': []}
+[2026-09-18 03:33:26 +0300] [1141783] [INFO] graph edges: 2549236, catalogue items: 100000
+[2026-09-18 03:33:26 +0300] [1141783] [INFO] Listening at: http://127.0.0.1:8100 (1141783)
+[2026-09-18 03:33:26 +0300] [1141783] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2026-09-18 03:33:26 +0300] [1146460] [INFO] Booting worker with pid: 1146460
+[2026-09-18 03:33:26 +0300] [1146460] [INFO] Started server process [1146460]
+[2026-09-18 03:33:26 +0300] [1146460] [INFO] Waiting for application startup.
+[2026-09-18 03:33:26 +0300] [1146461] [INFO] Booting worker with pid: 1146461
+[2026-09-18 03:33:26 +0300] [1146461] [INFO] Started server process [1146461]
+[2026-09-18 03:33:26 +0300] [1146461] [INFO] Waiting for application startup.
+[2026-09-18 03:33:26 +0300] [1146463] [INFO] Booting worker with pid: 1146463
+[2026-09-18 03:33:26 +0300] [1146463] [INFO] Started server process [1146463]
+[2026-09-18 03:33:26 +0300] [1146463] [INFO] Waiting for application startup.
+[2026-09-18 03:33:26 +0300] [1146465] [INFO] Booting worker with pid: 1146465
+[2026-09-18 03:33:26 +0300] [1141783] [INFO] Control socket listening at /run/user/1000/gunicorn.ctl
+[2026-09-18 03:33:26 +0300] [1146465] [INFO] Started server process [1146465]
+[2026-09-18 03:33:26 +0300] [1146465] [INFO] Waiting for application startup.
+[2026-09-18 03:33:29 +0300] [1146460] [INFO] Application startup complete.
+[2026-09-18 03:33:29 +0300] [1146461] [INFO] Application startup complete.
+[2026-09-18 03:33:29 +0300] [1146463] [INFO] Application startup complete.
+[2026-09-18 03:33:29 +0300] [1146465] [INFO] Application startup complete.
+impression write failed for user 951
+Traceback (most recent call last):
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/infrastructure/db/event_repository.py", line 54, in log_impressions
+    async with self._engine.begin() as conn:
+               ~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/fork/lib/python3.14/contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/engine.py", line 1068, in begin
+    async with conn:
+               ^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/base.py", line 121, in __aenter__
+    return await self.start(is_ctxmanager=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/engine.py", line 275, in start
+    await greenlet_spawn(self.sync_engine.connect)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/impl.py", line 167, in _do_get
+    raise exc.TimeoutError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.TimeoutError: QueuePool limit of size 10 overflow 0 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)
+impression write failed for user 2738
+Traceback (most recent call last):
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/infrastructure/db/event_repository.py", line 54, in log_impressions
+    async with self._engine.begin() as conn:
+               ~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/fork/lib/python3.14/contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/engine.py", line 1068, in begin
+    async with conn:
+               ^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/base.py", line 121, in __aenter__
+    return await self.start(is_ctxmanager=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/engine.py", line 275, in start
+    await greenlet_spawn(self.sync_engine.connect)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/impl.py", line 167, in _do_get
+    raise exc.TimeoutError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.TimeoutError: QueuePool limit of size 10 overflow 0 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)
+[2026-09-18 03:39:14 +0300] [1146460] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/uvicorn/protocols/http/h11_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/api/routes/recommend.py", line 16, in recommend
+    result = await container.recommend.execute(payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/application/use_cases/recommend.py", line 44, in execute
+    ctx = await self._users.load_context(request.user_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/infrastructure/db/user_repository.py", line 36, in load_context
+    async with self._engine.connect() as conn:
+               ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/base.py", line 121, in __aenter__
+    return await self.start(is_ctxmanager=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/engine.py", line 275, in start
+    await greenlet_spawn(self.sync_engine.connect)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/impl.py", line 167, in _do_get
+    raise exc.TimeoutError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.TimeoutError: QueuePool limit of size 10 overflow 0 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)
+[2026-09-18 03:39:17 +0300] [1146465] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/uvicorn/protocols/http/h11_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/api/routes/recommend.py", line 16, in recommend
+    result = await container.recommend.execute(payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/application/use_cases/recommend.py", line 44, in execute
+    ctx = await self._users.load_context(request.user_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/infrastructure/db/user_repository.py", line 36, in load_context
+    async with self._engine.connect() as conn:
+               ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/base.py", line 121, in __aenter__
+    return await self.start(is_ctxmanager=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/engine.py", line 275, in start
+    await greenlet_spawn(self.sync_engine.connect)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/impl.py", line 167, in _do_get
+    raise exc.TimeoutError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.TimeoutError: QueuePool limit of size 10 overflow 0 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)
+[2026-09-18 03:39:18 +0300] [1146465] [ERROR] Exception in ASGI application
+Traceback (most recent call last):
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/uvicorn/protocols/http/h11_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/uvicorn/middleware/proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/routing.py", line 670, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 2734, in app
+    await route.handle(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 1780, in handle
+    await self.original_router.handle(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 2789, in handle
+    await included_router._handle_selected(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 1800, in _handle_selected
+    await original_route.handle(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 1279, in handle
+    await app(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 158, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 144, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 706, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/fastapi/routing.py", line 352, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/api/routes/recommend.py", line 16, in recommend
+    result = await container.recommend.execute(payload)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/application/use_cases/recommend.py", line 44, in execute
+    ctx = await self._users.load_context(request.user_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/infrastructure/db/user_repository.py", line 36, in load_context
+    async with self._engine.connect() as conn:
+               ~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/base.py", line 121, in __aenter__
+    return await self.start(is_ctxmanager=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/engine.py", line 275, in start
+    await greenlet_spawn(self.sync_engine.connect)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/impl.py", line 167, in _do_get
+    raise exc.TimeoutError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.TimeoutError: QueuePool limit of size 10 overflow 0 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)
+impression write failed for user 2243
+Traceback (most recent call last):
+  File "/home/timofei/Desktop/cinder_cinderx_article/service/src/recsys/infrastructure/db/event_repository.py", line 54, in log_impressions
+    async with self._engine.begin() as conn:
+               ~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/fork/lib/python3.14/contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/engine.py", line 1068, in begin
+    async with conn:
+               ^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/base.py", line 121, in __aenter__
+    return await self.start(is_ctxmanager=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/ext/asyncio/engine.py", line 275, in start
+    await greenlet_spawn(self.sync_engine.connect)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 201, in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3295, in connect
+    return self._connection_cls(self)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 144, in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/engine/base.py", line 3319, in raw_connection
+    return self.pool.connect()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 448, in connect
+    return _ConnectionFairy._checkout(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 1272, in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/base.py", line 712, in checkout
+    rec = pool._do_get()
+  File "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/lib/python3.14/site-packages/sqlalchemy/pool/impl.py", line 167, in _do_get
+    raise exc.TimeoutError(
+    ...<4 lines>...
+    )
+sqlalchemy.exc.TimeoutError: QueuePool limit of size 10 overflow 0 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/20/3o7r)
+[2026-09-18 03:52:20 +0300] [1141783] [INFO] Handling signal: term
+[2026-09-18 03:52:20 +0300] [1146460] [INFO] Shutting down
+[2026-09-18 03:52:20 +0300] [1146465] [INFO] Shutting down
+[2026-09-18 03:52:20 +0300] [1146463] [INFO] Shutting down
+[2026-09-18 03:52:20 +0300] [1146461] [INFO] Shutting down
+[2026-09-18 03:52:20 +0300] [1146460] [INFO] Waiting for application shutdown.
+[2026-09-18 03:52:20 +0300] [1146460] [INFO] Application shutdown complete.
+[2026-09-18 03:52:20 +0300] [1146460] [INFO] Finished server process [1146460]
+[2026-09-18 03:52:20 +0300] [1146465] [INFO] Waiting for application shutdown.
+[2026-09-18 03:52:20 +0300] [1146463] [INFO] Waiting for application shutdown.
+[2026-09-18 03:52:20 +0300] [1146463] [INFO] Application shutdown complete.
+[2026-09-18 03:52:20 +0300] [1146465] [INFO] Application shutdown complete.
+[2026-09-18 03:52:20 +0300] [1146463] [INFO] Finished server process [1146463]
+[2026-09-18 03:52:20 +0300] [1146465] [INFO] Finished server process [1146465]
+[2026-09-18 03:52:20 +0300] [1146461] [INFO] Waiting for application shutdown.
+[2026-09-18 03:52:20 +0300] [1146461] [INFO] Application shutdown complete.
+[2026-09-18 03:52:20 +0300] [1146461] [INFO] Finished server process [1146461]
+[2026-09-18 03:52:20 +0300] [1141783] [INFO] Worker (pid:1146460) was sent SIGTERM!
+[2026-09-18 03:52:20 +0300] [1141783] [INFO] Worker (pid:1146461) was sent SIGTERM!
+[2026-09-18 03:52:20 +0300] [1141783] [INFO] Worker (pid:1146463) was sent SIGTERM!
+[2026-09-18 03:52:20 +0300] [1141783] [INFO] Worker (pid:1146465) was sent SIGTERM!
+[2026-09-18 03:52:21 +0300] [1141783] [INFO] Shutting down: Master

@@ -1,5 +1,6 @@
+from typing import NewType
 
-ItemId = int
-UserId = int
-CategoryId = int
-BrandId = int
+ItemId = NewType("ItemId", int)
+UserId = NewType("UserId", int)
+CategoryId = NewType("CategoryId", int)
+BrandId = NewType("BrandId", int)

@@ -120,6 +120,8 @@ export function hit() {
       JSON.stringify({ user_id: randomUser(), limit: 20 }), JSON_HEADERS);
   } else if (ENDPOINT === 'similar') {
     res = http.get(`${BASE}/v1/items/${zipfItem()}/similar?limit=20`);
+  } else if (ENDPOINT === 'bundle') {
+    res = http.get(`${BASE}/v1/items/${zipfItem()}/bundle?limit=24`);
   } else if (ENDPOINT === 'events') {
     res = http.post(`${BASE}/v1/events`, JSON.stringify({
       user_id: randomUser(),

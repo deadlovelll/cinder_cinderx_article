@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from sqlalchemy import func, select, text
 
-from recsys.infrastructure.db.engine import create_engine
+from recsys.infrastructure.db.create_engine import create_engine
 from recsys.infrastructure.db.tables.impressions import impressions
 from recsys.infrastructure.db.tables.interactions import interactions
 from recsys.settings import Settings

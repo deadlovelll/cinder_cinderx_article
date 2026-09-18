@@ -4,19 +4,8 @@ from __future__ import annotations
 import os
 from dataclasses import dataclass
 
-
-def _flag(name: str, default: bool = False) -> bool:
-    raw = os.environ.get(name)
-    if raw is None:
-        return default
-    return raw.strip().lower() not in ("", "0", "false", "no")
-
-
-def _int(name: str, default: int) -> int:
-    try:
-        return int(os.environ[name])
-    except (KeyError, ValueError):
-        return default
+from recsys.env.flag_env import flag_env
+from recsys.env.int_env import int_env
 
 
 @dataclass(slots=True, frozen=True)
@@ -32,12 +21,15 @@ class Settings:
     precompile: bool
     immortalize: bool
     parallel_gc: bool
+    parallel_gc_threads: int
     perf_trampoline: bool
 
     kernel: str
     selection: str
     embeddings: str
     workers: int
+    bundle_items: int
+    bundle_width: int
     sampler_interval_ms: int
     sampler_dir: str
     log_impressions: bool
@@ -51,23 +43,26 @@ class Settings:
     def from_env(cls) -> Settings:
         return cls(
             db_host=os.environ.get("RECSYS_DB_HOST", "localhost"),
-            db_port=_int("RECSYS_DB_PORT", 5432),
+            db_port=int_env("RECSYS_DB_PORT", 5432),
             db_name=os.environ.get("RECSYS_DB_NAME", "recsys"),
             db_user=os.environ.get("RECSYS_DB_USER", "recsys"),
             db_password=os.environ.get("RECSYS_DB_PASSWORD", "recsys"),
-            db_pool_size=_int("RECSYS_DB_POOL_SIZE", 10),
+            db_pool_size=int_env("RECSYS_DB_POOL_SIZE", 10),
             cinderx_mode=os.environ.get("RECSYS_CINDERX_MODE", "off").lower(),
-            precompile=_flag("RECSYS_PRECOMPILE"),
-            immortalize=_flag("RECSYS_IMMORTALIZE"),
-            parallel_gc=_flag("RECSYS_PARALLEL_GC"),
-            perf_trampoline=_flag("RECSYS_PERF_TRAMPOLINE"),
+            precompile=flag_env("RECSYS_PRECOMPILE"),
+            immortalize=flag_env("RECSYS_IMMORTALIZE"),
+            parallel_gc=flag_env("RECSYS_PARALLEL_GC"),
+            parallel_gc_threads=int_env("RECSYS_PARALLEL_GC_THREADS", 8),
+            perf_trampoline=flag_env("RECSYS_PERF_TRAMPOLINE"),
             kernel=os.environ.get("RECSYS_KERNEL", "plain").lower(),
             selection=os.environ.get("RECSYS_SELECTION", "sorted").lower(),
             embeddings=os.environ.get("RECSYS_EMBEDDINGS", "numpy").lower(),
-            workers=_int("RECSYS_WORKERS", 4),
-            sampler_interval_ms=_int("RECSYS_SAMPLER_INTERVAL_MS", 250),
+            workers=int_env("RECSYS_WORKERS", 4),
+            bundle_items=int_env("RECSYS_BUNDLE_ITEMS", 40_000),
+            bundle_width=int_env("RECSYS_BUNDLE_WIDTH", 128),
+            sampler_interval_ms=int_env("RECSYS_SAMPLER_INTERVAL_MS", 250),
             sampler_dir=os.environ.get("RECSYS_SAMPLER_DIR", "/tmp"),
-            log_impressions=_flag("RECSYS_LOG_IMPRESSIONS", True),
+            log_impressions=flag_env("RECSYS_LOG_IMPRESSIONS", True),
         )
 
     def as_dict(self) -> dict[str, object]:
@@ -76,6 +71,9 @@ class Settings:
             "selection": self.selection,
             "embeddings": self.embeddings, "precompile": self.precompile,
             "immortalize": self.immortalize, "parallel_gc": self.parallel_gc,
+            "parallel_gc_threads": self.parallel_gc_threads,
+            "bundle_items": self.bundle_items,
+            "bundle_width": self.bundle_width,
             "perf_trampoline": self.perf_trampoline,
             "workers": self.workers,
             "db_pool_size": self.db_pool_size,

@@ -40,14 +40,14 @@ def install_runtime(mode: str) -> dict:
 
 def store_class(impl: str):
     if impl == "numpy":
-        from recsys.infrastructure.embeddings_numpy import NumpyEmbeddingStore
+        from recsys.infrastructure.embeddings.numpy_embedding_store import NumpyEmbeddingStore
 
         return NumpyEmbeddingStore
     if impl == "static":
-        from recsys.infrastructure.embeddings_static import StaticEmbeddingStore
+        from recsys.infrastructure.embeddings.static_embedding_store import StaticEmbeddingStore
 
         return StaticEmbeddingStore
-    from recsys.infrastructure.embeddings_python import PythonEmbeddingStore
+    from recsys.infrastructure.embeddings.python_embedding_store import PythonEmbeddingStore
 
     return PythonEmbeddingStore
 
@@ -61,7 +61,7 @@ def hot_functions(impl: str, cls) -> list:
 
 
 async def load_store(impl: str):
-    from recsys.infrastructure.db.engine import create_engine
+    from recsys.infrastructure.db.create_engine import create_engine
     from recsys.settings import Settings
 
     engine = create_engine(Settings.from_env())

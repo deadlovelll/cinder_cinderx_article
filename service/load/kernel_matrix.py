@@ -38,10 +38,11 @@ def install_runtime(mode: str) -> dict:
 
 
 async def load_inputs(n_users: int):
-    from recsys.infrastructure.db.engine import create_engine
+    from recsys.infrastructure.db.create_engine import create_engine
     from recsys.infrastructure.db.user_repository import SqlUserRepository
-    from recsys.infrastructure.graph import CovisitationGraph, count_items
-    from recsys.infrastructure.memory_catalogue import MemoryCatalogue
+    from recsys.infrastructure.graph.count_items import count_items
+    from recsys.infrastructure.graph.covisitation_graph import CovisitationGraph
+    from recsys.infrastructure.catalogue.memory_catalogue import MemoryCatalogue
     from recsys.settings import Settings
 
     engine = create_engine(Settings.from_env())

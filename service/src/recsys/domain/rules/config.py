@@ -18,3 +18,5 @@ SEGMENT_WEIGHTS: dict[Segment, tuple[int, int]] = {
     Segment.LOYAL: (9_000, 13_000),
     Segment.BARGAIN: (13_000, 4_000),
 }
+
+SLOT_DECAY = (1000, 940, 890, 850, 820, 800, 785, 775)
