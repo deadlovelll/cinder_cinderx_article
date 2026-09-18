@@ -4,9 +4,9 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, Path, Query
 
 from recsys.application.commands.similar_command import SimilarCommand
-from recsys.application.dto.similar_response import SimilarResponse
+from recsys.application.dto.similar.similar_response import SimilarResponse
 from recsys.application.mappers.similar_response_mapper import to_similar_response
-from recsys.application.use_cases.item_not_found import ItemNotFound
+from recsys.application.use_cases.similar.item_not_found import ItemNotFound
 from recsys.domain.values.ids import ItemId
 from recsys.api.dependencies.injected import SimilarUseCaseDep
 

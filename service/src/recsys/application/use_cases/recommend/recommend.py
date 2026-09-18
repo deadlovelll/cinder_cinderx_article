@@ -4,21 +4,21 @@ from __future__ import annotations
 from recsys.application.commands.recommend_command import RecommendCommand
 from recsys.application.ports.catalogue import Catalogue
 from recsys.application.ports.clock import Clock
-from recsys.application.use_cases.user_not_found import UserNotFound
+from recsys.application.use_cases.recommend.user_not_found import UserNotFound
 from recsys.application.ports.event_repository import EventRepository
 from recsys.application.ports.graph_store import GraphStore
 from recsys.application.ports.user_repository import UserRepository
 from recsys.domain.entities.candidate import Candidate
 from recsys.domain.entities.recommendation_set import RecommendationSet
-from recsys.domain.rules.assemble import to_recommendations
-from recsys.domain.rules.backfill import apply_backfill
-from recsys.domain.rules.diversity import apply_diversity
-from recsys.domain.rules.drop_stats import count_drops
-from recsys.domain.rules.eligibility import apply_eligibility
-from recsys.domain.rules.exclusions import apply_exclusions
-from recsys.domain.rules.hydrate import hydrate
-from recsys.domain.rules.pins import apply_pins
-from recsys.domain.rules.scoring import apply_scoring
+from recsys.domain.rules.ranking.assemble import to_recommendations
+from recsys.domain.rules.ranking.backfill import apply_backfill
+from recsys.domain.rules.ranking.diversity import apply_diversity
+from recsys.domain.rules.ranking.drop_stats import count_drops
+from recsys.domain.rules.ranking.eligibility import apply_eligibility
+from recsys.domain.rules.ranking.exclusions import apply_exclusions
+from recsys.domain.rules.ranking.hydrate import hydrate
+from recsys.domain.rules.ranking.pins import apply_pins
+from recsys.domain.rules.ranking.scoring import apply_scoring
 
 
 

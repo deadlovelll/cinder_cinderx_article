@@ -36,7 +36,6 @@ function randomUser() {
   return 1 + Math.floor(Math.random() * N_USERS);
 }
 
-const KINDS = ['view', 'view', 'view', 'cart', 'purchase', 'dislike'];
 
 
 function buildScenarios() {
@@ -122,12 +121,6 @@ export function hit() {
     res = http.get(`${BASE}/v1/items/${zipfItem()}/similar?limit=20`);
   } else if (ENDPOINT === 'bundle') {
     res = http.get(`${BASE}/v1/items/${zipfItem()}/bundle?limit=24`);
-  } else if (ENDPOINT === 'events') {
-    res = http.post(`${BASE}/v1/events`, JSON.stringify({
-      user_id: randomUser(),
-      item_id: zipfItem(),
-      kind: KINDS[Math.floor(Math.random() * KINDS.length)],
-    }), JSON_HEADERS);
   } else {
     throw new Error(`unknown ENDPOINT ${ENDPOINT}`);
   }
@@ -136,7 +129,7 @@ export function hit() {
     'status ok': (r) => r.status === 200 || r.status === 201,
   });
 
-  if (ok && ENDPOINT !== 'events' && res.body && res.body.length < 200000) {
+  if (ok && res.body && res.body.length < 200000) {
     try {
       const meta = res.json('meta');
       if (meta) {

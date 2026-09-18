@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from fastapi import Request
 
-from recsys.application.use_cases.recommend import RecommendUseCase
+from recsys.application.use_cases.recommend.recommend import RecommendUseCase
 
 
 def recommend_use_case(request: Request) -> RecommendUseCase:

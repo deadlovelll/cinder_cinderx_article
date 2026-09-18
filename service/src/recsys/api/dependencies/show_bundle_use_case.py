@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from fastapi import Request
 
-from recsys.application.use_cases.show_bundle import ShowBundleUseCase
+from recsys.application.use_cases.bundle.show_bundle import ShowBundleUseCase
 
 
 def show_bundle_use_case(request: Request) -> ShowBundleUseCase:

@@ -1,8 +1,8 @@
 
 from pydantic import BaseModel
 
-from recsys.application.dto.bundle_meta import BundleMeta
-from recsys.application.dto.bundle_slot import BundleSlot
+from recsys.application.dto.bundle.bundle_meta import BundleMeta
+from recsys.application.dto.bundle.bundle_slot import BundleSlot
 from recsys.domain.values.ids import ItemId
 
 

@@ -1,5 +1,5 @@
 
-from recsys.application.use_cases.similar_result import SimilarResult
+from recsys.application.use_cases.similar.similar_result import SimilarResult
 
 
 def to_similar_response(result: SimilarResult) -> dict:

@@ -4,19 +4,17 @@ from __future__ import annotations
 import asyncio
 import logging
 
-from sqlalchemy import bindparam, insert, text
+from sqlalchemy import bindparam, text
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from recsys.domain.values.ids import ItemId, UserId
 from recsys.infrastructure.db.tables.impressions import impressions
-from recsys.infrastructure.db.tables.interactions import interactions
 
 
 class SqlEventRepository:
     def __init__(self, engine: AsyncEngine) -> None:
         self._engine = engine
-        self._insert = insert(interactions)
         self._pending: set[asyncio.Task] = set()
         self._log = logging.getLogger(__name__)
         self._impr_upsert = (
@@ -29,13 +27,6 @@ class SqlEventRepository:
                       "last_shown_at": text("now()")},
             )
         )
-
-    async def record_interaction(self, user_id: UserId, item_id: ItemId,
-                                 kind: str, weight: int) -> None:
-        async with self._engine.begin() as conn:
-            await conn.execute(self._insert,
-                               {"user_id": user_id, "item_id": item_id,
-                                "kind": kind, "weight": weight})
 
     def schedule_impressions(self, user_id: UserId,
                              item_ids: list[ItemId]) -> None:

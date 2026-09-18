@@ -51,7 +51,7 @@ def on_starting(server) -> None:
     app.state.catalogue = catalogue
 
     from recsys.domain.kernels.load_kernel import load_kernel
-    from recsys.domain.rules import (
+    from recsys.domain.rules.ranking import (
         assemble, backfill, diversity, eligibility, exclusions, hydrate, pins, scoring,
     )
 
@@ -63,8 +63,8 @@ def on_starting(server) -> None:
     hot += [fn for fn in (
         getattr(kernel, "take_top", None), getattr(kernel, "take_top_ids", None),
     ) if fn is not None]
-    from recsys.domain.rules.score_slots import score_slots
-    from recsys.domain.rules.take_top_slots import take_top_slots
+    from recsys.domain.rules.shelf.score_slots import score_slots
+    from recsys.domain.rules.shelf.take_top_slots import take_top_slots
 
     hot += [score_slots, take_top_slots]
     hot += [

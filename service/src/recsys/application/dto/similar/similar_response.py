@@ -2,7 +2,7 @@
 from pydantic import BaseModel
 
 from recsys.application.dto.ranked_item import RankedItem
-from recsys.application.dto.similar_meta import SimilarMeta
+from recsys.application.dto.similar.similar_meta import SimilarMeta
 from recsys.domain.values.ids import ItemId
 
 

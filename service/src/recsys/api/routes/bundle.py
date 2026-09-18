@@ -4,9 +4,9 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, Path, Query
 
 from recsys.application.commands.show_bundle_command import ShowBundleCommand
-from recsys.application.dto.bundle_response import BundleResponse
+from recsys.application.dto.bundle.bundle_response import BundleResponse
 from recsys.application.mappers.bundle_response_mapper import to_bundle_response
-from recsys.application.use_cases.bundle_not_found import BundleNotFound
+from recsys.application.use_cases.bundle.bundle_not_found import BundleNotFound
 from recsys.domain.values.ids import ItemId
 from recsys.api.dependencies.injected import ShowBundleUseCaseDep
 

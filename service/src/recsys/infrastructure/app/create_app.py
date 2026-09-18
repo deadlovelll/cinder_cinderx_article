@@ -15,9 +15,9 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
     install_error_handlers(application)
-    from recsys.api.routes import bundle, events, health, recommend, similar
+    from recsys.api.routes import bundle, health, recommend, similar
 
-    for module in (recommend, similar, bundle, events, health):
+    for module in (recommend, similar, bundle, health):
         application.include_router(module.router)
     application.state.bootstrap = BOOTSTRAP
     return application

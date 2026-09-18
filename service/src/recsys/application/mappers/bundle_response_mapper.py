@@ -1,5 +1,5 @@
 
-from recsys.application.use_cases.bundle_result import BundleResult
+from recsys.application.use_cases.bundle.bundle_result import BundleResult
 
 
 def to_bundle_response(result: BundleResult) -> dict:

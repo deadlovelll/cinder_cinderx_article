@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from recsys.application.use_cases.bundle_slot_result import BundleSlotResult
+from recsys.application.use_cases.bundle.bundle_slot_result import BundleSlotResult
 
 
 @dataclass(slots=True, frozen=True)

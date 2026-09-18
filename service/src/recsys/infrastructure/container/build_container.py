@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from recsys.infrastructure.container.container import Container
-from recsys.application.use_cases.recommend import RecommendUseCase
-from recsys.application.use_cases.record_event import RecordEventUseCase
-from recsys.application.use_cases.show_bundle import ShowBundleUseCase
-from recsys.application.use_cases.similar import SimilarUseCase
+from recsys.application.use_cases.recommend.recommend import RecommendUseCase
+from recsys.application.use_cases.bundle.show_bundle import ShowBundleUseCase
+from recsys.application.use_cases.similar.similar import SimilarUseCase
 from recsys.domain.kernels.load_kernel import load_kernel
 from recsys.infrastructure.clock.system_clock import SystemClock
 from recsys.infrastructure.db.create_engine import create_engine
@@ -33,7 +32,6 @@ def build(settings: Settings, *, graph, embeddings, catalogue,
             selection=settings.selection,
         ),
         similar=SimilarUseCase(embeddings=embeddings, items=catalogue, clock=clock),
-        record_event=RecordEventUseCase(events=events),
         show_bundle=ShowBundleUseCase(cache=bundles, items=catalogue,
                                       clock=clock),
         bundles=bundles,

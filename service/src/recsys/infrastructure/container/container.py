@@ -2,10 +2,9 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from recsys.application.use_cases.recommend import RecommendUseCase
-from recsys.application.use_cases.record_event import RecordEventUseCase
-from recsys.application.use_cases.show_bundle import ShowBundleUseCase
-from recsys.application.use_cases.similar import SimilarUseCase
+from recsys.application.use_cases.recommend.recommend import RecommendUseCase
+from recsys.application.use_cases.bundle.show_bundle import ShowBundleUseCase
+from recsys.application.use_cases.similar.similar import SimilarUseCase
 from recsys.settings import Settings
 
 
@@ -15,7 +14,6 @@ class Container:
     engine: object
     recommend: RecommendUseCase
     similar: SimilarUseCase
-    record_event: RecordEventUseCase
     show_bundle: ShowBundleUseCase
     bundles: object
     driver: str

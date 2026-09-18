@@ -2,10 +2,10 @@
 from fastapi import APIRouter, HTTPException
 
 from recsys.application.commands.recommend_command import RecommendCommand
-from recsys.application.dto.recommend_payload import RecommendPayload
-from recsys.application.dto.recommend_response import RecommendResponse
+from recsys.application.dto.recommend.recommend_payload import RecommendPayload
+from recsys.application.dto.recommend.recommend_response import RecommendResponse
 from recsys.application.mappers.recommend_response_mapper import to_recommend_response
-from recsys.application.use_cases.user_not_found import UserNotFound
+from recsys.application.use_cases.recommend.user_not_found import UserNotFound
 from recsys.api.dependencies.injected import RecommendUseCaseDep
 
 router = APIRouter()

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from fastapi import Request
 
-from recsys.application.use_cases.similar import SimilarUseCase
+from recsys.application.use_cases.similar.similar import SimilarUseCase
 
 
 def similar_use_case(request: Request) -> SimilarUseCase:
