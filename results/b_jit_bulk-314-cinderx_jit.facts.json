@@ -65,7 +65,7 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
     2,
     3,
@@ -111,12 +111,12 @@
   "force": {
    "n": 200,
    "compiled": 200,
-   "wall_ms": 368.5767379938625,
+   "wall_ms": 368.45792195526883,
    "after": {
     "compiled_total": 200,
     "compilation_time_us": 201,
     "allocator": {
-     "used_bytes": 330256,
+     "used_bytes": 330200,
      "max_bytes": 0,
      "lost_bytes": 0,
      "fragmented_allocs": 0,
@@ -129,12 +129,12 @@
    "returned": true,
    "workers": 4,
    "compiled": 200,
-   "wall_ms": 86.29363198997453,
+   "wall_ms": 87.6747319707647,
    "after": {
     "compiled_total": 400,
     "compilation_time_us": 405,
     "allocator": {
-     "used_bytes": 634320,
+     "used_bytes": 634184,
      "max_bytes": 0,
      "lost_bytes": 0,
      "fragmented_allocs": 0,
@@ -143,9 +143,9 @@
    }
   },
   "aot_dump": {
-   "wall_ms": 1.346494012977928,
+   "wall_ms": 1.3088080449961126,
    "bytes": 692397,
-   "path": "/tmp/cx_aot__zxhdlsj/bundle.elf",
+   "path": "/tmp/cx_aot_wvd4cmei/bundle.elf",
    "note": "load_aot_bundle runs in a fresh process; it is a start-up cost, measured elsewhere"
   }
  }

@@ -64,12 +64,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -99,11 +103,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "drift": {
   "test": "mann_kendall",
@@ -112,163 +120,163 @@
   "benchmarks": {
    "prim_op/plain/int": {
     "n": 60,
-    "S": 70,
-    "z": 0.44,
-    "p": 0.65988,
-    "slope_per_sample": 4.133242068097376e-12,
-    "second_half_over_first": 1.0013,
-    "effect": 0.00126,
+    "S": 174,
+    "z": 1.103,
+    "p": 0.26986,
+    "slope_per_sample": 8.239972198175274e-12,
+    "second_half_over_first": 1.002,
+    "effect": 0.00197,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "prim_op/static/int": {
     "n": 60,
-    "S": -206,
-    "z": -1.307,
-    "p": 0.19105,
-    "slope_per_sample": -9.203342704660715e-12,
-    "second_half_over_first": 0.9978,
-    "effect": -0.00223,
+    "S": 608,
+    "z": 3.871,
+    "p": 0.00011,
+    "slope_per_sample": 3.596960382382671e-11,
+    "second_half_over_first": 1.012,
+    "effect": 0.01204,
     "min_effect": 0.01,
     "direction_agrees": true,
-    "verdict": "no_trend"
+    "verdict": "SLOWING"
    },
    "prim_op/static/int64": {
     "n": 60,
-    "S": 246,
-    "z": 1.563,
-    "p": 0.11815,
-    "slope_per_sample": 8.578509460765922e-12,
-    "second_half_over_first": 1.0005,
-    "effect": 0.0005,
+    "S": -14,
+    "z": -0.083,
+    "p": 0.93392,
+    "slope_per_sample": -7.415009248586738e-13,
+    "second_half_over_first": 1.0,
+    "effect": 3e-05,
     "min_effect": 0.01,
-    "direction_agrees": true,
+    "direction_agrees": false,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64@62500": {
     "n": 60,
-    "S": 34,
-    "z": 0.21,
-    "p": 0.8333,
-    "slope_per_sample": 1.2954345919064526e-12,
-    "second_half_over_first": 1.0028,
-    "effect": 0.00277,
+    "S": 82,
+    "z": 0.517,
+    "p": 0.60543,
+    "slope_per_sample": 1.926053056057537e-12,
+    "second_half_over_first": 0.9999,
+    "effect": -0.00013,
     "min_effect": 0.01,
-    "direction_agrees": true,
+    "direction_agrees": false,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64@250000": {
     "n": 60,
-    "S": -90,
-    "z": -0.568,
-    "p": 0.57028,
-    "slope_per_sample": -3.008417665610776e-12,
-    "second_half_over_first": 0.9991,
-    "effect": -0.00093,
+    "S": 114,
+    "z": 0.721,
+    "p": 0.47109,
+    "slope_per_sample": 5.584549572732925e-12,
+    "second_half_over_first": 1.0041,
+    "effect": 0.0041,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64@500000": {
     "n": 60,
-    "S": -224,
-    "z": -1.422,
-    "p": 0.15495,
-    "slope_per_sample": -9.885927202435412e-12,
-    "second_half_over_first": 0.9996,
-    "effect": -0.00036,
+    "S": 310,
+    "z": 1.971,
+    "p": 0.04875,
+    "slope_per_sample": 1.0761151936584927e-11,
+    "second_half_over_first": 1.0026,
+    "effect": 0.00261,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64@1000000": {
     "n": 60,
-    "S": 390,
-    "z": 2.481,
-    "p": 0.0131,
-    "slope_per_sample": 1.4262352220392069e-11,
-    "second_half_over_first": 1.0052,
-    "effect": 0.00517,
+    "S": -60,
+    "z": -0.376,
+    "p": 0.7067,
+    "slope_per_sample": -2.212383454512636e-12,
+    "second_half_over_first": 1.0014,
+    "effect": 0.00139,
     "min_effect": 0.01,
-    "direction_agrees": true,
+    "direction_agrees": false,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64-opaque@62500": {
     "n": 60,
-    "S": 86,
-    "z": 0.542,
-    "p": 0.58773,
-    "slope_per_sample": 7.615360698243457e-12,
-    "second_half_over_first": 1.0041,
-    "effect": 0.00413,
+    "S": 70,
+    "z": 0.44,
+    "p": 0.65988,
+    "slope_per_sample": 3.666018972956615e-12,
+    "second_half_over_first": 0.9982,
+    "effect": -0.00176,
     "min_effect": 0.01,
-    "direction_agrees": true,
+    "direction_agrees": false,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64-opaque@250000": {
     "n": 60,
-    "S": 458,
-    "z": 2.915,
-    "p": 0.00356,
-    "slope_per_sample": 2.4764030038891102e-11,
-    "second_half_over_first": 1.025,
-    "effect": 0.02495,
+    "S": -314,
+    "z": -1.996,
+    "p": 0.0459,
+    "slope_per_sample": -1.4080478563084262e-11,
+    "second_half_over_first": 0.9984,
+    "effect": -0.00164,
     "min_effect": 0.01,
     "direction_agrees": true,
-    "verdict": "SLOWING"
+    "verdict": "no_trend"
    },
    "prim_op_scale/static/int64-opaque@500000": {
     "n": 60,
-    "S": -104,
-    "z": -0.657,
-    "p": 0.51123,
-    "slope_per_sample": -4.381009320837272e-12,
-    "second_half_over_first": 0.9981,
-    "effect": -0.00188,
+    "S": -40,
+    "z": -0.249,
+    "p": 0.80356,
+    "slope_per_sample": -2.0510943223985905e-12,
+    "second_half_over_first": 1.0003,
+    "effect": 0.00035,
     "min_effect": 0.01,
-    "direction_agrees": true,
+    "direction_agrees": false,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64-opaque@1000000": {
     "n": 60,
-    "S": 300,
-    "z": 1.907,
-    "p": 0.05652,
-    "slope_per_sample": 1.6726931193184322e-11,
-    "second_half_over_first": 1.0031,
-    "effect": 0.00305,
+    "S": -98,
+    "z": -0.619,
+    "p": 0.53614,
+    "slope_per_sample": -4.383824852993377e-12,
+    "second_half_over_first": 1.0002,
+    "effect": 0.00018,
     "min_effect": 0.01,
-    "direction_agrees": true,
+    "direction_agrees": false,
     "verdict": "no_trend"
    },
    "machine_probe/modexp": {
     "n": 60,
-    "S": 214,
-    "z": 1.358,
-    "p": 0.17431,
-    "slope_per_sample": 7.62141858310563e-09,
-    "second_half_over_first": 1.0009,
-    "effect": 0.00089,
+    "S": -434,
+    "z": -2.762,
+    "p": 0.00575,
+    "slope_per_sample": -1.4407153752958185e-08,
+    "second_half_over_first": 0.9987,
+    "effect": -0.00133,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/digest": {
     "n": 60,
-    "S": 28,
-    "z": 0.172,
-    "p": 0.86328,
-    "slope_per_sample": 1.8514674028558135e-08,
-    "second_half_over_first": 1.0009,
-    "effect": 0.00086,
+    "S": 94,
+    "z": 0.593,
+    "p": 0.55308,
+    "slope_per_sample": 5.508100516771389e-08,
+    "second_half_over_first": 0.9993,
+    "effect": -0.00068,
     "min_effect": 0.01,
-    "direction_agrees": true,
+    "direction_agrees": false,
     "verdict": "no_trend"
    }
   },
   "slowing": [
-   "prim_op_scale/static/int64-opaque@250000"
+   "prim_op/static/int"
   ],
   "verdict": "DRIFT"
  },
@@ -292,12 +300,16 @@
   "jit_defaults_applied": {},
   "pin": {
    "pinned": true,
-   "pin_source": "reserved",
+   "pin_source": "CX_BENCH_CPUS",
    "pin_requested": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "cpu_count": 16,
    "isolated": [],
@@ -322,12 +334,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -361,6 +377,10 @@
     "process affinity is not confined to the reserved CPUs"
    ],
    "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
    "pin_target": "service"
   },
   "scale_sweep": {

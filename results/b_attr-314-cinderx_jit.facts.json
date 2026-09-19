@@ -64,12 +64,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -99,11 +103,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "drift": {
   "test": "mann_kendall",
@@ -112,72 +120,72 @@
   "benchmarks": {
    "attr_read/plain/dict": {
     "n": 60,
-    "S": 504,
-    "z": 3.208,
-    "p": 0.00134,
-    "slope_per_sample": 6.691266734139687e-12,
-    "second_half_over_first": 1.0033,
-    "effect": 0.00329,
+    "S": 308,
+    "z": 1.958,
+    "p": 0.05023,
+    "slope_per_sample": 5.4994705957748294e-12,
+    "second_half_over_first": 1.0004,
+    "effect": 0.00041,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "attr_read/plain/slots": {
     "n": 60,
-    "S": -252,
-    "z": -1.601,
-    "p": 0.10941,
-    "slope_per_sample": -3.6396989691102436e-12,
-    "second_half_over_first": 0.9962,
-    "effect": -0.00376,
+    "S": 102,
+    "z": 0.644,
+    "p": 0.51946,
+    "slope_per_sample": 1.6320719529773226e-12,
+    "second_half_over_first": 1.0046,
+    "effect": 0.00458,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "attr_rw/plain/dict": {
     "n": 60,
-    "S": 100,
-    "z": 0.631,
-    "p": 0.52777,
-    "slope_per_sample": 3.756470258099045e-12,
-    "second_half_over_first": 0.9914,
-    "effect": -0.00856,
+    "S": 74,
+    "z": 0.466,
+    "p": 0.64151,
+    "slope_per_sample": 1.8033281646368784e-12,
+    "second_half_over_first": 1.0012,
+    "effect": 0.00116,
     "min_effect": 0.01,
-    "direction_agrees": false,
+    "direction_agrees": true,
     "verdict": "no_trend"
    },
    "attr_rw/plain/slots": {
     "n": 60,
-    "S": -522,
-    "z": -3.323,
-    "p": 0.00089,
-    "slope_per_sample": -1.0220118780456345e-11,
-    "second_half_over_first": 0.9964,
-    "effect": -0.00358,
+    "S": -608,
+    "z": -3.871,
+    "p": 0.00011,
+    "slope_per_sample": -6.387423655549402e-12,
+    "second_half_over_first": 0.9954,
+    "effect": -0.00461,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/modexp": {
     "n": 60,
-    "S": -42,
-    "z": -0.261,
-    "p": 0.79371,
-    "slope_per_sample": -1.5344973272127615e-09,
-    "second_half_over_first": 0.9994,
-    "effect": -0.00062,
+    "S": 590,
+    "z": 3.757,
+    "p": 0.00017,
+    "slope_per_sample": 2.4756697517399776e-08,
+    "second_half_over_first": 1.0022,
+    "effect": 0.00223,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/digest": {
     "n": 60,
-    "S": 52,
-    "z": 0.325,
-    "p": 0.74497,
-    "slope_per_sample": 5.258782999185819e-08,
-    "second_half_over_first": 1.0009,
-    "effect": 0.00088,
+    "S": 556,
+    "z": 3.54,
+    "p": 0.0004,
+    "slope_per_sample": 4.082143032209142e-07,
+    "second_half_over_first": 1.0018,
+    "effect": 0.00178,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
@@ -210,12 +218,16 @@
   },
   "pin": {
    "pinned": true,
-   "pin_source": "reserved",
+   "pin_source": "CX_BENCH_CPUS",
    "pin_requested": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "cpu_count": 16,
    "isolated": [],
@@ -240,12 +252,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -279,6 +295,10 @@
     "process affinity is not confined to the reserved CPUs"
    ],
    "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
    "pin_target": "service"
   },
   "jit": {
@@ -290,7 +310,7 @@
       "force_compile": true,
       "is_jit_compiled": true,
       "interpreted_calls": 2,
-      "compile_time_us": 1,
+      "compile_time_us": 2,
       "code_bytes": 968
      }
     }
@@ -303,7 +323,7 @@
       "force_compile": false,
       "is_jit_compiled": true,
       "interpreted_calls": 5,
-      "compile_time_us": 1,
+      "compile_time_us": 2,
       "code_bytes": 968
      }
     }

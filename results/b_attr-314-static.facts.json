@@ -64,12 +64,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -99,11 +103,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "drift": {
   "test": "mann_kendall",
@@ -112,98 +120,98 @@
   "benchmarks": {
    "attr_read/plain/dict": {
     "n": 60,
-    "S": 44,
-    "z": 0.274,
-    "p": 0.78389,
-    "slope_per_sample": 6.725831486614404e-13,
-    "second_half_over_first": 1.0003,
-    "effect": 0.00025,
+    "S": 176,
+    "z": 1.116,
+    "p": 0.26436,
+    "slope_per_sample": 3.3881484081834203e-12,
+    "second_half_over_first": 1.0023,
+    "effect": 0.00231,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "attr_read/plain/slots": {
     "n": 60,
-    "S": -74,
-    "z": -0.466,
-    "p": 0.64151,
-    "slope_per_sample": -9.766100682773762e-13,
-    "second_half_over_first": 1.0001,
-    "effect": 0.00013,
+    "S": -104,
+    "z": -0.657,
+    "p": 0.51123,
+    "slope_per_sample": -1.9468487672774673e-12,
+    "second_half_over_first": 1.0015,
+    "effect": 0.00153,
     "min_effect": 0.01,
     "direction_agrees": false,
     "verdict": "no_trend"
    },
    "attr_read/static/field": {
     "n": 60,
-    "S": -172,
-    "z": -1.091,
-    "p": 0.27544,
-    "slope_per_sample": -3.712581753548303e-12,
-    "second_half_over_first": 0.9977,
-    "effect": -0.00231,
+    "S": 66,
+    "z": 0.415,
+    "p": 0.67846,
+    "slope_per_sample": 1.5591365501983472e-12,
+    "second_half_over_first": 1.0016,
+    "effect": 0.00157,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "attr_rw/plain/dict": {
     "n": 60,
-    "S": -258,
-    "z": -1.639,
-    "p": 0.10119,
-    "slope_per_sample": -1.8800896668836348e-11,
-    "second_half_over_first": 0.995,
-    "effect": -0.00501,
-    "min_effect": 0.01,
-    "direction_agrees": true,
-    "verdict": "no_trend"
-   },
-   "attr_rw/plain/slots": {
-    "n": 60,
-    "S": -86,
-    "z": -0.542,
-    "p": 0.58773,
-    "slope_per_sample": -5.324261691284319e-12,
-    "second_half_over_first": 1.0011,
-    "effect": 0.0011,
+    "S": -50,
+    "z": -0.313,
+    "p": 0.75465,
+    "slope_per_sample": -2.987370407936344e-12,
+    "second_half_over_first": 1.0066,
+    "effect": 0.00662,
     "min_effect": 0.01,
     "direction_agrees": false,
     "verdict": "no_trend"
    },
-   "attr_rw/static/field": {
+   "attr_rw/plain/slots": {
     "n": 60,
-    "S": -330,
-    "z": -2.098,
-    "p": 0.03588,
-    "slope_per_sample": -3.244126931892275e-11,
-    "second_half_over_first": 0.9835,
-    "effect": -0.01647,
+    "S": -302,
+    "z": -1.92,
+    "p": 0.05489,
+    "slope_per_sample": -3.203296171791627e-11,
+    "second_half_over_first": 0.9956,
+    "effect": -0.0044,
     "min_effect": 0.01,
     "direction_agrees": true,
-    "verdict": "speeding_up"
+    "verdict": "no_trend"
+   },
+   "attr_rw/static/field": {
+    "n": 60,
+    "S": 208,
+    "z": 1.32,
+    "p": 0.18676,
+    "slope_per_sample": 1.7933175330230896e-11,
+    "second_half_over_first": 0.9947,
+    "effect": -0.00535,
+    "min_effect": 0.01,
+    "direction_agrees": false,
+    "verdict": "no_trend"
    },
    "machine_probe/modexp": {
     "n": 60,
-    "S": -46,
-    "z": -0.287,
-    "p": 0.77411,
-    "slope_per_sample": -1.5004482470953156e-09,
-    "second_half_over_first": 0.999,
-    "effect": -0.00097,
+    "S": 500,
+    "z": 3.183,
+    "p": 0.00146,
+    "slope_per_sample": 1.7676136516391644e-08,
+    "second_half_over_first": 1.0015,
+    "effect": 0.0015,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/digest": {
     "n": 60,
-    "S": -122,
-    "z": -0.772,
-    "p": 0.44027,
-    "slope_per_sample": -6.329595895035059e-08,
-    "second_half_over_first": 1.0,
-    "effect": 0.0,
+    "S": -506,
+    "z": -3.221,
+    "p": 0.00128,
+    "slope_per_sample": -5.397904051524411e-07,
+    "second_half_over_first": 0.9984,
+    "effect": -0.00162,
     "min_effect": 0.01,
-    "direction_agrees": false,
+    "direction_agrees": true,
     "verdict": "no_trend"
    }
   },
@@ -225,12 +233,16 @@
   "jit_defaults_applied": {},
   "pin": {
    "pinned": true,
-   "pin_source": "reserved",
+   "pin_source": "CX_BENCH_CPUS",
    "pin_requested": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "cpu_count": 16,
    "isolated": [],
@@ -255,12 +267,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -294,6 +310,10 @@
     "process affinity is not confined to the reserved CPUs"
    ],
    "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
    "pin_target": "service"
   },
   "jit": {}

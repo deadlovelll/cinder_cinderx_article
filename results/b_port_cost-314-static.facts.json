@@ -65,12 +65,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -100,11 +104,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "problems": [],
  "facts": {
@@ -172,12 +180,20 @@
     "exit_code": 1,
     "diagnostic": "cinderx.compiler.errors.TypedSyntaxError: Cannot assign to a Final attribute of e08_final_override.Child:function e08_final_override.Base.m",
     "error_kind": "TypedSyntaxError"
+   },
+   {
+    "snippet": "e09_module_const_in_primitive_math",
+    "what": "a module-level named constant used as an operand of primitive arithmetic",
+    "rejected": true,
+    "exit_code": 1,
+    "diagnostic": "cinderx.compiler.errors.TypedSyntaxError: cannot right shift int64 and int",
+    "error_kind": "TypedSyntaxError"
    }
   ],
-  "total": 8,
-  "rejected": 8,
+  "total": 9,
+  "rejected": 9,
   "error_kinds": {
-   "TypedSyntaxError": 7,
+   "TypedSyntaxError": 8,
    "SystemError": 1
   }
  }

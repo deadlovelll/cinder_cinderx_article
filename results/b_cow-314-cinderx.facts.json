@@ -65,12 +65,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -100,11 +104,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "problems": [],
  "facts": {
@@ -115,66 +123,66 @@
     "objects": 400000,
     "touch_passes": 3,
     "parent_before_fork": {
-     "rss_kb": 172288,
-     "vsize_kb": 245876,
-     "smaps_rss_kb": 172288,
-     "smaps_pss_kb": 162317,
-     "smaps_shared_clean_kb": 15164,
+     "rss_kb": 170956,
+     "vsize_kb": 246092,
+     "smaps_rss_kb": 170956,
+     "smaps_pss_kb": 161675,
+     "smaps_shared_clean_kb": 13880,
      "smaps_shared_dirty_kb": 0,
      "smaps_private_clean_kb": 0,
-     "smaps_private_dirty_kb": 157124
+     "smaps_private_dirty_kb": 157076
     },
     "children": [
      {
       "worker": 0,
-      "rss_kb": 164064,
-      "vsize_kb": 245876,
-      "smaps_rss_kb": 164240,
-      "smaps_pss_kb": 103434,
-      "smaps_shared_clean_kb": 7116,
-      "smaps_shared_dirty_kb": 68408,
+      "rss_kb": 162468,
+      "vsize_kb": 246092,
+      "smaps_rss_kb": 162664,
+      "smaps_pss_kb": 103221,
+      "smaps_shared_clean_kb": 5584,
+      "smaps_shared_dirty_kb": 68384,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88716
+      "smaps_private_dirty_kb": 88696
      },
      {
       "worker": 1,
-      "rss_kb": 164128,
-      "vsize_kb": 245876,
-      "smaps_rss_kb": 164304,
-      "smaps_pss_kb": 103453,
-      "smaps_shared_clean_kb": 7180,
-      "smaps_shared_dirty_kb": 68412,
+      "rss_kb": 162468,
+      "vsize_kb": 246092,
+      "smaps_rss_kb": 162664,
+      "smaps_pss_kb": 106661,
+      "smaps_shared_clean_kb": 5584,
+      "smaps_shared_dirty_kb": 68388,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88712
+      "smaps_private_dirty_kb": 88692
      },
      {
       "worker": 2,
-      "rss_kb": 164124,
-      "vsize_kb": 245876,
-      "smaps_rss_kb": 164300,
-      "smaps_pss_kb": 113014,
-      "smaps_shared_clean_kb": 7176,
-      "smaps_shared_dirty_kb": 68412,
+      "rss_kb": 162468,
+      "vsize_kb": 246092,
+      "smaps_rss_kb": 162664,
+      "smaps_pss_kb": 106661,
+      "smaps_shared_clean_kb": 5584,
+      "smaps_shared_dirty_kb": 68388,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88712
+      "smaps_private_dirty_kb": 88692
      },
      {
       "worker": 3,
-      "rss_kb": 164128,
-      "vsize_kb": 245876,
-      "smaps_rss_kb": 164304,
-      "smaps_pss_kb": 113014,
-      "smaps_shared_clean_kb": 7180,
-      "smaps_shared_dirty_kb": 68412,
+      "rss_kb": 162468,
+      "vsize_kb": 246092,
+      "smaps_rss_kb": 162664,
+      "smaps_pss_kb": 106666,
+      "smaps_shared_clean_kb": 5584,
+      "smaps_shared_dirty_kb": 68380,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88712
+      "smaps_private_dirty_kb": 88700
      }
     ],
     "child_shared_clean_kb": [
-     7116,
-     7180,
-     7176,
-     7180
+     5584,
+     5584,
+     5584,
+     5584
     ]
    },
    {
@@ -183,66 +191,66 @@
     "objects": 400000,
     "touch_passes": 3,
     "parent_before_fork": {
-     "rss_kb": 172264,
-     "vsize_kb": 245856,
-     "smaps_rss_kb": 172264,
-     "smaps_pss_kb": 162293,
-     "smaps_shared_clean_kb": 15164,
+     "rss_kb": 170984,
+     "vsize_kb": 246132,
+     "smaps_rss_kb": 170984,
+     "smaps_pss_kb": 161703,
+     "smaps_shared_clean_kb": 13880,
      "smaps_shared_dirty_kb": 0,
      "smaps_private_clean_kb": 0,
-     "smaps_private_dirty_kb": 157100
+     "smaps_private_dirty_kb": 157104
     },
     "children": [
      {
       "worker": 0,
-      "rss_kb": 164108,
-      "vsize_kb": 245856,
-      "smaps_rss_kb": 164284,
-      "smaps_pss_kb": 103510,
-      "smaps_shared_clean_kb": 7184,
-      "smaps_shared_dirty_kb": 68384,
+      "rss_kb": 162496,
+      "vsize_kb": 246132,
+      "smaps_rss_kb": 162692,
+      "smaps_pss_kb": 103227,
+      "smaps_shared_clean_kb": 5584,
+      "smaps_shared_dirty_kb": 68412,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88716
+      "smaps_private_dirty_kb": 88696
      },
      {
       "worker": 1,
-      "rss_kb": 164108,
-      "vsize_kb": 245856,
-      "smaps_rss_kb": 164284,
-      "smaps_pss_kb": 104568,
-      "smaps_shared_clean_kb": 7184,
-      "smaps_shared_dirty_kb": 68388,
+      "rss_kb": 162496,
+      "vsize_kb": 246132,
+      "smaps_rss_kb": 162692,
+      "smaps_pss_kb": 106705,
+      "smaps_shared_clean_kb": 5584,
+      "smaps_shared_dirty_kb": 68396,
       "smaps_private_clean_kb": 0,
       "smaps_private_dirty_kb": 88712
      },
      {
       "worker": 2,
-      "rss_kb": 164108,
-      "vsize_kb": 245856,
-      "smaps_rss_kb": 164284,
-      "smaps_pss_kb": 113068,
-      "smaps_shared_clean_kb": 7184,
-      "smaps_shared_dirty_kb": 68388,
+      "rss_kb": 162496,
+      "vsize_kb": 246132,
+      "smaps_rss_kb": 162692,
+      "smaps_pss_kb": 106714,
+      "smaps_shared_clean_kb": 5584,
+      "smaps_shared_dirty_kb": 68416,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88712
+      "smaps_private_dirty_kb": 88692
      },
      {
       "worker": 3,
-      "rss_kb": 164108,
-      "vsize_kb": 245856,
-      "smaps_rss_kb": 164284,
-      "smaps_pss_kb": 113032,
-      "smaps_shared_clean_kb": 7184,
-      "smaps_shared_dirty_kb": 68368,
+      "rss_kb": 162496,
+      "vsize_kb": 246132,
+      "smaps_rss_kb": 162692,
+      "smaps_pss_kb": 106703,
+      "smaps_shared_clean_kb": 5584,
+      "smaps_shared_dirty_kb": 68416,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88732
+      "smaps_private_dirty_kb": 88692
      }
     ],
     "child_shared_clean_kb": [
-     7184,
-     7184,
-     7184,
-     7184
+     5584,
+     5584,
+     5584,
+     5584
     ]
    },
    {
@@ -251,66 +259,66 @@
     "objects": 400000,
     "touch_passes": 3,
     "parent_before_fork": {
-     "rss_kb": 172276,
-     "vsize_kb": 245856,
-     "smaps_rss_kb": 172276,
-     "smaps_pss_kb": 162307,
-     "smaps_shared_clean_kb": 15160,
+     "rss_kb": 170996,
+     "vsize_kb": 246132,
+     "smaps_rss_kb": 170996,
+     "smaps_pss_kb": 161717,
+     "smaps_shared_clean_kb": 13876,
      "smaps_shared_dirty_kb": 0,
      "smaps_private_clean_kb": 0,
-     "smaps_private_dirty_kb": 157116
+     "smaps_private_dirty_kb": 157120
     },
     "children": [
      {
       "worker": 0,
-      "rss_kb": 164120,
-      "vsize_kb": 245856,
-      "smaps_rss_kb": 164296,
-      "smaps_pss_kb": 103305,
-      "smaps_shared_clean_kb": 7180,
-      "smaps_shared_dirty_kb": 68660,
+      "rss_kb": 162508,
+      "vsize_kb": 246132,
+      "smaps_rss_kb": 162704,
+      "smaps_pss_kb": 103028,
+      "smaps_shared_clean_kb": 5580,
+      "smaps_shared_dirty_kb": 68680,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88456
+      "smaps_private_dirty_kb": 88444
      },
      {
       "worker": 1,
-      "rss_kb": 164120,
-      "vsize_kb": 245856,
-      "smaps_rss_kb": 164296,
-      "smaps_pss_kb": 103180,
-      "smaps_shared_clean_kb": 7180,
-      "smaps_shared_dirty_kb": 68668,
+      "rss_kb": 162508,
+      "vsize_kb": 246132,
+      "smaps_rss_kb": 162704,
+      "smaps_pss_kb": 106579,
+      "smaps_shared_clean_kb": 5580,
+      "smaps_shared_dirty_kb": 68688,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88448
+      "smaps_private_dirty_kb": 88436
      },
      {
       "worker": 2,
-      "rss_kb": 164120,
-      "vsize_kb": 245856,
-      "smaps_rss_kb": 164296,
-      "smaps_pss_kb": 103182,
-      "smaps_shared_clean_kb": 7180,
-      "smaps_shared_dirty_kb": 68668,
+      "rss_kb": 162508,
+      "vsize_kb": 246132,
+      "smaps_rss_kb": 162704,
+      "smaps_pss_kb": 106484,
+      "smaps_shared_clean_kb": 5580,
+      "smaps_shared_dirty_kb": 68688,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88448
+      "smaps_private_dirty_kb": 88436
      },
      {
       "worker": 3,
-      "rss_kb": 164120,
-      "vsize_kb": 245856,
-      "smaps_rss_kb": 164296,
-      "smaps_pss_kb": 103172,
-      "smaps_shared_clean_kb": 7180,
-      "smaps_shared_dirty_kb": 68668,
+      "rss_kb": 162508,
+      "vsize_kb": 246132,
+      "smaps_rss_kb": 162704,
+      "smaps_pss_kb": 106494,
+      "smaps_shared_clean_kb": 5580,
+      "smaps_shared_dirty_kb": 68688,
       "smaps_private_clean_kb": 0,
-      "smaps_private_dirty_kb": 88448
+      "smaps_private_dirty_kb": 88436
      }
     ],
     "child_shared_clean_kb": [
-     7180,
-     7180,
-     7180,
-     7180
+     5580,
+     5580,
+     5580,
+     5580
     ]
    }
   ]

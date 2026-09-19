@@ -1,5 +1,5 @@
 {
- "suite": "b_framework",
+ "suite": "b_async",
  "label": "314-stock",
  "cx_config": "stock",
  "interp": {
@@ -59,12 +59,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -94,97 +98,149 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "drift": {
   "test": "mann_kendall",
   "alpha": 0.05,
   "min_effect": 0.01,
   "benchmarks": {
-   "framework/stock/hand": {
+   "call/plain/w0": {
     "n": 60,
-    "S": -278,
-    "z": -1.767,
-    "p": 0.07728,
-    "slope_per_sample": -3.5947175939357597e-09,
-    "second_half_over_first": 0.9977,
-    "effect": -0.00226,
+    "S": 6,
+    "z": 0.032,
+    "p": 0.97456,
+    "slope_per_sample": 5.1216649155330895e-14,
+    "second_half_over_first": 1.0001,
+    "effect": 9e-05,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
-   "framework/stock/model_dict": {
+   "call/plain/w8": {
     "n": 60,
-    "S": 200,
-    "z": 1.269,
-    "p": 0.20437,
-    "slope_per_sample": 5.969581161480441e-09,
-    "second_half_over_first": 1.0011,
-    "effect": 0.0011,
+    "S": -34,
+    "z": -0.21,
+    "p": 0.8333,
+    "slope_per_sample": -7.776797263302564e-12,
+    "second_half_over_first": 0.9998,
+    "effect": -0.00017,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
-   "framework/stock/model_instance": {
+   "call/plain/w64": {
     "n": 60,
-    "S": -426,
-    "z": -2.711,
-    "p": 0.00672,
-    "slope_per_sample": -1.1451265571047603e-08,
-    "second_half_over_first": 0.9975,
-    "effect": -0.00246,
+    "S": -100,
+    "z": -0.631,
+    "p": 0.52777,
+    "slope_per_sample": -8.703503431940233e-11,
+    "second_half_over_first": 1.0012,
+    "effect": 0.00123,
+    "min_effect": 0.01,
+    "direction_agrees": false,
+    "verdict": "no_trend"
+   },
+   "await/plain/w0": {
+    "n": 60,
+    "S": -22,
+    "z": -0.134,
+    "p": 0.89345,
+    "slope_per_sample": -3.328103640627822e-13,
+    "second_half_over_first": 0.9987,
+    "effect": -0.00125,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
-   "framework/stock/no_model": {
+   "await/plain/w8": {
     "n": 60,
-    "S": 262,
-    "z": 1.665,
-    "p": 0.09598,
-    "slope_per_sample": 9.85011335312111e-09,
-    "second_half_over_first": 1.002,
-    "effect": 0.00201,
+    "S": 48,
+    "z": 0.3,
+    "p": 0.76436,
+    "slope_per_sample": 5.7605426386037884e-12,
+    "second_half_over_first": 1.0005,
+    "effect": 0.0005,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
-   "framework/stock/response_obj": {
+   "await/plain/w64": {
     "n": 60,
-    "S": 316,
-    "z": 2.009,
-    "p": 0.04453,
-    "slope_per_sample": 6.947201452728966e-09,
-    "second_half_over_first": 1.0018,
-    "effect": 0.00179,
+    "S": 158,
+    "z": 1.001,
+    "p": 0.31667,
+    "slope_per_sample": 5.849138797829341e-11,
+    "second_half_over_first": 1.0009,
+    "effect": 0.00085,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/suspend/w8": {
+    "n": 60,
+    "S": -28,
+    "z": -0.172,
+    "p": 0.86328,
+    "slope_per_sample": -3.435308338716224e-11,
+    "second_half_over_first": 0.9932,
+    "effect": -0.00678,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await_scale/plain/w8@2000": {
+    "n": 60,
+    "S": -98,
+    "z": -0.619,
+    "p": 0.53614,
+    "slope_per_sample": -8.172280883755996e-12,
+    "second_half_over_first": 1.0,
+    "effect": -0.0,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await_scale/plain/w8@4000": {
+    "n": 60,
+    "S": -92,
+    "z": -0.58,
+    "p": 0.56165,
+    "slope_per_sample": -1.6584950718164448e-11,
+    "second_half_over_first": 0.999,
+    "effect": -0.00104,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/modexp": {
     "n": 60,
-    "S": -486,
-    "z": -3.093,
-    "p": 0.00198,
-    "slope_per_sample": -1.413735904549472e-08,
-    "second_half_over_first": 0.9952,
-    "effect": -0.00482,
+    "S": -96,
+    "z": -0.606,
+    "p": 0.54458,
+    "slope_per_sample": -3.66312036553296e-09,
+    "second_half_over_first": 0.9995,
+    "effect": -0.00047,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/digest": {
     "n": 60,
-    "S": -88,
-    "z": -0.555,
-    "p": 0.57898,
-    "slope_per_sample": -4.364662808309705e-08,
-    "second_half_over_first": 0.9997,
-    "effect": -0.00028,
+    "S": 284,
+    "z": 1.805,
+    "p": 0.07108,
+    "slope_per_sample": 1.5490128974376535e-07,
+    "second_half_over_first": 1.0007,
+    "effect": 0.00074,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
@@ -194,25 +250,52 @@
   "verdict": "ok"
  },
  "registered": [
-  "framework/stock/hand",
-  "framework/stock/model_dict",
-  "framework/stock/model_instance",
-  "framework/stock/no_model",
-  "framework/stock/response_obj",
+  "call/plain/w0",
+  "call/plain/w8",
+  "call/plain/w64",
+  "await/plain/w0",
+  "await/plain/w8",
+  "await/plain/w64",
+  "await/suspend/w8",
+  "await_scale/plain/w8@2000",
+  "await_scale/plain/w8@4000",
   "machine_probe/modexp",
   "machine_probe/digest"
  ],
- "gate_failures": [],
+ "gate_failures": [
+  {
+   "case": "await",
+   "impl": "static",
+   "status": "unavailable",
+   "note": "the typed coroutine needs a static config"
+  },
+  {
+   "case": "await",
+   "impl": "lazy/done",
+   "status": "unavailable",
+   "note": "AsyncLazyValue lives in cinderx, this config has none"
+  },
+  {
+   "case": "await",
+   "impl": "prop/done",
+   "status": "unavailable",
+   "note": "async_cached_property lives in cinderx, this config has none"
+  }
+ ],
  "facts": {
   "jit_defaults_applied": {},
   "pin": {
    "pinned": true,
-   "pin_source": "reserved",
+   "pin_source": "CX_BENCH_CPUS",
    "pin_requested": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "cpu_count": 16,
    "isolated": [],
@@ -237,12 +320,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -276,7 +363,67 @@
     "process affinity is not confined to the reserved CPUs"
    ],
    "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
    "pin_target": "service"
+  },
+  "jit": {},
+  "witness": {
+   "call/plain/w0": {},
+   "call/plain/w8": {},
+   "call/plain/w64": {},
+   "await/plain/w0": {},
+   "await/plain/w8": {},
+   "await/plain/w64": {},
+   "await/suspend/w8": {}
+  },
+  "jit_state": {},
+  "runtime_metrics": {
+   "gc_stats": [
+    {
+     "collections": 22,
+     "collected": 740,
+     "uncollectable": 0
+    },
+    {
+     "collections": 1,
+     "collected": 4,
+     "uncollectable": 0
+    },
+    {
+     "collections": 0,
+     "collected": 0,
+     "uncollectable": 0
+    }
+   ],
+   "gc_count": [
+    19,
+    11,
+    1
+   ],
+   "gc_freeze_count": 0,
+   "gc_threshold": [
+    2000,
+    10,
+    10
+   ],
+   "allocated_blocks": 128086,
+   "interned_size": 21483,
+   "maxrss_kb": 48776,
+   "minflt": 14284,
+   "majflt": 0,
+   "nvcsw": 1900,
+   "nivcsw": 12,
+   "rss_kb": 32788,
+   "vsize_kb": 44124,
+   "smaps_rss_kb": 32788,
+   "smaps_pss_kb": 26631,
+   "smaps_shared_clean_kb": 6764,
+   "smaps_shared_dirty_kb": 0,
+   "smaps_private_clean_kb": 6836,
+   "smaps_private_dirty_kb": 19188
   }
  }
 }

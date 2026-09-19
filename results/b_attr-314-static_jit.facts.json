@@ -64,12 +64,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -99,11 +103,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "drift": {
   "test": "mann_kendall",
@@ -112,96 +120,96 @@
   "benchmarks": {
    "attr_read/plain/dict": {
     "n": 60,
-    "S": 112,
-    "z": 0.708,
-    "p": 0.47898,
-    "slope_per_sample": 2.2344561292996936e-12,
-    "second_half_over_first": 1.0098,
-    "effect": 0.00978,
+    "S": -366,
+    "z": -2.328,
+    "p": 0.01992,
+    "slope_per_sample": -4.990184876347651e-12,
+    "second_half_over_first": 0.9964,
+    "effect": -0.00357,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "attr_read/plain/slots": {
     "n": 60,
-    "S": 460,
-    "z": 2.927,
-    "p": 0.00342,
-    "slope_per_sample": 9.699161504765064e-12,
-    "second_half_over_first": 1.0045,
-    "effect": 0.00448,
+    "S": -520,
+    "z": -3.31,
+    "p": 0.00093,
+    "slope_per_sample": -9.65581088538359e-12,
+    "second_half_over_first": 0.9898,
+    "effect": -0.01022,
     "min_effect": 0.01,
     "direction_agrees": true,
-    "verdict": "no_trend"
+    "verdict": "speeding_up"
    },
    "attr_read/static/field": {
     "n": 60,
-    "S": -166,
-    "z": -1.052,
-    "p": 0.29264,
-    "slope_per_sample": -1.055041786572097e-12,
-    "second_half_over_first": 0.9976,
-    "effect": -0.0024,
+    "S": -8,
+    "z": -0.045,
+    "p": 0.96439,
+    "slope_per_sample": -4.9674196946284675e-14,
+    "second_half_over_first": 0.9989,
+    "effect": -0.00106,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "attr_rw/plain/dict": {
     "n": 60,
-    "S": -742,
-    "z": -4.726,
-    "p": 0.0,
-    "slope_per_sample": -4.412692906693596e-11,
-    "second_half_over_first": 0.9511,
-    "effect": -0.04887,
+    "S": 72,
+    "z": 0.453,
+    "p": 0.65067,
+    "slope_per_sample": 1.0233826232354851e-12,
+    "second_half_over_first": 0.9992,
+    "effect": -0.00078,
     "min_effect": 0.01,
-    "direction_agrees": true,
-    "verdict": "speeding_up"
+    "direction_agrees": false,
+    "verdict": "no_trend"
    },
    "attr_rw/plain/slots": {
     "n": 60,
-    "S": -176,
-    "z": -1.116,
-    "p": 0.26436,
-    "slope_per_sample": -3.621874709226878e-12,
-    "second_half_over_first": 1.0186,
-    "effect": 0.01855,
+    "S": -118,
+    "z": -0.746,
+    "p": 0.45554,
+    "slope_per_sample": -4.435775091140922e-12,
+    "second_half_over_first": 1.018,
+    "effect": 0.01804,
     "min_effect": 0.01,
     "direction_agrees": false,
     "verdict": "no_trend"
    },
    "attr_rw/static/field": {
     "n": 60,
-    "S": 396,
-    "z": 2.519,
-    "p": 0.01176,
-    "slope_per_sample": 8.994265111296758e-12,
-    "second_half_over_first": 0.9985,
-    "effect": -0.00149,
+    "S": -136,
+    "z": -0.861,
+    "p": 0.38923,
+    "slope_per_sample": -6.781816081355644e-12,
+    "second_half_over_first": 1.0057,
+    "effect": 0.00572,
     "min_effect": 0.01,
     "direction_agrees": false,
     "verdict": "no_trend"
    },
    "machine_probe/modexp": {
     "n": 60,
-    "S": 114,
-    "z": 0.721,
-    "p": 0.47109,
-    "slope_per_sample": 3.9248365392175365e-09,
-    "second_half_over_first": 1.0005,
-    "effect": 0.00046,
+    "S": 106,
+    "z": 0.67,
+    "p": 0.50306,
+    "slope_per_sample": 4.7612117516247325e-09,
+    "second_half_over_first": 1.0019,
+    "effect": 0.0019,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/digest": {
     "n": 60,
-    "S": -312,
-    "z": -1.984,
-    "p": 0.04731,
-    "slope_per_sample": -1.664203595013263e-07,
-    "second_half_over_first": 0.9992,
-    "effect": -0.00078,
+    "S": 338,
+    "z": 2.149,
+    "p": 0.03161,
+    "slope_per_sample": 1.5678463947687367e-07,
+    "second_half_over_first": 1.0005,
+    "effect": 0.00049,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
@@ -229,12 +237,16 @@
   },
   "pin": {
    "pinned": true,
-   "pin_source": "reserved",
+   "pin_source": "CX_BENCH_CPUS",
    "pin_requested": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "cpu_count": 16,
    "isolated": [],
@@ -259,12 +271,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -298,6 +314,10 @@
     "process affinity is not confined to the reserved CPUs"
    ],
    "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
    "pin_target": "service"
   },
   "jit": {
@@ -309,8 +329,8 @@
       "force_compile": true,
       "is_jit_compiled": true,
       "interpreted_calls": 2,
-      "compile_time_us": 1,
-      "code_bytes": 976
+      "compile_time_us": 2,
+      "code_bytes": 968
      }
     }
    },
@@ -322,8 +342,8 @@
       "force_compile": false,
       "is_jit_compiled": true,
       "interpreted_calls": 5,
-      "compile_time_us": 1,
-      "code_bytes": 976
+      "compile_time_us": 2,
+      "code_bytes": 968
      }
     }
    },
@@ -336,7 +356,7 @@
       "is_jit_compiled": true,
       "interpreted_calls": 2,
       "compile_time_us": 1,
-      "code_bytes": 1176
+      "code_bytes": 1168
      }
     }
    }

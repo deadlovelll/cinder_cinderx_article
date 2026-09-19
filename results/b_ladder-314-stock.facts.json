@@ -59,12 +59,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -94,11 +98,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "drift": {
   "test": "mann_kendall",
@@ -107,38 +115,38 @@
   "benchmarks": {
    "life/stock": {
     "n": 60,
-    "S": 20,
-    "z": 0.121,
-    "p": 0.90355,
-    "slope_per_sample": 7.056334678950868e-07,
-    "second_half_over_first": 0.9987,
-    "effect": -0.00135,
-    "min_effect": 0.01,
-    "direction_agrees": false,
-    "verdict": "no_trend"
-   },
-   "machine_probe/modexp": {
-    "n": 60,
-    "S": -196,
-    "z": -1.244,
-    "p": 0.21361,
-    "slope_per_sample": -5.521816420054272e-09,
-    "second_half_over_first": 0.9997,
-    "effect": -0.00027,
+    "S": -234,
+    "z": -1.486,
+    "p": 0.13726,
+    "slope_per_sample": -8.628949439577281e-06,
+    "second_half_over_first": 0.9932,
+    "effect": -0.00682,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
-   "machine_probe/digest": {
+   "machine_probe/modexp": {
     "n": 60,
-    "S": -146,
-    "z": -0.925,
-    "p": 0.35507,
-    "slope_per_sample": -5.658981897912689e-08,
-    "second_half_over_first": 1.0003,
-    "effect": 0.00031,
+    "S": 24,
+    "z": 0.147,
+    "p": 0.88337,
+    "slope_per_sample": 6.189974623406737e-10,
+    "second_half_over_first": 0.9992,
+    "effect": -0.00079,
     "min_effect": 0.01,
     "direction_agrees": false,
+    "verdict": "no_trend"
+   },
+   "machine_probe/digest": {
+    "n": 60,
+    "S": -94,
+    "z": -0.593,
+    "p": 0.55308,
+    "slope_per_sample": -3.545411414296557e-08,
+    "second_half_over_first": 0.9998,
+    "effect": -0.00023,
+    "min_effect": 0.01,
+    "direction_agrees": true,
     "verdict": "no_trend"
    }
   },
@@ -155,12 +163,16 @@
   "jit_defaults_applied": {},
   "pin": {
    "pinned": true,
-   "pin_source": "reserved",
+   "pin_source": "CX_BENCH_CPUS",
    "pin_requested": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "cpu_count": 16,
    "isolated": [],
@@ -185,12 +197,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -224,6 +240,10 @@
     "process affinity is not confined to the reserved CPUs"
    ],
    "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
    "pin_target": "service"
   },
   "jit": {},
@@ -247,7 +267,7 @@
     }
    ],
    "gc_count": [
-    866,
+    856,
     5,
     1
    ],
@@ -257,21 +277,21 @@
     10,
     10
    ],
-   "allocated_blocks": 93219,
-   "interned_size": 18575,
-   "maxrss_kb": 44344,
-   "minflt": 13079,
+   "allocated_blocks": 93145,
+   "interned_size": 18581,
+   "maxrss_kb": 44376,
+   "minflt": 12217,
    "majflt": 0,
-   "nvcsw": 521,
-   "nivcsw": 11,
-   "rss_kb": 28444,
-   "vsize_kb": 39136,
-   "smaps_rss_kb": 28444,
-   "smaps_pss_kb": 22384,
-   "smaps_shared_clean_kb": 6536,
+   "nvcsw": 525,
+   "nivcsw": 3,
+   "rss_kb": 28352,
+   "vsize_kb": 39392,
+   "smaps_rss_kb": 28352,
+   "smaps_pss_kb": 22369,
+   "smaps_shared_clean_kb": 6548,
    "smaps_shared_dirty_kb": 0,
-   "smaps_private_clean_kb": 6512,
-   "smaps_private_dirty_kb": 15396
+   "smaps_private_clean_kb": 6448,
+   "smaps_private_dirty_kb": 15356
   },
   "checksum": 857604582706485524
  }

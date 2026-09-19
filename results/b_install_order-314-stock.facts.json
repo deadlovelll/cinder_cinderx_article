@@ -60,12 +60,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -95,11 +99,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "problems": [],
  "facts": {
@@ -111,8 +119,8 @@
     "is_static_module": true,
     "is_static_callable": true,
     "correct": true,
-    "median_ms": 14.451520997681655,
-    "min_ms": 14.41064900427591,
+    "median_ms": 14.829610008746386,
+    "min_ms": 14.69005603576079,
     "note": "timing is indicative only: this is an observation bench, the durations are not pyperf measurements"
    },
    {
@@ -122,8 +130,8 @@
     "is_static_module": true,
     "is_static_callable": true,
     "correct": true,
-    "median_ms": 14.942145993700251,
-    "min_ms": 14.42065900482703,
+    "median_ms": 15.006087021902204,
+    "min_ms": 14.775736955925822,
     "note": "timing is indicative only: this is an observation bench, the durations are not pyperf measurements"
    },
    {
@@ -133,8 +141,8 @@
     "is_static_module": false,
     "is_static_callable": false,
     "correct": true,
-    "median_ms": 10.016669009928592,
-    "min_ms": 9.663556003943086,
+    "median_ms": 9.528172027785331,
+    "min_ms": 9.437049040570855,
     "note": "timing is indicative only: this is an observation bench, the durations are not pyperf measurements"
    },
    {
@@ -144,8 +152,8 @@
     "is_static_module": null,
     "is_static_callable": null,
     "correct": true,
-    "median_ms": 8.2436869997764,
-    "min_ms": 8.211708001908846,
+    "median_ms": 8.268809004221112,
+    "min_ms": 8.041917986702174,
     "note": "timing is indicative only: this is an observation bench, the durations are not pyperf measurements"
    }
   ]

@@ -64,7 +64,7 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
     2,
     3,
@@ -112,81 +112,79 @@
   "benchmarks": {
    "gc_collect/immortal/traverse/serial": {
     "n": 60,
-    "S": -2,
-    "z": -0.006,
-    "p": 0.99491,
-    "slope_per_sample": -1.7818638484765327e-12,
-    "second_half_over_first": 0.9964,
-    "effect": -0.00364,
+    "S": 172,
+    "z": 1.091,
+    "p": 0.27544,
+    "slope_per_sample": 7.91658960608288e-11,
+    "second_half_over_first": 1.0011,
+    "effect": 0.00106,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "gc_collect/immortal/traverse/par4": {
     "n": 60,
-    "S": 338,
-    "z": 2.149,
-    "p": 0.03161,
-    "slope_per_sample": 7.712253505027482e-07,
-    "second_half_over_first": 1.0662,
-    "effect": 0.06617,
+    "S": -56,
+    "z": -0.351,
+    "p": 0.72575,
+    "slope_per_sample": -6.122440679302513e-08,
+    "second_half_over_first": 1.0024,
+    "effect": 0.00244,
     "min_effect": 0.01,
-    "direction_agrees": true,
-    "verdict": "SLOWING"
+    "direction_agrees": false,
+    "verdict": "no_trend"
    },
    "gc_collect/immortal/reclaim/serial": {
     "n": 60,
-    "S": -108,
-    "z": -0.682,
-    "p": 0.49496,
-    "slope_per_sample": -2.4396023070073204e-06,
-    "second_half_over_first": 0.999,
-    "effect": -0.00096,
+    "S": -30,
+    "z": -0.185,
+    "p": 0.85326,
+    "slope_per_sample": -1.0696097463066993e-06,
+    "second_half_over_first": 0.9947,
+    "effect": -0.00527,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "gc_collect/immortal/reclaim/par4": {
     "n": 60,
-    "S": -122,
-    "z": -0.772,
-    "p": 0.44027,
-    "slope_per_sample": -2.6403383041421575e-06,
-    "second_half_over_first": 0.9989,
-    "effect": -0.00111,
+    "S": 114,
+    "z": 0.721,
+    "p": 0.47109,
+    "slope_per_sample": 5.5106526022378725e-06,
+    "second_half_over_first": 1.0041,
+    "effect": 0.00406,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/modexp": {
     "n": 60,
-    "S": 226,
-    "z": 1.435,
-    "p": 0.15128,
-    "slope_per_sample": 7.572669156484134e-09,
-    "second_half_over_first": 1.0005,
-    "effect": 0.00051,
+    "S": 90,
+    "z": 0.568,
+    "p": 0.57028,
+    "slope_per_sample": 3.1591251605916575e-09,
+    "second_half_over_first": 0.9997,
+    "effect": -0.0003,
     "min_effect": 0.01,
-    "direction_agrees": true,
+    "direction_agrees": false,
     "verdict": "no_trend"
    },
    "machine_probe/digest": {
     "n": 60,
-    "S": -34,
-    "z": -0.21,
-    "p": 0.8333,
-    "slope_per_sample": -1.9802461383467385e-08,
-    "second_half_over_first": 0.9996,
-    "effect": -0.00041,
+    "S": -140,
+    "z": -0.887,
+    "p": 0.37533,
+    "slope_per_sample": -6.364732518490842e-08,
+    "second_half_over_first": 0.9997,
+    "effect": -0.0003,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    }
   },
-  "slowing": [
-   "gc_collect/immortal/traverse/par4"
-  ],
-  "verdict": "DRIFT"
+  "slowing": [],
+  "verdict": "ok"
  },
  "registered": [
   "gc_collect/immortal/traverse/serial",
@@ -231,7 +229,7 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
     2,
     3,
@@ -315,27 +313,27 @@
     1,
     0
    ],
-   "gc_freeze_count": 922703,
+   "gc_freeze_count": 922705,
    "gc_threshold": [
     2000,
     10,
     10
    ],
-   "allocated_blocks": 1908921,
-   "interned_size": 18864,
-   "maxrss_kb": 134044,
-   "minflt": 33136,
+   "allocated_blocks": 1908952,
+   "interned_size": 18870,
+   "maxrss_kb": 132644,
+   "minflt": 33197,
    "majflt": 0,
-   "nvcsw": 1026,
-   "nivcsw": 18,
-   "rss_kb": 117968,
-   "vsize_kb": 193344,
-   "smaps_rss_kb": 117968,
-   "smaps_pss_kb": 110373,
-   "smaps_shared_clean_kb": 8168,
+   "nvcsw": 1014,
+   "nivcsw": 8,
+   "rss_kb": 116664,
+   "vsize_kb": 192580,
+   "smaps_rss_kb": 116664,
+   "smaps_pss_kb": 109198,
+   "smaps_shared_clean_kb": 8180,
    "smaps_shared_dirty_kb": 0,
-   "smaps_private_clean_kb": 10204,
-   "smaps_private_dirty_kb": 99596
+   "smaps_private_clean_kb": 8872,
+   "smaps_private_dirty_kb": 99612
   }
  }
 }

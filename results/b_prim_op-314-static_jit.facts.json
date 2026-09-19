@@ -64,12 +64,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -99,11 +103,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "drift": {
   "test": "mann_kendall",
@@ -112,163 +120,166 @@
   "benchmarks": {
    "prim_op/plain/int": {
     "n": 60,
-    "S": 530,
-    "z": 3.374,
-    "p": 0.00074,
-    "slope_per_sample": 9.39155425187512e-12,
-    "second_half_over_first": 1.0041,
-    "effect": 0.00407,
+    "S": 922,
+    "z": 5.874,
+    "p": 0.0,
+    "slope_per_sample": 4.7946942989559584e-11,
+    "second_half_over_first": 1.0228,
+    "effect": 0.02285,
     "min_effect": 0.01,
     "direction_agrees": true,
-    "verdict": "no_trend"
+    "verdict": "SLOWING"
    },
    "prim_op/static/int": {
     "n": 60,
-    "S": -1056,
-    "z": -6.729,
-    "p": 0.0,
-    "slope_per_sample": -3.565734242818971e-11,
-    "second_half_over_first": 0.9363,
-    "effect": -0.06375,
+    "S": -398,
+    "z": -2.532,
+    "p": 0.01134,
+    "slope_per_sample": -1.0777917663235297e-11,
+    "second_half_over_first": 0.9696,
+    "effect": -0.03038,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "speeding_up"
    },
    "prim_op/static/int64": {
     "n": 60,
-    "S": 422,
-    "z": 2.685,
-    "p": 0.00725,
-    "slope_per_sample": 1.1850776811197389e-13,
-    "second_half_over_first": 1.005,
-    "effect": 0.00496,
+    "S": 258,
+    "z": 1.639,
+    "p": 0.10119,
+    "slope_per_sample": 1.4744985163714528e-13,
+    "second_half_over_first": 1.027,
+    "effect": 0.02699,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64@62500": {
     "n": 60,
-    "S": -32,
-    "z": -0.198,
-    "p": 0.84327,
-    "slope_per_sample": -4.5750966978417495e-15,
-    "second_half_over_first": 0.9999,
-    "effect": -9e-05,
+    "S": -108,
+    "z": -0.682,
+    "p": 0.49496,
+    "slope_per_sample": -2.0640801528658217e-14,
+    "second_half_over_first": 0.968,
+    "effect": -0.03198,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64@250000": {
     "n": 60,
-    "S": -294,
-    "z": -1.869,
-    "p": 0.06166,
-    "slope_per_sample": -4.606250978712492e-14,
-    "second_half_over_first": 0.9981,
-    "effect": -0.00194,
+    "S": 210,
+    "z": 1.333,
+    "p": 0.18254,
+    "slope_per_sample": 7.354234164168616e-14,
+    "second_half_over_first": 1.0002,
+    "effect": 0.00023,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64@500000": {
     "n": 60,
-    "S": -160,
-    "z": -1.014,
-    "p": 0.31054,
-    "slope_per_sample": -4.9051545224570306e-14,
-    "second_half_over_first": 0.9994,
-    "effect": -0.00061,
+    "S": -396,
+    "z": -2.519,
+    "p": 0.01176,
+    "slope_per_sample": -1.7097506736684469e-13,
+    "second_half_over_first": 0.9714,
+    "effect": -0.02856,
     "min_effect": 0.01,
     "direction_agrees": true,
-    "verdict": "no_trend"
+    "verdict": "speeding_up"
    },
    "prim_op_scale/static/int64@1000000": {
     "n": 60,
-    "S": 342,
-    "z": 2.175,
-    "p": 0.02964,
-    "slope_per_sample": 1.2341501501179756e-13,
-    "second_half_over_first": 1.0035,
-    "effect": 0.0035,
+    "S": 808,
+    "z": 5.147,
+    "p": 0.0,
+    "slope_per_sample": 9.253001053366435e-13,
+    "second_half_over_first": 1.0516,
+    "effect": 0.05157,
     "min_effect": 0.01,
     "direction_agrees": true,
-    "verdict": "no_trend"
+    "verdict": "SLOWING"
    },
    "prim_op_scale/static/int64-opaque@62500": {
     "n": 60,
-    "S": -388,
-    "z": -2.468,
-    "p": 0.01358,
-    "slope_per_sample": -1.0022592846326514e-13,
-    "second_half_over_first": 0.9984,
-    "effect": -0.00158,
+    "S": -204,
+    "z": -1.295,
+    "p": 0.19542,
+    "slope_per_sample": -5.523303505989975e-14,
+    "second_half_over_first": 0.9993,
+    "effect": -0.00075,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64-opaque@250000": {
     "n": 60,
-    "S": 444,
-    "z": 2.825,
-    "p": 0.00472,
-    "slope_per_sample": 1.2714200402228401e-13,
-    "second_half_over_first": 1.0007,
-    "effect": 0.00069,
+    "S": -272,
+    "z": -1.728,
+    "p": 0.08391,
+    "slope_per_sample": -8.950410739832186e-14,
+    "second_half_over_first": 0.9998,
+    "effect": -0.00015,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64-opaque@500000": {
     "n": 60,
-    "S": 146,
-    "z": 0.925,
-    "p": 0.35507,
-    "slope_per_sample": 3.6714702878138453e-14,
-    "second_half_over_first": 1.0013,
-    "effect": 0.00133,
+    "S": -22,
+    "z": -0.134,
+    "p": 0.89345,
+    "slope_per_sample": -3.61929627009271e-15,
+    "second_half_over_first": 1.0008,
+    "effect": 0.00082,
     "min_effect": 0.01,
-    "direction_agrees": true,
+    "direction_agrees": false,
     "verdict": "no_trend"
    },
    "prim_op_scale/static/int64-opaque@1000000": {
     "n": 60,
-    "S": -166,
-    "z": -1.052,
-    "p": 0.29264,
-    "slope_per_sample": -3.487032969251555e-14,
-    "second_half_over_first": 0.9996,
-    "effect": -0.0004,
+    "S": 100,
+    "z": 0.631,
+    "p": 0.52777,
+    "slope_per_sample": 2.8130081619828126e-14,
+    "second_half_over_first": 1.0003,
+    "effect": 0.00027,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/modexp": {
     "n": 60,
-    "S": 26,
-    "z": 0.159,
-    "p": 0.87332,
-    "slope_per_sample": 1.1274305902391107e-09,
-    "second_half_over_first": 0.9991,
-    "effect": -0.00086,
+    "S": 154,
+    "z": 0.976,
+    "p": 0.32915,
+    "slope_per_sample": 6.259771517653668e-09,
+    "second_half_over_first": 1.0016,
+    "effect": 0.00164,
     "min_effect": 0.01,
-    "direction_agrees": false,
+    "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/digest": {
     "n": 60,
-    "S": -50,
-    "z": -0.313,
-    "p": 0.75465,
-    "slope_per_sample": -2.551075795054203e-08,
+    "S": 74,
+    "z": 0.466,
+    "p": 0.64151,
+    "slope_per_sample": 6.171944385638749e-08,
     "second_half_over_first": 1.0002,
-    "effect": 0.00016,
+    "effect": 0.00022,
     "min_effect": 0.01,
-    "direction_agrees": false,
+    "direction_agrees": true,
     "verdict": "no_trend"
    }
   },
-  "slowing": [],
-  "verdict": "ok"
+  "slowing": [
+   "prim_op/plain/int",
+   "prim_op_scale/static/int64@1000000"
+  ],
+  "verdict": "DRIFT"
  },
  "registered": [
   "prim_op/plain/int",
@@ -294,12 +305,16 @@
   },
   "pin": {
    "pinned": true,
-   "pin_source": "reserved",
+   "pin_source": "CX_BENCH_CPUS",
    "pin_requested": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "cpu_count": 16,
    "isolated": [],
@@ -324,12 +339,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -363,6 +382,10 @@
     "process affinity is not confined to the reserved CPUs"
    ],
    "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
    "pin_target": "service"
   },
   "scale_sweep": {
@@ -389,8 +412,8 @@
       "force_compile": true,
       "is_jit_compiled": true,
       "interpreted_calls": 2,
-      "compile_time_us": 1,
-      "code_bytes": 808
+      "compile_time_us": 2,
+      "code_bytes": 816
      }
     }
    },
@@ -423,9 +446,9 @@
   },
   "jit_state": {
    "compiled_functions": 4,
-   "compilation_time_us": 2,
+   "compilation_time_us": 3,
    "allocator": {
-    "used_bytes": 2912,
+    "used_bytes": 2920,
     "max_bytes": 0,
     "lost_bytes": 0,
     "fragmented_allocs": 0,

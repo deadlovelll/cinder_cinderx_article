@@ -1,0 +1,696 @@
+{
+ "suite": "b_async",
+ "label": "314-static_jit",
+ "cx_config": "static_jit",
+ "interp": {
+  "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+  "version": "3.14.5+meta",
+  "implementation": "CPython",
+  "compiler": "Clang 18.1.3 (1ubuntu1)",
+  "gil_enabled": true,
+  "free_threaded": false,
+  "config_args": "'--prefix=/home/timofei/Desktop/cinder_cinderx_article/build/fork' '--enable-optimizations' '--with-lto' 'PKG_CONFIG_PATH=/opt/intel/oneapi/vtune/2025.10/include/pkgconfig/lib64:/opt/intel/oneapi/tbb/2022.3/env/../lib/pkgconfig:/opt/intel/oneapi/mpi/2021.17/lib/pkgconfig:/opt/intel/oneapi/mkl/2025.3/lib/pkgconfig:/opt/intel/oneapi/ippcp/2025.3/lib/pkgconfig:/opt/intel/oneapi/dpl/2022.10/lib/pkgconfig:/opt/intel/oneapi/dnnl/2025.3/lib/pkgconfig:/opt/intel/oneapi/dal/2025.10/lib/pkgconfig:/opt/intel/oneapi/compiler/2025.3/lib/pkgconfig:/opt/intel/oneapi/ccl/2021.17/lib/pkgconfig/:/opt/intel/oneapi/advisor/2025.4/include/pkgconfig/lib64:' 'CC=clang'",
+  "core_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -fno-semantic-interposition -flto=thin -g -std=c11 -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wstrict-prototypes -Werror=implicit-function-declaration -fvisibility=hidden -fprofile-instr-use=/home/timofei/Desktop/cinder_cinderx_article/cinderx-workshop/cinder/code.profclangd -I./Include/internal -I./Include/internal/mimalloc -I. -I./Include -DPy_BUILD_CORE",
+  "lazy_imports": false,
+  "cx_config": "static_jit",
+  "cinderx_version": "2026.9.14.0",
+  "frame_evaluator": true,
+  "has_parallel_gc": true,
+  "jit_enabled": true,
+  "compile_after_n_calls": null
+ },
+ "machine": {
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "system": "Linux",
+  "cpu_count": 16,
+  "cpu_brand": "Intel(R) Core(TM) Ultra 7 255H"
+ },
+ "preflight": {
+  "aslr": {
+   "reexec": "1",
+   "personality": "0x40000",
+   "addr_no_randomize": true,
+   "randomize_va_space": 2,
+   "layout_stable": true,
+   "layout_samples": [
+    "5555555db000",
+    "5555555db000",
+    "5555555db000"
+   ],
+   "verdict": "off"
+  },
+  "cpu": {
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
+  },
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
+ },
+ "drift": {
+  "test": "mann_kendall",
+  "alpha": 0.05,
+  "min_effect": 0.01,
+  "benchmarks": {
+   "call/plain/w0": {
+    "n": 60,
+    "S": 460,
+    "z": 2.927,
+    "p": 0.00342,
+    "slope_per_sample": 4.669260206973704e-12,
+    "second_half_over_first": 1.0003,
+    "effect": 0.0003,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "call/plain/w8": {
+    "n": 60,
+    "S": 80,
+    "z": 0.504,
+    "p": 0.61436,
+    "slope_per_sample": 2.971285868688299e-12,
+    "second_half_over_first": 1.0005,
+    "effect": 0.00048,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "call/plain/w64": {
+    "n": 60,
+    "S": 316,
+    "z": 2.009,
+    "p": 0.04453,
+    "slope_per_sample": 1.3281660324503245e-10,
+    "second_half_over_first": 1.0015,
+    "effect": 0.0015,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/plain/w0": {
+    "n": 60,
+    "S": 36,
+    "z": 0.223,
+    "p": 0.82336,
+    "slope_per_sample": 5.058406005687267e-13,
+    "second_half_over_first": 1.0008,
+    "effect": 0.0008,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/plain/w8": {
+    "n": 60,
+    "S": -112,
+    "z": -0.708,
+    "p": 0.47898,
+    "slope_per_sample": -4.0736215302159144e-12,
+    "second_half_over_first": 0.9999,
+    "effect": -0.00015,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/plain/w64": {
+    "n": 60,
+    "S": -212,
+    "z": -1.346,
+    "p": 0.17839,
+    "slope_per_sample": -1.6105346285442367e-10,
+    "second_half_over_first": 0.9955,
+    "effect": -0.00451,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/suspend/w8": {
+    "n": 60,
+    "S": -436,
+    "z": -2.774,
+    "p": 0.00553,
+    "slope_per_sample": -5.793486175935357e-10,
+    "second_half_over_first": 0.9889,
+    "effect": -0.01109,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "speeding_up"
+   },
+   "await/static/w0": {
+    "n": 60,
+    "S": 302,
+    "z": 1.92,
+    "p": 0.05489,
+    "slope_per_sample": 7.075700641936283e-12,
+    "second_half_over_first": 1.0014,
+    "effect": 0.00139,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/static/w8": {
+    "n": 60,
+    "S": 108,
+    "z": 0.682,
+    "p": 0.49496,
+    "slope_per_sample": 3.0805881751251168e-12,
+    "second_half_over_first": 0.9987,
+    "effect": -0.00129,
+    "min_effect": 0.01,
+    "direction_agrees": false,
+    "verdict": "no_trend"
+   },
+   "await/static/w64": {
+    "n": 60,
+    "S": 22,
+    "z": 0.134,
+    "p": 0.89345,
+    "slope_per_sample": 1.683743980483126e-12,
+    "second_half_over_first": 1.0007,
+    "effect": 0.00067,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/lazy/done": {
+    "n": 60,
+    "S": -414,
+    "z": -2.634,
+    "p": 0.00844,
+    "slope_per_sample": -6.430344162329949e-12,
+    "second_half_over_first": 0.9953,
+    "effect": -0.00473,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/prop/done": {
+    "n": 60,
+    "S": 156,
+    "z": 0.989,
+    "p": 0.32287,
+    "slope_per_sample": 6.117099835464857e-12,
+    "second_half_over_first": 1.0009,
+    "effect": 0.00086,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await_scale/plain/w8@2000": {
+    "n": 60,
+    "S": -474,
+    "z": -3.017,
+    "p": 0.00255,
+    "slope_per_sample": -1.7113235599583098e-11,
+    "second_half_over_first": 0.9985,
+    "effect": -0.00148,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await_scale/plain/w8@4000": {
+    "n": 60,
+    "S": 278,
+    "z": 1.767,
+    "p": 0.07728,
+    "slope_per_sample": 1.2854411335122218e-11,
+    "second_half_over_first": 1.0012,
+    "effect": 0.00117,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "machine_probe/modexp": {
+    "n": 60,
+    "S": 428,
+    "z": 2.723,
+    "p": 0.00646,
+    "slope_per_sample": 1.0846105151241479e-08,
+    "second_half_over_first": 1.0008,
+    "effect": 0.00081,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "machine_probe/digest": {
+    "n": 60,
+    "S": 2,
+    "z": 0.006,
+    "p": 0.99491,
+    "slope_per_sample": 1.5366636758513592e-09,
+    "second_half_over_first": 0.9999,
+    "effect": -0.00011,
+    "min_effect": 0.01,
+    "direction_agrees": false,
+    "verdict": "no_trend"
+   }
+  },
+  "slowing": [],
+  "verdict": "ok"
+ },
+ "registered": [
+  "call/plain/w0",
+  "call/plain/w8",
+  "call/plain/w64",
+  "await/plain/w0",
+  "await/plain/w8",
+  "await/plain/w64",
+  "await/suspend/w8",
+  "await/static/w0",
+  "await/static/w8",
+  "await/static/w64",
+  "await/lazy/done",
+  "await/prop/done",
+  "await_scale/plain/w8@2000",
+  "await_scale/plain/w8@4000",
+  "machine_probe/modexp",
+  "machine_probe/digest"
+ ],
+ "gate_failures": [],
+ "facts": {
+  "jit_defaults_applied": {
+   "processes": 6,
+   "values": 10,
+   "warmups": 10
+  },
+  "pin": {
+   "pinned": true,
+   "pin_source": "CX_BENCH_CPUS",
+   "pin_requested": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
+   "pin_target": "service"
+  },
+  "lazy": {
+   "lazy_value": "cinderx.AsyncLazyValue",
+   "cached_property": "builtins.async_cached_property",
+   "native": true
+  },
+  "dedupe": {
+   "waiters": 50,
+   "naive_body_runs": 50,
+   "lazy_body_runs": 1,
+   "results_equal": true,
+   "reuse_error": "cannot reuse already awaited coroutine"
+  },
+  "jit": {
+   "drivers": {
+    "compiled": true,
+    "warmup": 0,
+    "functions": {
+     "drive_call": {
+      "force_compile": true,
+      "is_jit_compiled": true,
+      "interpreted_calls": 0,
+      "compile_time_us": 2,
+      "code_bytes": 880
+     },
+     "drive_await": {
+      "force_compile": true,
+      "is_jit_compiled": true,
+      "interpreted_calls": 0,
+      "compile_time_us": 2,
+      "code_bytes": 1424
+     },
+     "drive_ready": {
+      "force_compile": true,
+      "is_jit_compiled": true,
+      "interpreted_calls": 0,
+      "compile_time_us": 2,
+      "code_bytes": 1304
+     },
+     "drive_prop": {
+      "force_compile": true,
+      "is_jit_compiled": true,
+      "interpreted_calls": 0,
+      "compile_time_us": 2,
+      "code_bytes": 1400
+     }
+    }
+   },
+   "targets": {
+    "compiled": true,
+    "warmup": 0,
+    "functions": {
+     "spin": {
+      "force_compile": true,
+      "is_jit_compiled": true,
+      "interpreted_calls": 0,
+      "compile_time_us": 1,
+      "code_bytes": 848
+     },
+     "spin_coro": {
+      "force_compile": true,
+      "is_jit_compiled": true,
+      "interpreted_calls": 0,
+      "compile_time_us": 1,
+      "code_bytes": 552
+     },
+     "spin_suspend": {
+      "force_compile": true,
+      "is_jit_compiled": true,
+      "interpreted_calls": 0,
+      "compile_time_us": 2,
+      "code_bytes": 1544
+     }
+    }
+   }
+  },
+  "witness": {
+   "call/plain/w0": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "call/plain/w8": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "call/plain/w64": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "await/plain/w0": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "await/plain/w8": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "await/plain/w64": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "await/suspend/w8": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "await/static/w0": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "await/static/w8": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "await/static/w64": {
+    "target": {
+     "is_jit_compiled": true,
+     "interpreted_of": 2000,
+     "interpreted_during": 0
+    },
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "await/lazy/done": {
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   },
+   "await/prop/done": {
+    "driver": {
+     "is_jit_compiled": true,
+     "interpreted_of": 1,
+     "interpreted_during": 0
+    }
+   }
+  },
+  "jit_state": {
+   "compiled_functions": 8,
+   "compilation_time_us": 13,
+   "allocator": {
+    "used_bytes": 9160,
+    "max_bytes": 0,
+    "lost_bytes": 0,
+    "fragmented_allocs": 0,
+    "huge_allocs": 1
+   },
+   "deopts": 0
+  },
+  "runtime_metrics": {
+   "gc_stats": [
+    {
+     "collections": 32,
+     "collected": 908,
+     "uncollectable": 0
+    },
+    {
+     "collections": 2,
+     "collected": 17,
+     "uncollectable": 0
+    },
+    {
+     "collections": 0,
+     "collected": 0,
+     "uncollectable": 0
+    }
+   ],
+   "gc_count": [
+    1,
+    10,
+    2
+   ],
+   "gc_freeze_count": 0,
+   "gc_threshold": [
+    2000,
+    10,
+    10
+   ],
+   "allocated_blocks": 182567,
+   "interned_size": 27701,
+   "maxrss_kb": 64580,
+   "minflt": 17137,
+   "majflt": 0,
+   "nvcsw": 965,
+   "nivcsw": 9,
+   "rss_kb": 48664,
+   "vsize_kb": 123616,
+   "smaps_rss_kb": 48664,
+   "smaps_pss_kb": 40911,
+   "smaps_shared_clean_kb": 8524,
+   "smaps_shared_dirty_kb": 0,
+   "smaps_private_clean_kb": 9984,
+   "smaps_private_dirty_kb": 30156
+  }
+ }
+}

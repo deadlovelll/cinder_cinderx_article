@@ -64,12 +64,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -99,11 +103,15 @@
    "notes": [
     "user.slice is not shielded by design: nothing else should run in this session during a campaign"
    ],
-   "problems": [],
-   "verdict": "reserved"
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
   },
-  "problems": [],
-  "verdict": "ok"
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
  },
  "drift": {
   "test": "mann_kendall",
@@ -112,45 +120,43 @@
   "benchmarks": {
    "jit_warmup/attr/w2": {
     "n": 60,
-    "S": 584,
-    "z": 3.718,
-    "p": 0.0002,
-    "slope_per_sample": 1.051385582021447e-06,
-    "second_half_over_first": 1.0143,
-    "effect": 0.01433,
+    "S": -382,
+    "z": -2.43,
+    "p": 0.0151,
+    "slope_per_sample": -6.247279764336002e-07,
+    "second_half_over_first": 0.9939,
+    "effect": -0.00614,
     "min_effect": 0.01,
     "direction_agrees": true,
-    "verdict": "SLOWING"
+    "verdict": "no_trend"
    },
    "machine_probe/modexp": {
     "n": 60,
-    "S": -674,
-    "z": -4.292,
-    "p": 2e-05,
-    "slope_per_sample": -2.5186268718622194e-08,
-    "second_half_over_first": 0.9977,
-    "effect": -0.00234,
+    "S": 60,
+    "z": 0.376,
+    "p": 0.7067,
+    "slope_per_sample": 2.4528668197313796e-09,
+    "second_half_over_first": 1.0009,
+    "effect": 0.00093,
     "min_effect": 0.01,
     "direction_agrees": true,
     "verdict": "no_trend"
    },
    "machine_probe/digest": {
     "n": 60,
-    "S": -192,
-    "z": -1.218,
-    "p": 0.22315,
-    "slope_per_sample": -5.6145932160832575e-08,
-    "second_half_over_first": 1.0,
-    "effect": 4e-05,
+    "S": -218,
+    "z": -1.384,
+    "p": 0.16636,
+    "slope_per_sample": -1.0794798678640897e-07,
+    "second_half_over_first": 0.9998,
+    "effect": -0.00021,
     "min_effect": 0.01,
-    "direction_agrees": false,
+    "direction_agrees": true,
     "verdict": "no_trend"
    }
   },
-  "slowing": [
-   "jit_warmup/attr/w2"
-  ],
-  "verdict": "DRIFT"
+  "slowing": [],
+  "verdict": "ok"
  },
  "registered": [
   "jit_warmup/attr/w2",
@@ -166,12 +172,16 @@
   },
   "pin": {
    "pinned": true,
-   "pin_source": "reserved",
+   "pin_source": "CX_BENCH_CPUS",
    "pin_requested": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "cpu_count": 16,
    "isolated": [],
@@ -196,12 +206,16 @@
     "leaking": false
    },
    "nohz_full": [],
-   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash rcu_nocbs=2-5 mem_sleep_default=deep vt.handoff=7",
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
    "affinity": [
+    0,
+    1,
     2,
     3,
     4,
-    5
+    5,
+    6,
+    7
    ],
    "governors": [
     "performance"
@@ -235,6 +249,10 @@
     "process affinity is not confined to the reserved CPUs"
    ],
    "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
    "pin_target": "service"
   },
   "warmup_calls_requested": 2,
@@ -247,16 +265,16 @@
      "force_compile": true,
      "is_jit_compiled": true,
      "interpreted_calls": 2,
-     "compile_time_us": 2,
-     "code_bytes": 2040
+     "compile_time_us": 4,
+     "code_bytes": 2064
     }
    }
   },
   "jit_state": {
    "compiled_functions": 1,
-   "compilation_time_us": 2,
+   "compilation_time_us": 4,
    "allocator": {
-    "used_bytes": 2184,
+    "used_bytes": 2208,
     "max_bytes": 0,
     "lost_bytes": 0,
     "fragmented_allocs": 0,
