@@ -23,4 +23,5 @@ async def healthz(request: Request) -> JSONResponse:
         "catalogue_items": state.catalogue.size(),
         "embeddings": state.embeddings.implementation(),
         "bundle_cache": state.bundles.stats(),
+        "gc_pauses": getattr(state, "gc_pauses", None),
     })

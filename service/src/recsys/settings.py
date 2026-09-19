@@ -29,6 +29,7 @@ class Settings:
     embeddings: str
     workers: int
     bundle_items: int
+    gc_interval_ms: int
     bundle_width: int
     sampler_interval_ms: int
     sampler_dir: str
@@ -59,6 +60,7 @@ class Settings:
             embeddings=os.environ.get("RECSYS_EMBEDDINGS", "numpy").lower(),
             workers=int_env("RECSYS_WORKERS", 4),
             bundle_items=int_env("RECSYS_BUNDLE_ITEMS", 40_000),
+            gc_interval_ms=int_env("RECSYS_GC_INTERVAL_MS", 0),
             bundle_width=int_env("RECSYS_BUNDLE_WIDTH", 128),
             sampler_interval_ms=int_env("RECSYS_SAMPLER_INTERVAL_MS", 250),
             sampler_dir=os.environ.get("RECSYS_SAMPLER_DIR", "/tmp"),
@@ -73,6 +75,7 @@ class Settings:
             "immortalize": self.immortalize, "parallel_gc": self.parallel_gc,
             "parallel_gc_threads": self.parallel_gc_threads,
             "bundle_items": self.bundle_items,
+            "gc_interval_ms": self.gc_interval_ms,
             "bundle_width": self.bundle_width,
             "perf_trampoline": self.perf_trampoline,
             "workers": self.workers,

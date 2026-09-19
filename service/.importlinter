@@ -1,0 +1,43 @@
+[importlinter]
+root_package = recsys
+include_external_packages = True
+
+[importlinter:contract:layers]
+name = Слои: внутрь зависеть можно, наружу нельзя
+type = layers
+layers =
+    recsys.infrastructure
+    recsys.api
+    recsys.application
+    recsys.domain
+
+[importlinter:contract:domain_purity]
+name = Домен не знает про фреймворки
+type = forbidden
+source_modules =
+    recsys.domain
+forbidden_modules =
+    fastapi
+    sqlalchemy
+    starlette
+    pydantic
+    psycopg
+
+[importlinter:contract:application_purity]
+name = Прикладной слой не знает про транспорт и базу
+type = forbidden
+source_modules =
+    recsys.application
+forbidden_modules =
+    fastapi
+    sqlalchemy
+    starlette
+    psycopg
+
+[importlinter:contract:routes_only_application]
+name = Роуты ходят только в прикладной слой
+type = forbidden
+source_modules =
+    recsys.api.routes
+forbidden_modules =
+    recsys.infrastructure
