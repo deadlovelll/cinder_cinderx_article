@@ -1,3 +1,4 @@
+# the same name annotated in both arms of a branch
 import __static__
 
 def f(flag: bool) -> int:

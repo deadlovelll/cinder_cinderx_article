@@ -1,3 +1,4 @@
+# an attribute and a method sharing one name, so one slot is claimed twice
 import __static__
 
 class C:

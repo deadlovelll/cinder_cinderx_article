@@ -31,7 +31,7 @@ def boot(config: str | None = None, *, strict: bool | None = None,
         strict = os.environ.get("CX_BENCH_STRICT", "") not in ("", "0")
     system.preflight(strict=strict, expect=want)
 
-    if config == "stock":
+    if config in ("stock", "tier2"):
         return config
 
     import cinderx

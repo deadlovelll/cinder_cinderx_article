@@ -31,16 +31,19 @@ VENV_FORK="$BUILD/venv-fork"
 
 BENCH_ARGS="${BENCH_ARGS:-}"
 
-ENDPOINTS="${ENDPOINTS:-recommend,similar,events}"
-RATES="${RATES:-recommend=25,45,80,140,250,420,700;similar=10,20,35,60,110,190,330,570;events=200,400,800,1400,2400,4000}"
+ENDPOINTS_MAIN="${ENDPOINTS_MAIN:-recommend,similar}"
+ENDPOINTS_BUNDLE="${ENDPOINTS_BUNDLE:-bundle}"
+RATES="${RATES:-recommend=25,45,80,140,250,420,700;similar=10,20,35,60,110,190,330,570;bundle=2000,3000,3500,4000,4500,5000}"
 STEP_SECONDS="${STEP_SECONDS:-30}"
 DRAIN_SECONDS="${DRAIN_SECONDS:-10}"
 WARMUP_SECONDS="${WARMUP_SECONDS:-60}"
 WARMUP_RATE="${WARMUP_RATE:-25}"
 LADDER_REPEATS="${LADDER_REPEATS:-1}"
+WORKSHOP_PASSES="${WORKSHOP_PASSES:-all}"
 
 RESULTS="${BENCH_RESULTS_DIR:-$ROOT/results}"
 LADDER_OUT="$ROOT/service/load/results"
+LADDER_OUT_BUNDLE="$ROOT/service/load/results-bundle"
 
 WQ_CPUMASK=/sys/devices/virtual/workqueue/cpumask
 RESERVED="${CX_RESERVED_CPUS:-2-5}"
@@ -58,6 +61,7 @@ have() { command -v "$1" >/dev/null 2>&1; }
 
 sysinfo() { PYTHONPATH="$ROOT" python3 -m bench.harness.system "$@"; }
 budget() { sysinfo --cpu-budget "$1"; }
+wbudget() { sysinfo --workshop-budget "$1"; }
 budget_count() {
   sysinfo --cpu-budget | awk -v k="$1" '$1 == k {print $3}'
 }
@@ -599,15 +603,16 @@ cmd_dialect() {
   say "Static Python dialect reference"
   [ -x "$VENV_FORK/bin/python" ] || die "no fork venv: Static Python needs cinderx; run ./run.sh deps"
   "$VENV_FORK/bin/python" "$ROOT/dialect/run.py"
-  "$VENV_FORK/bin/python" "$ROOT/dialect/run.py" --markdown \
-      > "$ROOT/dialect/REFERENCE.md"
-  info "wrote dialect/REFERENCE.md"
 }
 
 BENCH_FAILED=()
 
 py_for() {
-  if [ "$1" = "stock" ]; then echo "$VENV_STOCK/bin/python"; else echo "$VENV_FORK/bin/python"; fi
+  case "$1" in
+    stock) echo "$VENV_STOCK/bin/python" ;;
+    tier2) echo "$VENV_TIER2/bin/python" ;;
+    *)     echo "$VENV_FORK/bin/python" ;;
+  esac
 }
 
 pyb() {
@@ -632,7 +637,7 @@ cmd_bench() {
   mkdir -p "$RESULTS"
   export BENCH_RESULTS_DIR="$RESULTS"
 
-  for c in stock cinderx static cinderx_jit static_jit; do
+  for c in stock tier2 cinderx static cinderx_jit static_jit; do
     pyb "$c" b_ladder
   done
 
@@ -660,12 +665,18 @@ cmd_bench() {
     done
   done
 
-  for c in stock cinderx cinderx_jit; do
-    pyb "$c" b_framework
+  for c in stock tier2; do
+    fb "$c" b_jit_curve --jit-mode auto
   done
 
-  for c in stock cinderx cinderx_jit static static_jit; do
+  PYTHON_JIT=0 fb tier2 b_jit_curve --jit-mode off
+
+  for c in stock tier2 cinderx cinderx_jit static static_jit; do
     pyb "$c" b_attr
+  done
+
+  for c in stock tier2 cinderx cinderx_jit static static_jit; do
+    pyb "$c" b_async
   done
 
   for v in visible frozen immortal; do
@@ -674,8 +685,6 @@ cmd_bench() {
 
   fb "" b_install_order
   fb cinderx b_cow
-
-  pyb "" b_lazy_imports
 
   info "results in $RESULTS"
   if [ ${#BENCH_FAILED[@]} -gt 0 ]; then
@@ -766,12 +775,22 @@ cmd_workshop() {
   have k6 || die "k6 is required for the ladder"
   have taskset || warn "taskset is absent: the cpu budget below cannot be enforced"
 
-  export RECSYS_SERVICE_CPUSET="${RECSYS_SERVICE_CPUSET:-$(budget service)}"
-  export RECSYS_LOAD_CPUSET="${RECSYS_LOAD_CPUSET:-$(budget load)}"
-  local workers="${WORKERS:-$(budget_count service)}"
-  info "cpus: service=${RECSYS_SERVICE_CPUSET:-unpinned} generator=${RECSYS_LOAD_CPUSET:-unpinned}"
-  info "workers: $workers"
-  record "workshop_cpus" "service=${RECSYS_SERVICE_CPUSET} load=${RECSYS_LOAD_CPUSET} workers=$workers"
+  # у воркшопа своя раскладка ядер: сервису нужно вдвое больше ядер, чем
+  # воркеров, иначе потокам сборщика негде работать во время сборки
+  export RECSYS_SERVICE_CPUSET="${RECSYS_SERVICE_CPUSET:-$(wbudget service)}"
+  export RECSYS_LOAD_CPUSET="${RECSYS_LOAD_CPUSET:-$(wbudget load)}"
+  export RECSYS_DB_CPUSET="${RECSYS_DB_CPUSET:-$(wbudget db)}"
+  local workers="${WORKERS:-$(wbudget workers)}"
+  export RECSYS_PARALLEL_GC_THREADS="${RECSYS_PARALLEL_GC_THREADS:-$(wbudget gc_threads)}"
+  export RECSYS_BUNDLE_ITEMS="${RECSYS_BUNDLE_ITEMS:-40000}"
+  # на 3.14 автоматическая полная сборка при включённом параллельном
+  # сборщике не запускается, поэтому сборку зовём сами с одним и тем же
+  # периодом на всех ступенях: тогда число пауз одинаково и сравнивается
+  # их длительность, а не частота
+  GC_INTERVAL_BUNDLE="${GC_INTERVAL_BUNDLE:-2000}"
+  info "cpus: service=${RECSYS_SERVICE_CPUSET:-unpinned} generator=${RECSYS_LOAD_CPUSET:-unpinned} db=${RECSYS_DB_CPUSET:-unpinned}"
+  info "workers: $workers, gc threads: $RECSYS_PARALLEL_GC_THREADS, bundle cache: $RECSYS_BUNDLE_ITEMS, gc on /bundle every ${GC_INTERVAL_BUNDLE}ms"
+  record "workshop_cpus" "service=${RECSYS_SERVICE_CPUSET} load=${RECSYS_LOAD_CPUSET} db=${RECSYS_DB_CPUSET} workers=$workers gc_threads=${RECSYS_PARALLEL_GC_THREADS} gc_interval_bundle_ms=${GC_INTERVAL_BUNDLE}"
 
   db_prepare
 
@@ -786,44 +805,58 @@ cmd_workshop() {
   printf '%s\n' "$fixture"
   record "fixture_at_start" "$(printf '%s' "$fixture" | tr '\n' ' ')"
 
-  say "ladder: the stock baseline"
-  (cd "$ROOT/service" && "$py" load/ladder.py --run \
-      --python "$py" --db-host "$RECSYS_DB_HOST" \
-      --available-images stock-3.14 --only 01_stock \
-      --endpoints "$ENDPOINTS" --rates "$RATES" \
-      --step-seconds "$STEP_SECONDS" --drain-seconds "$DRAIN_SECONDS" \
-      --warmup-seconds "$WARMUP_SECONDS" --warmup-rate "$WARMUP_RATE" \
-      --repeats "$LADDER_REPEATS" \
-      --workers "$workers" --out "$LADDER_OUT")
-
-  if [ -x "$VENV_TIER2/bin/python" ]; then
-    say "ladder: CPython's own JIT"
-    (cd "$ROOT/service" && "$VENV_TIER2/bin/python" load/ladder.py --run \
-        --python "$VENV_TIER2/bin/python" --db-host "$RECSYS_DB_HOST" \
-        --available-images python-3.14-jit --only 02_stock_tier2 \
-        --endpoints "$ENDPOINTS" --rates "$RATES" --no-repeat-first \
+  ladder_pass() {
+    local label="$1" endpoints="$2" bundle_items="$3" out="$4" fork_rungs="$5" gc_ms="$6"
+    say "ladder ($label): the stock baseline"
+    (cd "$ROOT/service" && RECSYS_BUNDLE_ITEMS="$bundle_items" RECSYS_GC_INTERVAL_MS="$gc_ms" "$py" load/ladder.py --run \
+        --python "$py" --db-host "$RECSYS_DB_HOST" \
+        --available-images stock-3.14 --only 01_stock \
+        --endpoints "$endpoints" --rates "$RATES" \
         --step-seconds "$STEP_SECONDS" --drain-seconds "$DRAIN_SECONDS" \
         --warmup-seconds "$WARMUP_SECONDS" --warmup-rate "$WARMUP_RATE" \
         --repeats "$LADDER_REPEATS" \
-        --workers "$workers" --out "$LADDER_OUT")
-  else
-    warn "tier2 rung skipped: no tier2 venv"
-  fi
+        --workers "$workers" --out "$out")
 
-  if [ -x "$VENV_FORK/bin/python" ]; then
-    say "ladder: the fork and every CinderX rung"
-    (cd "$ROOT/service" && "$VENV_FORK/bin/python" load/ladder.py --run \
-        --python "$VENV_FORK/bin/python" --db-host "$RECSYS_DB_HOST" \
-        --available-images meta-3.14 \
-        --only 03_fork,04_runtime,05_jit,06_jit_precompiled,07_lazy_imports,08_immortalized,09_parallel_gc,10_static_kernel_nojit,11_static_kernel,12_static_embeddings \
-        --endpoints "$ENDPOINTS" --rates "$RATES" \
-        --step-seconds "$STEP_SECONDS" --drain-seconds "$DRAIN_SECONDS" \
-        --warmup-seconds "$WARMUP_SECONDS" --warmup-rate "$WARMUP_RATE" \
-        --repeats "$LADDER_REPEATS" \
-        --workers "$workers" --out "$LADDER_OUT")
-  else
-    warn "fork rungs skipped: no fork venv"
-  fi
+    if [ -x "$VENV_TIER2/bin/python" ]; then
+      say "ladder ($label): CPython's own JIT"
+      (cd "$ROOT/service" && RECSYS_BUNDLE_ITEMS="$bundle_items" RECSYS_GC_INTERVAL_MS="$gc_ms" "$VENV_TIER2/bin/python" load/ladder.py --run \
+          --python "$VENV_TIER2/bin/python" --db-host "$RECSYS_DB_HOST" \
+          --available-images python-3.14-jit --only 02_stock_tier2 \
+          --endpoints "$endpoints" --rates "$RATES" --no-repeat-first \
+          --step-seconds "$STEP_SECONDS" --drain-seconds "$DRAIN_SECONDS" \
+          --warmup-seconds "$WARMUP_SECONDS" --warmup-rate "$WARMUP_RATE" \
+          --repeats "$LADDER_REPEATS" \
+          --workers "$workers" --out "$out")
+    else
+      warn "tier2 rung skipped: no tier2 venv"
+    fi
+
+    if [ -x "$VENV_FORK/bin/python" ]; then
+      say "ladder ($label): the fork and every CinderX rung"
+      (cd "$ROOT/service" && RECSYS_BUNDLE_ITEMS="$bundle_items" RECSYS_GC_INTERVAL_MS="$gc_ms" "$VENV_FORK/bin/python" load/ladder.py --run \
+          --python "$VENV_FORK/bin/python" --db-host "$RECSYS_DB_HOST" \
+          --available-images meta-3.14 \
+          --only "$fork_rungs" \
+          --endpoints "$endpoints" --rates "$RATES" \
+          --step-seconds "$STEP_SECONDS" --drain-seconds "$DRAIN_SECONDS" \
+          --warmup-seconds "$WARMUP_SECONDS" --warmup-rate "$WARMUP_RATE" \
+          --repeats "$LADDER_REPEATS" \
+          --workers "$workers" --out "$out")
+    else
+      warn "fork rungs skipped: no fork venv"
+    fi
+  }
+
+  case "$WORKSHOP_PASSES" in
+    all|handlers)
+      ladder_pass "handlers" "$ENDPOINTS_MAIN" 0 "$LADDER_OUT" \
+          "09_parallel_gc,11_static_kernel,12_static_embeddings" 0 ;;
+  esac
+  case "$WORKSHOP_PASSES" in
+    all|bundle)
+      ladder_pass "bundle cache" "$ENDPOINTS_BUNDLE" "$RECSYS_BUNDLE_ITEMS" "$LADDER_OUT_BUNDLE" \
+          "08_immortalized,09_parallel_gc" "$GC_INTERVAL_BUNDLE" ;;
+  esac
 
   say "kernel matrix"
   for mode in off runtime jit; do

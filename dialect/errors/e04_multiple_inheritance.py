@@ -1,3 +1,4 @@
+# two static bases with instance layout
 import __static__
 
 class A:

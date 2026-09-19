@@ -1,3 +1,4 @@
+"""Integer primitives: widths, wraparound, and where they may not appear."""
 
 import __static__
 from __static__ import box, int8, int16, int32, int64, uint8, uint64

@@ -1,3 +1,4 @@
+"""The one trap that silently depends on where a value is written."""
 
 import __static__
 from __static__ import Array, box, int64

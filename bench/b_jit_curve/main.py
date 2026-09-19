@@ -54,6 +54,14 @@ def main() -> None:
         target = life_plain.step
 
     jit_info: dict[str, object] = {"mode": args.jit_mode}
+    cpython_jit = getattr(sys, "_jit", None)
+    if cpython_jit is not None:
+        jit_info["cpython_jit"] = {
+            "available": cpython_jit.is_available(),
+            "enabled": cpython_jit.is_enabled(),
+            "note": "tier 2 has no per-function introspection: the curve is the "
+                    "only witness that anything compiled",
+        }
     if h.jit_on() and args.jit_mode == "auto":
         h.jit().auto()
     elif h.jit_on() and args.jit_mode == "forced":

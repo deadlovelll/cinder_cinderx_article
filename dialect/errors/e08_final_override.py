@@ -1,3 +1,4 @@
+# overriding a method marked final
 import __static__
 from typing import final
 
