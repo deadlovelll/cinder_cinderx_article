@@ -1,0 +1,181 @@
+fun spin:spin {
+  bb 0 {
+    v22:Object = LoadArg<0; "x">
+    v23:Object = LoadArg<1; "n">
+    v24:Func = LoadCurrentFunc
+    LoadFrame
+    v25:Nullptr = LoadConst<Nullptr>
+    Snapshot
+    v26:CInt64 = LoadEvalBreaker
+    CondBranch<5, 4> v26
+  }
+
+  bb 5 (preds 0) {
+    Snapshot
+    v27:CInt32 = RunPeriodicTasks {
+      FrameState {
+        CurInstrOffset 0
+        Locals<4> v22 v23 v25 v25
+      }
+    }
+    Branch<4>
+  }
+
+  bb 4 (preds 0, 5) {
+    Snapshot
+    v32:ImmortalLongExact[0] = LoadConst<ImmortalLongExact[0]>
+    Snapshot
+    v34:ImmortalLongExact[0] = LoadConst<ImmortalLongExact[0]>
+    Snapshot
+    Branch<6>
+  }
+
+  bb 6 (preds 2, 4) {
+    v37:Object = Phi<2, 4> v53 v22
+    v38:Object = Phi<2, 4> v47 v23
+    v39:LongExact = Phi<2, 4> v58 v32
+    v40:LongExact = Phi<2, 4> v63 v34
+    v36:CInt64 = LoadEvalBreaker
+    CondBranch<7, 1> v36
+  }
+
+  bb 7 (preds 6) {
+    Snapshot
+    v41:CInt32 = RunPeriodicTasks {
+      FrameState {
+        CurInstrOffset 10
+        Locals<4> v37 v38 v39 v40
+      }
+    }
+    Branch<1>
+  }
+
+  bb 1 (preds 6, 7) {
+    Snapshot
+    v46:LongExact = GuardType<LongExact> v40 {
+      FrameState {
+        CurInstrOffset 12
+        Locals<4> v37 v38 v39 v40
+      }
+    }
+    v47:LongExact = GuardType<LongExact> v38 {
+      FrameState {
+        CurInstrOffset 12
+        Locals<4> v37 v38 v39 v46
+      }
+    }
+    v48:Object = Compare<LessThan> v46 v47 {
+      FrameState {
+        CurInstrOffset 12
+        Locals<4> v37 v47 v39 v46
+      }
+    }
+    v49:CBool = IsTruthy v48 {
+      FrameState {
+        CurInstrOffset 12
+        Locals<4> v37 v47 v39 v46
+      }
+    }
+    v50:ImmortalBool = PrimitiveBoxBool v49
+    Snapshot
+    v51:ImmortalBool[True] = LoadConst<ImmortalBool[True]>
+    v52:CBool = PrimitiveCompare<Equal> v50 v51
+    CondBranch<2, 3> v52
+  }
+
+  bb 2 (preds 1) {
+    Snapshot
+    v53:LongExact = GuardType<LongExact> v37 {
+      FrameState {
+        CurInstrOffset 26
+        Locals<4> v37 v47 v39 v46
+        Stack<1> v39
+      }
+    }
+    v54:LongExact = GuardType<LongExact> v46 {
+      FrameState {
+        CurInstrOffset 26
+        Locals<4> v53 v47 v39 v46
+        Stack<1> v39
+      }
+    }
+    v55:LongExact = BinaryOp<Multiply> v53 v54 {
+      FrameState {
+        CurInstrOffset 26
+        Locals<4> v53 v47 v39 v54
+        Stack<1> v39
+      }
+    }
+    Snapshot
+    v56:LongExact = GuardType<LongExact> v39 {
+      FrameState {
+        CurInstrOffset 38
+        Locals<4> v53 v47 v39 v54
+      }
+    }
+    v57:LongExact = GuardType<LongExact> v55 {
+      FrameState {
+        CurInstrOffset 38
+        Locals<4> v53 v47 v56 v54
+      }
+    }
+    v58:LongExact = BinaryOp<Add> v56 v57 {
+      FrameState {
+        CurInstrOffset 38
+        Locals<4> v53 v47 v56 v54
+      }
+    }
+    Snapshot
+    v60:ImmortalLongExact[1] = LoadConst<ImmortalLongExact[1]>
+    Snapshot
+    v61:LongExact = GuardType<LongExact> v54 {
+      FrameState {
+        CurInstrOffset 56
+        Locals<4> v53 v47 v58 v54
+      }
+    }
+    v62:ImmortalLongExact[1] = GuardType<LongExact> v60 {
+      FrameState {
+        CurInstrOffset 56
+        Locals<4> v53 v47 v58 v61
+      }
+    }
+    v63:LongExact = BinaryOp<Add> v61 v62 {
+      FrameState {
+        CurInstrOffset 56
+        Locals<4> v53 v47 v58 v61
+      }
+    }
+    Snapshot
+    Branch<6>
+  }
+
+  bb 3 (preds 1) {
+    Snapshot
+    v65:OptObject = LoadGlobalCached<0; "SCALE">
+    v66:ImmortalLongExact[16] = GuardIs<0x56a16df65ae0> v65 {
+      Descr 'LOAD_GLOBAL: SCALE'
+    }
+    Snapshot
+    v67:LongExact = GuardType<LongExact> v39 {
+      FrameState {
+        CurInstrOffset 86
+        Locals<4> v37 v47 v39 v46
+      }
+    }
+    v68:ImmortalLongExact[16] = GuardType<LongExact> v66 {
+      FrameState {
+        CurInstrOffset 86
+        Locals<4> v37 v47 v67 v46
+      }
+    }
+    v69:LongExact = BinaryOp<Multiply> v67 v68 {
+      FrameState {
+        CurInstrOffset 86
+        Locals<4> v37 v47 v67 v46
+      }
+    }
+    Snapshot
+    Return v69
+  }
+}

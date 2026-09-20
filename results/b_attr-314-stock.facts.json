@@ -1,0 +1,275 @@
+{
+ "suite": "b_attr",
+ "label": "314-stock",
+ "cx_config": "stock",
+ "interp": {
+  "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python",
+  "version": "3.14.6+",
+  "implementation": "CPython",
+  "compiler": "Clang 18.1.3 (1ubuntu1)",
+  "gil_enabled": true,
+  "free_threaded": false,
+  "config_args": "'--prefix=/home/timofei/Desktop/cinder_cinderx_article/build/stock' '--enable-optimizations' '--with-lto' 'PKG_CONFIG_PATH=/opt/intel/oneapi/vtune/2025.10/include/pkgconfig/lib64:/opt/intel/oneapi/tbb/2022.3/env/../lib/pkgconfig:/opt/intel/oneapi/mpi/2021.17/lib/pkgconfig:/opt/intel/oneapi/mkl/2025.3/lib/pkgconfig:/opt/intel/oneapi/ippcp/2025.3/lib/pkgconfig:/opt/intel/oneapi/dpl/2022.10/lib/pkgconfig:/opt/intel/oneapi/dnnl/2025.3/lib/pkgconfig:/opt/intel/oneapi/dal/2025.10/lib/pkgconfig:/opt/intel/oneapi/compiler/2025.3/lib/pkgconfig:/opt/intel/oneapi/ccl/2021.17/lib/pkgconfig/:/opt/intel/oneapi/advisor/2025.4/include/pkgconfig/lib64:' 'CC=clang'",
+  "core_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -fno-semantic-interposition -flto=thin -g -std=c11 -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wstrict-prototypes -Werror=implicit-function-declaration -fvisibility=hidden -fprofile-instr-use=/home/timofei/Desktop/cinder_cinderx_article/cinderx-workshop/cpython/code.profclangd -I./Include/internal -I./Include/internal/mimalloc -I. -I./Include -DPy_BUILD_CORE",
+  "lazy_imports": false,
+  "cx_config": "stock"
+ },
+ "machine": {
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "system": "Linux",
+  "cpu_count": 16,
+  "cpu_brand": "Intel(R) Core(TM) Ultra 7 255H"
+ },
+ "preflight": {
+  "aslr": {
+   "reexec": "1",
+   "personality": "0x40000",
+   "addr_no_randomize": true,
+   "randomize_va_space": 2,
+   "layout_stable": true,
+   "layout_samples": [
+    "5555555d8000",
+    "5555555d8000",
+    "5555555d8000"
+   ],
+   "verdict": "off"
+  },
+  "cpu": {
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [],
+   "shield": {
+    "units": {},
+    "leaking": [],
+    "shielded": null
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": null,
+    "leaking": null
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": null,
+   "notes": [],
+   "problems": [
+    "nothing is reserved: set CX_RESERVED_CPUS (and shield it) or isolcpus="
+   ],
+   "verdict": "NOT_RESERVED"
+  },
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
+ },
+ "drift": {
+  "test": "mann_kendall",
+  "alpha": 0.05,
+  "min_effect": 0.01,
+  "benchmarks": {
+   "attr_read/plain/dict": {
+    "n": 60,
+    "S": -96,
+    "z": -0.606,
+    "p": 0.54458,
+    "slope_per_sample": -5.412657332989312e-13,
+    "second_half_over_first": 0.9981,
+    "effect": -0.00194,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "attr_read/plain/slots": {
+    "n": 60,
+    "S": 332,
+    "z": 2.111,
+    "p": 0.03476,
+    "slope_per_sample": 3.609130656338613e-12,
+    "second_half_over_first": 1.002,
+    "effect": 0.00196,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "attr_rw/plain/dict": {
+    "n": 60,
+    "S": -388,
+    "z": -2.468,
+    "p": 0.01358,
+    "slope_per_sample": -3.013550138027373e-11,
+    "second_half_over_first": 0.993,
+    "effect": -0.00699,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "attr_rw/plain/slots": {
+    "n": 60,
+    "S": 158,
+    "z": 1.001,
+    "p": 0.31667,
+    "slope_per_sample": 9.147724599840684e-12,
+    "second_half_over_first": 1.002,
+    "effect": 0.002,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "machine_probe/modexp": {
+    "n": 60,
+    "S": -206,
+    "z": -1.307,
+    "p": 0.19105,
+    "slope_per_sample": -6.678308379733884e-09,
+    "second_half_over_first": 1.0008,
+    "effect": 0.00075,
+    "min_effect": 0.01,
+    "direction_agrees": false,
+    "verdict": "no_trend"
+   },
+   "machine_probe/digest": {
+    "n": 60,
+    "S": 210,
+    "z": 1.333,
+    "p": 0.18254,
+    "slope_per_sample": 1.973200645844489e-07,
+    "second_half_over_first": 1.0008,
+    "effect": 0.00079,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   }
+  },
+  "slowing": [],
+  "verdict": "ok"
+ },
+ "registered": [
+  "attr_read/plain/dict",
+  "attr_read/plain/slots",
+  "attr_rw/plain/dict",
+  "attr_rw/plain/slots",
+  "machine_probe/modexp",
+  "machine_probe/digest"
+ ],
+ "gate_failures": [
+  {
+   "case": "attr_read",
+   "impl": "stock",
+   "status": "unavailable",
+   "note": "the typed leg needs a static config"
+  }
+ ],
+ "facts": {
+  "jit_defaults_applied": {},
+  "pin": {
+   "pinned": true,
+   "pin_source": "CX_BENCH_CPUS",
+   "pin_requested": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [],
+   "shield": {
+    "units": {},
+    "leaking": [],
+    "shielded": null
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": null,
+    "leaking": null
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": null,
+   "notes": [],
+   "problems": [
+    "nothing is reserved: set CX_RESERVED_CPUS (and shield it) or isolcpus="
+   ],
+   "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
+   "pin_target": "service"
+  },
+  "jit": {}
+ }
+}

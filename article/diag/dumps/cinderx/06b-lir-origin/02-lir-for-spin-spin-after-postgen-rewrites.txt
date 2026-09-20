@@ -1,0 +1,361 @@
+Function:
+BB %0 - succs: %1
+
+BB %1 - preds: %0 - succs: %6
+                   SetupFrame
+       %3:Object = Bind R10:Object
+       %4:Object = Bind R11:Object
+       %5:Object = Bind RDI:Object
+
+BB %6 - preds: %1 - succs: %21 %22
+
+# v22:Object = LoadArg<0>
+       %7:Object = Bind RSI:Object
+
+# v23:Object = LoadArg<1>
+       %8:Object = Bind RDX:Object
+
+# LoadFrame
+       %9:Object = LoadThreadState
+      %10:Object = Lea [RBP(-136)]:Object
+      %11:Object = Move [%9:Object + 0x48]:Object
+      %12:Object = Move 0(0x0):Object
+      %13:Object = Move 137060539708672(0x7ca7e4c83500):Object
+       %14:64bit = Move 137060533932992(0x7ca7e47013c0):Object
+       %15:64bit = Lea [RBP(-56)]:Object
+                   StorePair 18446744073709551608(0xfffffffffffffff8):64bit, %10:Object, %12:Object, %13:Object
+                   StorePair 8(0x8):64bit, %10:Object, %11:Object, %5:Object
+[%10:Object + 0x28]:Object = Move %12:Object
+                   StorePair 56(0x38):64bit, %10:Object, %14:64bit, %15:64bit
+[%10:Object + 0x4a]:8bit = Move %12:Object
+       %23:32bit = Move [%13:Object]:Object
+                   Inc %23:32bit
+                   BranchS
+
+BB %21 - preds: %6 %22 - succs: %33 %36
+
+# LoadFrame
+[%9:Object + 0x48]:Object = Move %10:Object
+      %28:Object = Move [%9:Object + 0x48]:Object
+
+# v25:Nullptr = LoadConst<Nullptr>
+      %29:Object = Move 0(0x0):Object
+
+# UpdatePrevInstr<idx:0 line_no:7: no parent>
+[%28:Object + 0x38]:Object = Move 137060533932992(0x7ca7e47013c0):Object
+
+# v26:CInt64 = LoadEvalBreaker
+       %31:64bit = MoveRelaxed [%9:Object + 0x18]:Object
+
+# CondBranch<5, 4> v26
+                   CondBranch %31:64bit, BB%33, BB%36
+
+BB %22 - preds: %6 - succs: %21
+
+# LoadFrame
+[%13:Object]:32bit = Move %23:32bit
+
+BB %33 - preds: %21 - succs: %36
+
+# v27:CInt32 = RunPeriodicTasks {
+#   LiveValues<3> b:v22 b:v23 unc:v25
+#   FrameState {
+#     CurInstrOffset 0
+#     Locals<4> v22 v23 v25 v25
+#   }
+# }
+       %34:32bit = Call 97770796263440(0x58ec0994a810):Object, %9:Object
+                   Guard 3(0x3):64bit, 0(0x0):64bit, %34:32bit, 0(0x0):64bit, %7:Object, %8:Object, %29:Object
+
+BB %36 - preds: %21 %33 - succs: %39
+
+# v32:ImmortalLongExact[0] = LoadConst<ImmortalLongExact[0]>
+      %37:Object = Move 97770799065312(0x58ec09bf68e0):Object
+
+# v34:ImmortalLongExact[0] = LoadConst<ImmortalLongExact[0]>
+      %38:Object = Move 97770799065312(0x58ec09bf68e0):Object
+
+BB %39 - preds: %36 %102 - succs: %46 %49
+
+# v37:Object = Phi<2, 4> v53 v22
+      %40:Object = Phi (BB%102, %40:Object), (BB%36, %7:Object)
+
+# v38:Object = Phi<2, 4> v47 v23
+      %41:Object = Phi (BB%102, %41:Object), (BB%36, %8:Object)
+
+# v39:LongExact = Phi<2, 4> v74 v32
+      %42:Object = Phi (BB%102, %77:Object), (BB%36, %37:Object)
+
+# v40:LongExact = Phi<2, 4> v75 v34
+      %43:Object = Phi (BB%102, %100:Object), (BB%36, %38:Object)
+
+# v36:CInt64 = LoadEvalBreaker
+       %44:64bit = MoveRelaxed [%9:Object + 0x18]:Object
+
+# CondBranch<7, 1> v36
+                   CondBranch %44:64bit, BB%46, BB%49
+
+BB %46 - preds: %39 - succs: %49
+
+# v41:CInt32 = RunPeriodicTasks {
+#   LiveValues<4> b:v37 b:v38 o:v39 o:v40
+#   FrameState {
+#     CurInstrOffset 10
+#     Locals<4> v37 v38 v39 v40
+#   }
+# }
+       %47:32bit = Call 97770796263440(0x58ec0994a810):Object, %9:Object
+                   Guard 3(0x3):64bit, 1(0x1):64bit, %47:32bit, 0(0x0):64bit, %40:Object, %41:Object, %42:Object, %43:Object
+
+BB %49 - preds: %39 %46 - succs: %73 %112
+
+# v47:LongExact = GuardType<LongExact> v38 {
+#   LiveValues<4> b:v37 b:v38 o:v39 o:v40
+#   FrameState {
+#     CurInstrOffset 10
+#     Locals<4> v37 v38 v39 v40
+#   }
+# }
+     %159:Object = Move 97770798871616(0x58ec09bc7440):Object
+                   Guard 1(0x1):64bit, 2(0x2):64bit, %41:Object, %159:Object, %40:Object, %41:Object, %42:Object, %43:Object
+
+# v77:CBool = IsCompactLong v40
+       %51:64bit = Move [%43:Object + 0x10]:Object
+        %52:8bit = LessThanUnsigned %51:64bit, 16(0x10):64bit
+
+# v78:CBool = IsCompactLong v47
+       %53:64bit = Move [%41:Object + 0x10]:Object
+        %54:8bit = LessThanUnsigned %53:64bit, 16(0x10):64bit
+
+# v79:CBool = IntBinaryOp<And> v77 v78
+        %55:8bit = And %52:8bit, %54:8bit
+
+# Guard v79 {
+#   LiveValues<6> b:v37 b:v38 o:v39 o:v40 b:v47 bool:v79
+#   FrameState {
+#     CurInstrOffset 10
+#     Locals<4> v37 v38 v39 v40
+#   }
+# }
+                   Guard 4(0x4):64bit, 3(0x3):64bit, %55:8bit, 0(0x0):64bit, %40:Object, %41:Object, %42:Object, %43:Object
+
+# v80:CInt64 = CompactLongUnbox v40
+       %57:64bit = Move [%43:Object + 0x10]:Object
+       %58:64bit = And %57:64bit, 3(0x3):64bit
+       %59:64bit = Move 1(0x1):64bit
+       %60:64bit = Sub %59:64bit, %58:64bit
+       %61:32bit = Move [%43:Object + 0x18]:Object
+       %62:64bit = Zext %61:32bit
+       %63:64bit = Mul %60:64bit, %62:64bit
+
+# v81:CInt64 = CompactLongUnbox v47
+       %64:64bit = Move [%41:Object + 0x10]:Object
+       %65:64bit = And %64:64bit, 3(0x3):64bit
+       %66:64bit = Move 1(0x1):64bit
+       %67:64bit = Sub %66:64bit, %65:64bit
+       %68:32bit = Move [%41:Object + 0x18]:Object
+       %69:64bit = Zext %68:32bit
+       %70:64bit = Mul %67:64bit, %69:64bit
+
+# v82:CBool = PrimitiveCompare<LessThan> v80 v81
+        %71:8bit = LessThanSigned %63:64bit, %70:64bit
+
+# CondBranch<2, 3> v82
+                   CondBranch %71:8bit, BB%73, BB%112
+
+BB %73 - preds: %49 - succs: %79 %81
+
+# v53:LongExact = GuardType<LongExact> v37 {
+#   LiveValues<4> b:v37 o:v39 o:v40 b:v47
+#   FrameState {
+#     CurInstrOffset 22
+#     Locals<4> v37 v47 v39 v40
+#   }
+# }
+     %160:Object = Move 97770798871616(0x58ec09bc7440):Object
+                   Guard 1(0x1):64bit, 4(0x4):64bit, %40:Object, %160:Object, %40:Object, %42:Object, %43:Object, %41:Object
+
+# v73:LongExact = LongBinaryOp<Multiply> v53 v40 {
+#   LiveValues<4> o:v39 o:v40 b:v47 b:v53
+#   FrameState {
+#     CurInstrOffset 26
+#     Locals<4> v53 v47 v39 v40
+#     Stack<1> v39
+#   }
+# }
+      %75:Object = Call 97770793934368(0x58ec09711e20):Object, %40:Object, %43:Object
+                   Guard 4(0x4):64bit, 5(0x5):64bit, %75:Object, 0(0x0):64bit, %42:Object, %43:Object, %41:Object, %40:Object
+
+# v74:LongExact = LongBinaryOp<Add> v39 v73 {
+#   LiveValues<5> o:v39 o:v40 b:v47 b:v53 o:v73
+#   FrameState {
+#     CurInstrOffset 38
+#     Locals<4> v53 v47 v39 v40
+#   }
+# }
+      %77:Object = Call 97770793932944(0x58ec09711890):Object, %42:Object, %75:Object
+                   Guard 4(0x4):64bit, 6(0x6):64bit, %77:Object, 0(0x0):64bit, %42:Object, %43:Object, %41:Object, %40:Object, %75:Object
+
+# Decref v39
+       %80:64bit = Move [%42:Object]:Object
+                   Test32 %80:64bit, %80:64bit
+                   BranchS
+
+BB %79 - preds: %73 %81 %84 - succs: %89 %91
+
+# Decref v73
+       %90:64bit = Move [%75:Object]:Object
+                   Test32 %90:64bit, %90:64bit
+                   BranchS
+
+BB %81 - preds: %73 - succs: %79 %84
+
+# Decref v39
+                   Dec %80:64bit
+[%42:Object]:Object = Move %80:64bit
+                   BranchNZ
+
+BB %84 - preds: %81 - succs: %79
+
+# Decref v39
+                   Call 97770793914752(0x58ec0970d180):Object, %42:Object
+
+BB %89 - preds: %79 %91 %94 - succs: %102 %104
+
+# v60:ImmortalLongExact[1] = LoadConst<ImmortalLongExact[1]>
+      %99:Object = Move 97770799065344(0x58ec09bf6900):Object
+
+# v75:LongExact = LongBinaryOp<Add> v40 v60 {
+#   LiveValues<5> o:v40 b:v47 b:v53 unc:v60 o:v74
+#   FrameState {
+#     CurInstrOffset 56
+#     Locals<4> v53 v47 v74 v40
+#   }
+# }
+     %100:Object = Call 97770793932944(0x58ec09711890):Object, %43:Object, 97770799065344(0x58ec09bf6900):Object
+                   Guard 4(0x4):64bit, 7(0x7):64bit, %100:Object, 0(0x0):64bit, %43:Object, %41:Object, %40:Object, %77:Object
+
+# Decref v40
+      %103:64bit = Move [%43:Object]:Object
+                   Test32 %103:64bit, %103:64bit
+                   BranchS
+
+BB %91 - preds: %79 - succs: %89 %94
+
+# Decref v73
+                   Dec %90:64bit
+[%75:Object]:Object = Move %90:64bit
+                   BranchNZ
+
+BB %94 - preds: %91 - succs: %89
+
+# Decref v73
+                   Call 97770793914752(0x58ec0970d180):Object, %75:Object
+
+BB %102 - preds: %89 %104 %107 - succs: %39
+
+BB %104 - preds: %89 - succs: %102 %107
+
+# Decref v40
+                   Dec %103:64bit
+[%43:Object]:Object = Move %103:64bit
+                   BranchNZ
+
+BB %107 - preds: %104 - succs: %102
+
+# Decref v40
+                   Call 97770793914752(0x58ec0970d180):Object, %43:Object
+
+BB %112 - preds: %49 - succs: %117 %119
+
+# v65:OptObject = LoadGlobalCached<0>
+     %113:Object = Move [0x58ec2ad09000]:Object
+
+# v66:ImmortalLongExact[16] = GuardIs<0x58ec09bf6ae0> v65 {
+#   Descr 'LOAD_GLOBAL: SCALE'
+#   LiveValues<5> b:v37 o:v39 o:v40 b:v47 b:v65
+#   FrameState {
+#     CurInstrOffset 74
+#     Locals<4> v37 v47 v39 v40
+#   }
+# }
+     %161:Object = Move 97770799065824(0x58ec09bf6ae0):Object
+                   Guard 2(0x2):64bit, 8(0x8):64bit, %113:Object, %161:Object, %40:Object, %42:Object, %43:Object, %41:Object
+
+# v76:LongExact = LongBinaryOp<Multiply> v39 v66 {
+#   LiveValues<5> b:v37 o:v39 o:v40 b:v47 unc:v66
+#   FrameState {
+#     CurInstrOffset 86
+#     Locals<4> v37 v47 v39 v40
+#   }
+# }
+     %115:Object = Call 97770793934368(0x58ec09711e20):Object, %42:Object, 97770799065824(0x58ec09bf6ae0):Object
+                   Guard 4(0x4):64bit, 9(0x9):64bit, %115:Object, 0(0x0):64bit, %40:Object, %42:Object, %43:Object, %41:Object
+
+# Decref v39
+      %118:64bit = Move [%42:Object]:Object
+                   Test32 %118:64bit, %118:64bit
+                   BranchS
+
+BB %117 - preds: %112 %119 %122 - succs: %127 %129
+
+# Decref v40
+      %128:64bit = Move [%43:Object]:Object
+                   Test32 %128:64bit, %128:64bit
+                   BranchS
+
+BB %119 - preds: %112 - succs: %117 %122
+
+# Decref v39
+                   Dec %118:64bit
+[%42:Object]:Object = Move %118:64bit
+                   BranchNZ
+
+BB %122 - preds: %119 - succs: %117
+
+# Decref v39
+                   Call 97770793914752(0x58ec0970d180):Object, %42:Object
+
+BB %127 - preds: %117 %129 %132 - succs: %138
+
+# Return v76
+                   Return
+
+BB %129 - preds: %117 - succs: %127 %132
+
+# Decref v40
+                   Dec %128:64bit
+[%43:Object]:Object = Move %128:64bit
+                   BranchNZ
+
+BB %132 - preds: %129 - succs: %127
+
+# Decref v40
+                   Call 97770793914752(0x58ec0970d180):Object, %43:Object
+
+BB %138 - preds: %127 - succs: %142 %145
+     %139:Object = Phi (BB%127, %115:Object)
+     %140:Object = Move [%9:Object + 0x48]:Object
+      %143:64bit = Move [%140:Object - 0x8]:Object
+                   BranchBitNotSet %143:64bit, 1(0x1):64bit
+
+BB %141 - preds: %145 %151
+                   EpilogueEnd %139:Object
+
+BB %142 - preds: %138 - succs: %151 %153
+     %148:Object = Move [%140:Object + 0x8]:Object
+[%9:Object + 0x48]:Object = Move %148:Object
+     %150:Object = Move 137060539708672(0x7ca7e4c83500):Object
+      %152:64bit = Move [%150:Object]:Object
+                   Dec %152:64bit
+[%150:Object]:Object = Move %152:64bit
+                   BranchNZ
+
+BB %145 - preds: %138 - succs: %141
+                   Call 137060526154528(0x7ca7e3f96320):Object, %9:Object
+                   Branch
+
+BB %151 - preds: %142 %153 - succs: %141
+
+BB %153 - preds: %142 - succs: %151
+                   Call 97770793336368(0x58ec0967fe30):Object, %150:Object

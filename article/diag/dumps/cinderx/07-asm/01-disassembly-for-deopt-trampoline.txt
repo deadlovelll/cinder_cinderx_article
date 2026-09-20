@@ -1,0 +1,58 @@
+
+Save registers
+  0x0078b754800000:        pushq %r14
+  0x0078b754800002:        pushq %r13
+  0x0078b754800004:        pushq %r12
+  0x0078b754800006:        pushq %r11
+  0x0078b754800008:        pushq %r10
+  0x0078b75480000a:        pushq %r9
+  0x0078b75480000c:        pushq %r8
+  0x0078b75480000e:        pushq %rdi
+  0x0078b75480000f:        pushq %rsi
+  0x0078b754800010:        pushq %rbp
+  0x0078b754800011:        pushq %rsp
+  0x0078b754800012:        pushq %rbx
+  0x0078b754800013:        pushq %rdx
+  0x0078b754800014:        pushq %rcx
+  0x0078b754800015:        pushq %rax
+
+Shuffle rip, rbp, and deopt index
+  0x0078b754800016:        leaq (%rsp), %rdi
+  0x0078b75480001a:        movq 0xa0(%rsp), %rcx
+  0x0078b754800022:        movq %rbp, 0xa0(%rsp)
+  0x0078b75480002a:        leaq 0xa0(%rsp), %rbp
+  0x0078b754800032:        movq 8(%rbp), %rdx
+  0x0078b754800036:        movq %rcx, 8(%rbp)
+  0x0078b75480003a:        movq %rdx, -0x10(%rbp)
+  0x0078b75480003e:        movq -0x18(%rbp), %rsi
+
+prepareForDeopt
+  0x0078b754800042:        callq 0x78b7588fa8b0	(jit::codegen::(anonymous namespace)::prepareForDeopt(unsigned long const*, jit::CodeRuntime*, unsigned long))
+
+reg cleanup
+  0x0078b754800048:        movq 0x78(%rsp), %r15
+  0x0078b75480004d:        leaq 0x80(%rsp), %rsp
+
+resumeInInterpreter
+  0x0078b754800055:        movq %rax, %rcx
+  0x0078b754800058:        movq %rcx, %rcx
+  0x0078b75480005b:        andq $1, %rcx
+  0x0078b75480005f:        movq %rax, %rax
+  0x0078b754800062:        andq $0xfffffffffffffffe, %rax
+  0x0078b754800066:        movq %rax, %rdi
+  0x0078b754800069:        movq -0x18(%rbp), %rsi
+  0x0078b75480006d:        movq -0x10(%rbp), %rdx
+  0x0078b754800071:        callq 0x78b7588facf0	(jit::codegen::(anonymous namespace)::resumeInInterpreter(_PyInterpreterFrame*, jit::CodeRuntime*, unsigned long, bool))
+
+Jump to real epilogue
+  0x0078b754800077:        movq %rax, %rdx
+  0x0078b75480007a:        movq %rax, %xmm1
+  0x0078b75480007f:        movq -0x20(%rbp), %rdi
+  0x0078b754800083:        leave 
+  0x0078b754800084:        leaq 8(%rsp), %rsp
+  0x0078b754800089:        jmpq *%rdi
+
+--unassigned--
+  0x0078b75480008b:        addb %al, (%rax)
+  0x0078b75480008d:        addb %al, (%rax)
+  0x0078b75480008f:        RAW: 0x00

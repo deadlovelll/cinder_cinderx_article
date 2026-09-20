@@ -1,0 +1,301 @@
+{
+ "suite": "b_attr",
+ "label": "314-static",
+ "cx_config": "static",
+ "interp": {
+  "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+  "version": "3.14.5+meta",
+  "implementation": "CPython",
+  "compiler": "Clang 18.1.3 (1ubuntu1)",
+  "gil_enabled": true,
+  "free_threaded": false,
+  "config_args": "'--prefix=/home/timofei/Desktop/cinder_cinderx_article/build/fork' '--enable-optimizations' '--with-lto' 'PKG_CONFIG_PATH=/opt/intel/oneapi/vtune/2025.10/include/pkgconfig/lib64:/opt/intel/oneapi/tbb/2022.3/env/../lib/pkgconfig:/opt/intel/oneapi/mpi/2021.17/lib/pkgconfig:/opt/intel/oneapi/mkl/2025.3/lib/pkgconfig:/opt/intel/oneapi/ippcp/2025.3/lib/pkgconfig:/opt/intel/oneapi/dpl/2022.10/lib/pkgconfig:/opt/intel/oneapi/dnnl/2025.3/lib/pkgconfig:/opt/intel/oneapi/dal/2025.10/lib/pkgconfig:/opt/intel/oneapi/compiler/2025.3/lib/pkgconfig:/opt/intel/oneapi/ccl/2021.17/lib/pkgconfig/:/opt/intel/oneapi/advisor/2025.4/include/pkgconfig/lib64:' 'CC=clang'",
+  "core_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -fno-semantic-interposition -flto=thin -g -std=c11 -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wstrict-prototypes -Werror=implicit-function-declaration -fvisibility=hidden -fprofile-instr-use=/home/timofei/Desktop/cinder_cinderx_article/cinderx-workshop/cinder/code.profclangd -I./Include/internal -I./Include/internal/mimalloc -I. -I./Include -DPy_BUILD_CORE",
+  "lazy_imports": false,
+  "cx_config": "static",
+  "cinderx_version": "2026.9.14.0",
+  "frame_evaluator": true,
+  "has_parallel_gc": true,
+  "jit_enabled": false,
+  "compile_after_n_calls": null
+ },
+ "machine": {
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "system": "Linux",
+  "cpu_count": 16,
+  "cpu_brand": "Intel(R) Core(TM) Ultra 7 255H"
+ },
+ "preflight": {
+  "aslr": {
+   "reexec": "1",
+   "personality": "0x40000",
+   "addr_no_randomize": true,
+   "randomize_va_space": 2,
+   "layout_stable": true,
+   "layout_samples": [
+    "5555555db000",
+    "5555555db000",
+    "5555555db000"
+   ],
+   "verdict": "off"
+  },
+  "cpu": {
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [],
+   "shield": {
+    "units": {},
+    "leaking": [],
+    "shielded": null
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": null,
+    "leaking": null
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": null,
+   "notes": [],
+   "problems": [
+    "nothing is reserved: set CX_RESERVED_CPUS (and shield it) or isolcpus="
+   ],
+   "verdict": "NOT_RESERVED"
+  },
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
+ },
+ "drift": {
+  "test": "mann_kendall",
+  "alpha": 0.05,
+  "min_effect": 0.01,
+  "benchmarks": {
+   "attr_read/plain/dict": {
+    "n": 60,
+    "S": -128,
+    "z": -0.81,
+    "p": 0.41794,
+    "slope_per_sample": -2.37747408184735e-12,
+    "second_half_over_first": 0.9989,
+    "effect": -0.00108,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "attr_read/plain/slots": {
+    "n": 60,
+    "S": 86,
+    "z": 0.542,
+    "p": 0.58773,
+    "slope_per_sample": 1.4971820266391479e-12,
+    "second_half_over_first": 1.0009,
+    "effect": 0.00089,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "attr_read/static/field": {
+    "n": 60,
+    "S": -74,
+    "z": -0.466,
+    "p": 0.64151,
+    "slope_per_sample": -2.3491742060104173e-12,
+    "second_half_over_first": 0.9967,
+    "effect": -0.00334,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "attr_rw/plain/dict": {
+    "n": 60,
+    "S": 630,
+    "z": 4.012,
+    "p": 6e-05,
+    "slope_per_sample": 4.9002130792898513e-11,
+    "second_half_over_first": 1.0146,
+    "effect": 0.0146,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "SLOWING"
+   },
+   "attr_rw/plain/slots": {
+    "n": 60,
+    "S": -110,
+    "z": -0.695,
+    "p": 0.48693,
+    "slope_per_sample": -1.4298592153257945e-11,
+    "second_half_over_first": 1.0007,
+    "effect": 0.00073,
+    "min_effect": 0.01,
+    "direction_agrees": false,
+    "verdict": "no_trend"
+   },
+   "attr_rw/static/field": {
+    "n": 60,
+    "S": 198,
+    "z": 1.256,
+    "p": 0.20895,
+    "slope_per_sample": 1.738185966110544e-11,
+    "second_half_over_first": 1.0066,
+    "effect": 0.00664,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "machine_probe/modexp": {
+    "n": 60,
+    "S": 432,
+    "z": 2.749,
+    "p": 0.00598,
+    "slope_per_sample": 1.5377680986416663e-08,
+    "second_half_over_first": 1.0012,
+    "effect": 0.0012,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "machine_probe/digest": {
+    "n": 60,
+    "S": -176,
+    "z": -1.116,
+    "p": 0.26436,
+    "slope_per_sample": -9.473645756467401e-08,
+    "second_half_over_first": 0.9997,
+    "effect": -0.00032,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   }
+  },
+  "slowing": [
+   "attr_rw/plain/dict"
+  ],
+  "verdict": "DRIFT"
+ },
+ "registered": [
+  "attr_read/plain/dict",
+  "attr_read/plain/slots",
+  "attr_read/static/field",
+  "attr_rw/plain/dict",
+  "attr_rw/plain/slots",
+  "attr_rw/static/field",
+  "machine_probe/modexp",
+  "machine_probe/digest"
+ ],
+ "gate_failures": [],
+ "facts": {
+  "jit_defaults_applied": {},
+  "pin": {
+   "pinned": true,
+   "pin_source": "CX_BENCH_CPUS",
+   "pin_requested": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [],
+   "shield": {
+    "units": {},
+    "leaking": [],
+    "shielded": null
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": null,
+    "leaking": null
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": null,
+   "notes": [],
+   "problems": [
+    "nothing is reserved: set CX_RESERVED_CPUS (and shield it) or isolcpus="
+   ],
+   "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
+   "pin_target": "service"
+  },
+  "jit": {}
+ }
+}

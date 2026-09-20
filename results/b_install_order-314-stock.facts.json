@@ -1,0 +1,161 @@
+{
+ "suite": "b_install_order",
+ "label": "314-stock",
+ "cx_config": "stock",
+ "kind": "observations",
+ "interp": {
+  "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+  "version": "3.14.5+meta",
+  "implementation": "CPython",
+  "compiler": "Clang 18.1.3 (1ubuntu1)",
+  "gil_enabled": true,
+  "free_threaded": false,
+  "config_args": "'--prefix=/home/timofei/Desktop/cinder_cinderx_article/build/fork' '--enable-optimizations' '--with-lto' 'PKG_CONFIG_PATH=/opt/intel/oneapi/vtune/2025.10/include/pkgconfig/lib64:/opt/intel/oneapi/tbb/2022.3/env/../lib/pkgconfig:/opt/intel/oneapi/mpi/2021.17/lib/pkgconfig:/opt/intel/oneapi/mkl/2025.3/lib/pkgconfig:/opt/intel/oneapi/ippcp/2025.3/lib/pkgconfig:/opt/intel/oneapi/dpl/2022.10/lib/pkgconfig:/opt/intel/oneapi/dnnl/2025.3/lib/pkgconfig:/opt/intel/oneapi/dal/2025.10/lib/pkgconfig:/opt/intel/oneapi/compiler/2025.3/lib/pkgconfig:/opt/intel/oneapi/ccl/2021.17/lib/pkgconfig/:/opt/intel/oneapi/advisor/2025.4/include/pkgconfig/lib64:' 'CC=clang'",
+  "core_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -fno-semantic-interposition -flto=thin -g -std=c11 -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wstrict-prototypes -Werror=implicit-function-declaration -fvisibility=hidden -fprofile-instr-use=/home/timofei/Desktop/cinder_cinderx_article/cinderx-workshop/cinder/code.profclangd -I./Include/internal -I./Include/internal/mimalloc -I. -I./Include -DPy_BUILD_CORE",
+  "lazy_imports": false,
+  "cx_config": "stock"
+ },
+ "machine": {
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "system": "Linux",
+  "cpu_count": 16,
+  "cpu_brand": "Intel(R) Core(TM) Ultra 7 255H"
+ },
+ "preflight": {
+  "aslr": {
+   "reexec": "1",
+   "personality": "0x40000",
+   "addr_no_randomize": true,
+   "randomize_va_space": 2,
+   "layout_stable": true,
+   "layout_samples": [
+    "5555555db000",
+    "5555555db000",
+    "5555555db000"
+   ],
+   "verdict": "off"
+  },
+  "cpu": {
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
+  },
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
+ },
+ "problems": [],
+ "facts": {
+  "combos": [
+   {
+    "combo": "both",
+    "frame_evaluator": true,
+    "loader": true,
+    "is_static_module": true,
+    "is_static_callable": true,
+    "correct": true,
+    "median_ms": 14.829610008746386,
+    "min_ms": 14.69005603576079,
+    "note": "timing is indicative only: this is an observation bench, the durations are not pyperf measurements"
+   },
+   {
+    "combo": "loader",
+    "frame_evaluator": false,
+    "loader": true,
+    "is_static_module": true,
+    "is_static_callable": true,
+    "correct": true,
+    "median_ms": 15.006087021902204,
+    "min_ms": 14.775736955925822,
+    "note": "timing is indicative only: this is an observation bench, the durations are not pyperf measurements"
+   },
+   {
+    "combo": "evaluator",
+    "frame_evaluator": true,
+    "loader": false,
+    "is_static_module": false,
+    "is_static_callable": false,
+    "correct": true,
+    "median_ms": 9.528172027785331,
+    "min_ms": 9.437049040570855,
+    "note": "timing is indicative only: this is an observation bench, the durations are not pyperf measurements"
+   },
+   {
+    "combo": "neither",
+    "frame_evaluator": false,
+    "loader": false,
+    "is_static_module": null,
+    "is_static_callable": null,
+    "correct": true,
+    "median_ms": 8.268809004221112,
+    "min_ms": 8.041917986702174,
+    "note": "timing is indicative only: this is an observation bench, the durations are not pyperf measurements"
+   }
+  ]
+ }
+}

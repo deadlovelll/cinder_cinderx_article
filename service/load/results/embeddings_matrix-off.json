@@ -1,0 +1,38 @@
+{
+ "facts": {
+  "mode": "off",
+  "frame_evaluator": false,
+  "jit": false,
+  "static_loader": false
+ },
+ "candidate_limit": 200,
+ "reference": "the first implementation listed",
+ "cells": [
+  {
+   "impl": "numpy",
+   "mode": "off",
+   "jit": false,
+   "median_ms": 7.724267333590736,
+   "min_ms": 7.678196998313069,
+   "max_ms": 8.05350299924612,
+   "reps": 3,
+   "items": 3,
+   "compiled_functions": 0,
+   "mismatches": 0,
+   "tie_breaks": 0
+  },
+  {
+   "impl": "python",
+   "mode": "off",
+   "jit": false,
+   "median_ms": 1658.161779671597,
+   "min_ms": 1636.966215330176,
+   "max_ms": 1665.4335920078058,
+   "reps": 3,
+   "items": 3,
+   "compiled_functions": 0,
+   "mismatches": 0,
+   "tie_breaks": 1
+  }
+ ]
+}

@@ -1,0 +1,16 @@
+{
+ "source": "postgres container recsys-db-1, database recsys",
+ "note": "снято с базы, обслуживавшей нагрузочную лестницу; impressions/interactions обнулены сбросом фикстуры",
+ "server": "PostgreSQL 17.11 (Debian 17.11-1.pgdg12+2) on x86_64-pc-linux-gnu",
+ "counts": {
+  "catalogue_items": 100000,
+  "users": 20000,
+  "graph_edges": 2549236,
+  "item_embeddings": 100000,
+  "user_state_rows": 20000,
+  "popularity_rows": 5000,
+  "pins": 12,
+  "impressions": 0,
+  "interactions": 0
+ }
+}

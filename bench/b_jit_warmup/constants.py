@@ -1,0 +1,2 @@
+N_ITEMS = 2_000
+ROUNDS = 40

@@ -1,0 +1,749 @@
+JIT: cinderx/Jit/lir/regalloc.cpp:280 -- Starting register allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [89, 91) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [265, 267) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R29: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [18, 34) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [212, 251) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [48, 54) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [52, 54) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R17: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R7: [5, 28) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [12, 262), [263, 267) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [233, 242) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R28: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R0: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [115, 117) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [107, 112) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [101, 103) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R16: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [95, 101) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R11: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [117, 133) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R6: [8, 69) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [61, 63) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R27: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [50, 63) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [255, 260), [263, 265) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [269, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R10: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [131, 133) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [69, 214) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [125, 131) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R26: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [109, 112) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [20, 43) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [24, 32) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [99, 101) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [79, 81) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R9: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R25: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [206, 210) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [251, 284) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R8: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [68, 69) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R24: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [133, 135) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [119, 121) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [208, 210) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R7: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [138, 140) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [150, 159) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R23: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [123, 126) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [93, 95) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [167, 176) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [257, 259) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [184, 204) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [146, 204) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R6: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [113, 115) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R22: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [188, 197) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [121, 126) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [216, 225) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [127, 129) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R21: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [56, 58) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [271, 275) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [14, 46) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R20: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [142, 181) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [69, 202), [204, 247) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [105, 107) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [69, 164), [204, 230) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R31: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R2: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [111, 117) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [66, 69) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R19: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [97, 99) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [84, 86) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [36, 43) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [22, 32) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [16, 28) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [69, 214) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R30: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R1: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval [129, 131) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R2: [10, 69) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:668 -- Queuing interval ->R18: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for allocation
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RDI to interval ->R7: [5, 28)
+JIT: cinderx/Jit/lir/regalloc.cpp:971 -- Split new interval ->R7: [11, 28)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RSI to interval ->R6: [8, 69)
+JIT: cinderx/Jit/lir/regalloc.cpp:971 -- Split new interval ->R6: [11, 69)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RDX to interval ->R2: [10, 69)
+JIT: cinderx/Jit/lir/regalloc.cpp:971 -- Split new interval ->R2: [11, 69)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RBX to interval ->R7: [11, 28)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location R12 to interval ->R6: [11, 69)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location R13 to interval ->R2: [11, 69)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location R14 to interval [12, 262), [263, 267)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [14, 46)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [16, 28)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RDX to interval [18, 34)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RSI to interval [20, 43)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RDI to interval [22, 32)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location R8 to interval [24, 32)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location ECX to interval [36, 43)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [48, 54)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RBX to interval [50, 63)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [52, 54)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [56, 58)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location EAX to interval [61, 63)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [66, 69)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [68, 69)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RBX to interval [69, 214)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location R12 to interval [69, 214)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location R13 to interval [69, 164), [204, 230)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location R15 to interval [69, 202), [204, 247)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [79, 81)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location EAX to interval [84, 86)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [89, 91)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [93, 95)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location AL to interval [95, 101)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [97, 99)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location CL to interval [99, 101)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location AL to interval [101, 103)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [105, 107)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [107, 112)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [109, 112)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RDX to interval [111, 117)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location EAX to interval [113, 115)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [115, 117)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [117, 133)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [119, 121)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [121, 126)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RDX to interval [123, 126)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RSI to interval [125, 131)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location ECX to interval [127, 129)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [129, 131)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [131, 133)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location AL to interval [133, 135)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [138, 140)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [142, 181)
+JIT: cinderx/Jit/lir/regalloc.cpp:971 -- Split new interval ->R0: [145, 181)
+JIT: cinderx/Jit/lir/regalloc.cpp:895 -- Allocating blocked location RBX to interval ->R0: [145, 181)
+JIT: cinderx/Jit/lir/regalloc.cpp:971 -- Split new interval ->R3: [145, 214)
+JIT: cinderx/Jit/lir/regalloc.cpp:994 -- Allocating new stack slot [RBP(-160)] for operand %40:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:886 -- Allocating blocked location [RBP(-160)] to interval ->R3: [145, 214)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [146, 204)
+JIT: cinderx/Jit/lir/regalloc.cpp:971 -- Split new interval ->R0: [163, 204)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [150, 159)
+JIT: cinderx/Jit/lir/regalloc.cpp:994 -- Allocating new stack slot [RBP(-168)] for operand %77:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:886 -- Allocating blocked location [RBP(-168)] to interval ->R0: [163, 204)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [167, 176)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RBX to interval [184, 204)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [188, 197)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [206, 210)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [208, 210)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RBX to interval [212, 251)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [216, 225)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [233, 242)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RBX to interval [251, 284)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [255, 260), [263, 265)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RCX to interval [257, 259)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [265, 267)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location R12 to interval [269, 280)
+JIT: cinderx/Jit/lir/regalloc.cpp:825 -- Allocating free location RAX to interval [271, 275)
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 0 - Start basic block 0
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 1 - Start basic block 1
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 2 - in -                    SetupFrame
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 3 - out -                    SetupFrame
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    SetupFrame
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 4 - in -        %5:Object = Bind RDI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 5 - out -        %5:Object = Bind RDI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R7: [5, 11) for operand %5:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RDI:Object = Bind RDI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 6 - Start basic block 6
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 7 - in -        %7:Object = Bind RSI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 8 - out -        %7:Object = Bind RSI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R6: [8, 11) for operand %7:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RSI:Object = Bind RSI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 9 - in -        %8:Object = Bind RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 10 - out -        %8:Object = Bind RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R2: [10, 11) for operand %8:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RDX:Object = Bind RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 11 - in -        %9:Object = LoadThreadState
+JIT: cinderx/Jit/lir/regalloc.cpp:1284 -- Adding copy RDI -> RBX with data type Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1289 -- Updating interval ->R3: [11, 28) for operand RDI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1284 -- Adding copy RSI -> R12 with data type Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1289 -- Updating interval ->R12: [11, 69) for operand RSI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1284 -- Adding copy RDX -> R13 with data type Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1289 -- Updating interval ->R13: [11, 69) for operand RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 12 - out -        %9:Object = LoadThreadState
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R14: [12, 262), [263, 267) for operand %9:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       R14:Object = LoadThreadState
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 13 - in -       %10:Object = Lea [RBP(-136)]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 14 - out -       %10:Object = Lea [RBP(-136)]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [14, 46) for operand %10:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Lea [RBP(-136)]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 15 - in -       %11:Object = Move [R14:Object + 0x48]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 16 - out -       %11:Object = Move [R14:Object + 0x48]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [16, 28) for operand %11:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RCX:Object = Move [R14:Object + 0x48]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 17 - in -       %12:Object = Move 0(0x0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 18 - out -       %12:Object = Move 0(0x0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R2: [18, 34) for operand %12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RDX:Object = Move 0(0x0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 19 - in -       %13:Object = Move 134164587518016(0x7a05a0949840):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 20 - out -       %13:Object = Move 134164587518016(0x7a05a0949840):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R6: [20, 43) for operand %13:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RSI:Object = Move 134164587518016(0x7a05a0949840):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 21 - in -        %14:64bit = Move 134164587615168(0x7a05a09613c0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 22 - out -        %14:64bit = Move 134164587615168(0x7a05a09613c0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R7: [22, 32) for operand %14:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RDI:64bit = Move 134164587615168(0x7a05a09613c0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 23 - in -        %15:64bit = Lea [RBP(-56)]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 24 - out -        %15:64bit = Lea [RBP(-56)]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R8: [24, 32) for operand %15:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:         R8:64bit = Lea [RBP(-56)]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 25 - in -                    StorePair 18446744073709551608(0xfffffffffffffff8):64bit, RAX:Object, RDX:Object, RSI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 26 - out -                    StorePair 18446744073709551608(0xfffffffffffffff8):64bit, RAX:Object, RDX:Object, RSI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    StorePair 18446744073709551608(0xfffffffffffffff8):64bit, RAX:Object, RDX:Object, RSI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 27 - in -                    StorePair 8(0x8):64bit, RAX:Object, RCX:Object, RDI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 28 - out -                    StorePair 8(0x8):64bit, RAX:Object, RCX:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    StorePair 8(0x8):64bit, RAX:Object, RCX:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 29 - in - [RAX:Object + 0x28]:Object = Move RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 30 - out - [RAX:Object + 0x28]:Object = Move RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [RAX:Object + 0x28]:Object = Move RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 31 - in -                    StorePair 56(0x38):64bit, RAX:Object, RDI:64bit, R8:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 32 - out -                    StorePair 56(0x38):64bit, RAX:Object, RDI:64bit, R8:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    StorePair 56(0x38):64bit, RAX:Object, RDI:64bit, R8:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 33 - in - [RAX:Object + 0x4a]:8bit = Move RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 34 - out - [RAX:Object + 0x4a]:8bit = Move RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [RAX:Object + 0x4a]:8bit = Move RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 35 - in -        %23:32bit = Move [RSI:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 36 - out -        %23:32bit = Move [RSI:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [36, 43) for operand %23:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        ECX:32bit = Move [RSI:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 37 - in -                    Inc ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 38 - out -                    Inc ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Inc ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 39 - in -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 40 - out -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 41 - Start basic block 22
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R2: [18, 34) for operand RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R3: [11, 28) for operand RDI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R8: [24, 32) for operand R8:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [16, 28) for operand RCX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R7: [22, 32) for operand RDI:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 42 - in - [RSI:Object]:32bit = Move ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 43 - out - [RSI:Object]:32bit = Move ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [RSI:Object]:32bit = Move ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 44 - Start basic block 21
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R6: [20, 43) for operand RSI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [36, 43) for operand ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 45 - in - [R14:Object + 0x48]:Object = Move RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 46 - out - [R14:Object + 0x48]:Object = Move RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [R14:Object + 0x48]:Object = Move RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 47 - in -       %28:Object = Move [R14:Object + 0x48]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 48 - out -       %28:Object = Move [R14:Object + 0x48]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [48, 54) for operand %28:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Move [R14:Object + 0x48]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 49 - in -       %29:Object = Move 0(0x0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 50 - out -       %29:Object = Move 0(0x0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R3: [50, 63) for operand %29:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RBX:Object = Move 0(0x0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 51 - in -      %162:Object = Move 134164587615168(0x7a05a09613c0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 52 - out -      %162:Object = Move 134164587615168(0x7a05a09613c0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [52, 54) for operand %162:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RCX:Object = Move 134164587615168(0x7a05a09613c0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 53 - in - [RAX:Object + 0x38]:Object = Move RCX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 54 - out - [RAX:Object + 0x38]:Object = Move RCX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [RAX:Object + 0x38]:Object = Move RCX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 55 - in -        %31:64bit = MoveRelaxed [R14:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 56 - out -        %31:64bit = MoveRelaxed [R14:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [56, 58) for operand %31:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = MoveRelaxed [R14:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 57 - in -                    CondBranch RAX:64bit, BB%33, BB%36
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 58 - out -                    CondBranch RAX:64bit, BB%33, BB%36
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    CondBranch RAX:64bit, BB%33, BB%36
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 59 - Start basic block 33
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [48, 54) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [52, 54) for operand RCX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [56, 58) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [14, 46) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 60 - in -        %34:32bit = Call 100322816886800(0x5b3e39dd0810):Object, R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 61 - out -        %34:32bit = Call 100322816886800(0x5b3e39dd0810):Object, R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [61, 63) for operand %34:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        EAX:32bit = Call 100322816886800(0x5b3e39dd0810):Object, R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 62 - in -                    Guard 3(0x3):64bit, 0(0x0):64bit, EAX:32bit, 0(0x0):64bit, RSI:Object, RDX:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 63 - out -                    Guard 3(0x3):64bit, 0(0x0):64bit, EAX:32bit, 0(0x0):64bit, R12:Object, R13:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 3(0x3):64bit, 0(0x0):64bit, EAX:32bit, 0(0x0):64bit, R12:Object, R13:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 64 - Start basic block 36
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [61, 63) for operand EAX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R3: [50, 63) for operand RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 65 - in -       %37:Object = Move 100322819688672(0x5b3e3a07c8e0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 66 - out -       %37:Object = Move 100322819688672(0x5b3e3a07c8e0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [66, 69) for operand %37:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Move 100322819688672(0x5b3e3a07c8e0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 67 - in -       %38:Object = Move 100322819688672(0x5b3e3a07c8e0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 68 - out -       %38:Object = Move 100322819688672(0x5b3e3a07c8e0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [68, 69) for operand %38:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RCX:Object = Move 100322819688672(0x5b3e3a07c8e0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 69 - Start basic block 39
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R12: [11, 69) for operand RSI:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [66, 69) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [68, 69) for operand RCX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R13: [11, 69) for operand RDX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R12: [69, 214) for operand %41:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R3: [69, 145) for operand %40:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R13: [69, 164), [204, 230) for operand %42:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R15: [69, 202), [204, 247) for operand %43:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 70 - in -       %40:Object = Phi (BB%102, %40:Object), (BB%36, R12:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 71 - out -       %40:Object = Phi (BB%102, %40:Object), (BB%36, R12:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RBX:Object = Phi (BB%102, RBX:Object), (BB%36, R12:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 72 - in -       %41:Object = Phi (BB%102, %41:Object), (BB%36, R13:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 73 - out -       %41:Object = Phi (BB%102, %41:Object), (BB%36, R13:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       R12:Object = Phi (BB%102, R12:Object), (BB%36, R13:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 74 - in -       %42:Object = Phi (BB%102, %77:Object), (BB%36, RAX:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 75 - out -       %42:Object = Phi (BB%102, %77:Object), (BB%36, RAX:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       R13:Object = Phi (BB%102, %77:Object), (BB%36, RAX:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 76 - in -       %43:Object = Phi (BB%102, %100:Object), (BB%36, RCX:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 77 - out -       %43:Object = Phi (BB%102, %100:Object), (BB%36, RCX:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       R15:Object = Phi (BB%102, %100:Object), (BB%36, RCX:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 78 - in -        %44:64bit = MoveRelaxed [R14:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 79 - out -        %44:64bit = MoveRelaxed [R14:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [79, 81) for operand %44:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = MoveRelaxed [R14:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 80 - in -                    CondBranch RAX:64bit, BB%46, BB%49
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 81 - out -                    CondBranch RAX:64bit, BB%46, BB%49
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    CondBranch RAX:64bit, BB%46, BB%49
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 82 - Start basic block 46
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [79, 81) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 83 - in -        %47:32bit = Call 100322816886800(0x5b3e39dd0810):Object, R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 84 - out -        %47:32bit = Call 100322816886800(0x5b3e39dd0810):Object, R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [84, 86) for operand %47:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        EAX:32bit = Call 100322816886800(0x5b3e39dd0810):Object, R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 85 - in -                    Guard 3(0x3):64bit, 1(0x1):64bit, EAX:32bit, 0(0x0):64bit, RBX:Object, R12:Object, R13:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 86 - out -                    Guard 3(0x3):64bit, 1(0x1):64bit, EAX:32bit, 0(0x0):64bit, RBX:Object, R12:Object, R13:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 3(0x3):64bit, 1(0x1):64bit, EAX:32bit, 0(0x0):64bit, RBX:Object, R12:Object, R13:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 87 - Start basic block 49
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [84, 86) for operand EAX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 88 - in -      %159:Object = Move 100322819494976(0x5b3e3a04d440):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 89 - out -      %159:Object = Move 100322819494976(0x5b3e3a04d440):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [89, 91) for operand %159:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Move 100322819494976(0x5b3e3a04d440):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 90 - in -                    Guard 1(0x1):64bit, 2(0x2):64bit, R12:Object, RAX:Object, RBX:Object, R12:Object, R13:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 91 - out -                    Guard 1(0x1):64bit, 2(0x2):64bit, R12:Object, RAX:Object, RBX:Object, R12:Object, R13:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 1(0x1):64bit, 2(0x2):64bit, R12:Object, RAX:Object, RBX:Object, R12:Object, R13:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 92 - in -        %51:64bit = Move [R15:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 93 - out -        %51:64bit = Move [R15:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [93, 95) for operand %51:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = Move [R15:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 94 - in -         %52:8bit = LessThanUnsigned RAX:64bit, 16(0x10):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 95 - out -         %52:8bit = LessThanUnsigned RAX:64bit, 16(0x10):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [95, 101) for operand %52:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:          AL:8bit = LessThanUnsigned RAX:64bit, 16(0x10):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 96 - in -        %53:64bit = Move [R12:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 97 - out -        %53:64bit = Move [R12:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [97, 99) for operand %53:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RCX:64bit = Move [R12:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 98 - in -         %54:8bit = LessThanUnsigned RCX:64bit, 16(0x10):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 99 - out -         %54:8bit = LessThanUnsigned RCX:64bit, 16(0x10):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [99, 101) for operand %54:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:          CL:8bit = LessThanUnsigned RCX:64bit, 16(0x10):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 100 - in -         %55:8bit = And AL:8bit, CL:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 101 - out -         %55:8bit = And AL:8bit, CL:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [101, 103) for operand %55:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:          AL:8bit = And AL:8bit, CL:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 102 - in -                    Guard 4(0x4):64bit, 3(0x3):64bit, AL:8bit, 0(0x0):64bit, RBX:Object, R12:Object, R13:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 103 - out -                    Guard 4(0x4):64bit, 3(0x3):64bit, AL:8bit, 0(0x0):64bit, RBX:Object, R12:Object, R13:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 4(0x4):64bit, 3(0x3):64bit, AL:8bit, 0(0x0):64bit, RBX:Object, R12:Object, R13:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 104 - in -        %57:64bit = Move [R15:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 105 - out -        %57:64bit = Move [R15:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [105, 107) for operand %57:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = Move [R15:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 106 - in -        %58:64bit = And RAX:64bit, 3(0x3):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 107 - out -        %58:64bit = And RAX:64bit, 3(0x3):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [107, 112) for operand %58:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = And RAX:64bit, 3(0x3):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 108 - in -        %59:64bit = Move 1(0x1):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 109 - out -        %59:64bit = Move 1(0x1):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [109, 112) for operand %59:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RCX:64bit = Move 1(0x1):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 110 - in -        %60:64bit = Sub RCX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 111 - out -        %60:64bit = Sub RCX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R2: [111, 117) for operand %60:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RDX:64bit = Sub RCX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 112 - in -        %61:32bit = Move [R15:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 113 - out -        %61:32bit = Move [R15:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [113, 115) for operand %61:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        EAX:32bit = Move [R15:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 114 - in -        %62:64bit = Zext EAX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 115 - out -        %62:64bit = Zext EAX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [115, 117) for operand %62:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = Zext EAX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 116 - in -        %63:64bit = Mul RDX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 117 - out -        %63:64bit = Mul RDX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [117, 133) for operand %63:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = Mul RDX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 118 - in -        %64:64bit = Move [R12:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 119 - out -        %64:64bit = Move [R12:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [119, 121) for operand %64:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RCX:64bit = Move [R12:Object + 0x10]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 120 - in -        %65:64bit = And RCX:64bit, 3(0x3):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 121 - out -        %65:64bit = And RCX:64bit, 3(0x3):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [121, 126) for operand %65:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RCX:64bit = And RCX:64bit, 3(0x3):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 122 - in -        %66:64bit = Move 1(0x1):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 123 - out -        %66:64bit = Move 1(0x1):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R2: [123, 126) for operand %66:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RDX:64bit = Move 1(0x1):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 124 - in -        %67:64bit = Sub RDX:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 125 - out -        %67:64bit = Sub RDX:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R6: [125, 131) for operand %67:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RSI:64bit = Sub RDX:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 126 - in -        %68:32bit = Move [R12:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 127 - out -        %68:32bit = Move [R12:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [127, 129) for operand %68:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        ECX:32bit = Move [R12:Object + 0x18]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 128 - in -        %69:64bit = Zext ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 129 - out -        %69:64bit = Zext ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [129, 131) for operand %69:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RCX:64bit = Zext ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 130 - in -        %70:64bit = Mul RSI:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 131 - out -        %70:64bit = Mul RSI:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [131, 133) for operand %70:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RCX:64bit = Mul RSI:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 132 - in -         %71:8bit = LessThanSigned RAX:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 133 - out -         %71:8bit = LessThanSigned RAX:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [133, 135) for operand %71:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:          AL:8bit = LessThanSigned RAX:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 134 - in -                    CondBranch AL:8bit, BB%73, BB%112
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 135 - out -                    CondBranch AL:8bit, BB%73, BB%112
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    CondBranch AL:8bit, BB%73, BB%112
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 136 - Start basic block 73
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [119, 121) for operand RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [133, 135) for operand AL:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [89, 91) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [93, 95) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R2: [123, 126) for operand RDX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [101, 103) for operand AL:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [107, 112) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [113, 115) for operand EAX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [95, 101) for operand AL:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [115, 117) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [117, 133) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [121, 126) for operand RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [127, 129) for operand ECX:32bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [131, 133) for operand RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [109, 112) for operand RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R6: [125, 131) for operand RSI:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [99, 101) for operand CL:8bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [105, 107) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R2: [111, 117) for operand RDX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [97, 99) for operand RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [129, 131) for operand RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 137 - in -      %160:Object = Move 100322819494976(0x5b3e3a04d440):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 138 - out -      %160:Object = Move 100322819494976(0x5b3e3a04d440):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [138, 140) for operand %160:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Move 100322819494976(0x5b3e3a04d440):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 139 - in -                    Guard 1(0x1):64bit, 4(0x4):64bit, RBX:Object, RAX:Object, RBX:Object, R13:Object, R15:Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 140 - out -                    Guard 1(0x1):64bit, 4(0x4):64bit, RBX:Object, RAX:Object, RBX:Object, R13:Object, R15:Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 1(0x1):64bit, 4(0x4):64bit, RBX:Object, RAX:Object, RBX:Object, R13:Object, R15:Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 141 - in -       %75:Object = Call 100322814557728(0x5b3e39b97e20):Object, RBX:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 142 - out -       %75:Object = Call 100322814557728(0x5b3e39b97e20):Object, RBX:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [142, 145) for operand %75:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Call 100322814557728(0x5b3e39b97e20):Object, RBX:Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 143 - in -                    Guard 4(0x4):64bit, 5(0x5):64bit, RAX:Object, 0(0x0):64bit, R13:Object, R15:Object, R12:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 144 - out -                    Guard 4(0x4):64bit, 5(0x5):64bit, RAX:Object, 0(0x0):64bit, R13:Object, R15:Object, R12:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 4(0x4):64bit, 5(0x5):64bit, RAX:Object, 0(0x0):64bit, R13:Object, R15:Object, R12:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 145 - in -       %77:Object = Call 100322814556304(0x5b3e39b97890):Object, R13:Object, RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1284 -- Adding copy RBX -> [RBP(-160)] with data type Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1289 -- Updating interval ->[RBP - 160]: [145, 214) for operand RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1284 -- Adding copy RAX -> RBX with data type Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1289 -- Updating interval ->R3: [145, 181) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 146 - out -       %77:Object = Call 100322814556304(0x5b3e39b97890):Object, R13:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [146, 163) for operand %77:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Call 100322814556304(0x5b3e39b97890):Object, R13:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 147 - in -                    Guard 4(0x4):64bit, 6(0x6):64bit, RAX:Object, 0(0x0):64bit, R13:Object, R15:Object, R12:Object, RBX:Object, RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 148 - out -                    Guard 4(0x4):64bit, 6(0x6):64bit, RAX:Object, 0(0x0):64bit, R13:Object, R15:Object, R12:Object, [RBP(-160)]:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 4(0x4):64bit, 6(0x6):64bit, RAX:Object, 0(0x0):64bit, R13:Object, R15:Object, R12:Object, [RBP(-160)]:Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 149 - in -        %80:64bit = Move [R13:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 150 - out -        %80:64bit = Move [R13:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [150, 159) for operand %80:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RCX:64bit = Move [R13:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 151 - in -                    Test32 RCX:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 152 - out -                    Test32 RCX:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Test32 RCX:64bit, RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 153 - in -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 154 - out -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 155 - Start basic block 81
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [138, 140) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 156 - in -                    Dec RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 157 - out -                    Dec RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Dec RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 158 - in - [R13:Object]:Object = Move RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 159 - out - [R13:Object]:Object = Move RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [R13:Object]:Object = Move RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 160 - in -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 161 - out -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 162 - Start basic block 84
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [150, 159) for operand RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 163 - in -                    Call 100322814538112(0x5b3e39b93180):Object, R13:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1284 -- Adding copy RAX -> [RBP(-168)] with data type Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1289 -- Updating interval ->[RBP - 168]: [163, 204) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 164 - out -                    Call 100322814538112(0x5b3e39b93180):Object, R13:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Call 100322814538112(0x5b3e39b93180):Object, R13:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 165 - Start basic block 79
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 166 - in -        %90:64bit = Move [RAX:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 167 - out -        %90:64bit = Move [RBX:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [167, 176) for operand %90:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = Move [RBX:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 168 - in -                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 169 - out -                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 170 - in -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 171 - out -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 172 - Start basic block 91
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 173 - in -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 174 - out -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 175 - in - [RAX:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 176 - out - [RBX:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [RBX:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 177 - in -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 178 - out -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 179 - Start basic block 94
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [167, 176) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 180 - in -                    Call 100322814538112(0x5b3e39b93180):Object, RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 181 - out -                    Call 100322814538112(0x5b3e39b93180):Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Call 100322814538112(0x5b3e39b93180):Object, RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 182 - Start basic block 89
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R3: [145, 181) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 183 - in -      %100:Object = Call 100322814556304(0x5b3e39b97890):Object, R15:Object, 100322819688704(0x5b3e3a07c900):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 184 - out -      %100:Object = Call 100322814556304(0x5b3e39b97890):Object, R15:Object, 100322819688704(0x5b3e3a07c900):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R3: [184, 204) for operand %100:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RBX:Object = Call 100322814556304(0x5b3e39b97890):Object, R15:Object, 100322819688704(0x5b3e3a07c900):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 185 - in -                    Guard 4(0x4):64bit, 7(0x7):64bit, RBX:Object, 0(0x0):64bit, R15:Object, R12:Object, RBX:Object, RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 186 - out -                    Guard 4(0x4):64bit, 7(0x7):64bit, RBX:Object, 0(0x0):64bit, R15:Object, R12:Object, [RBP(-160)]:Object, [RBP(-168)]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 4(0x4):64bit, 7(0x7):64bit, RBX:Object, 0(0x0):64bit, R15:Object, R12:Object, [RBP(-160)]:Object, [RBP(-168)]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 187 - in -       %103:64bit = Move [R15:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 188 - out -       %103:64bit = Move [R15:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [188, 197) for operand %103:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = Move [R15:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 189 - in -                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 190 - out -                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 191 - in -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 192 - out -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 193 - Start basic block 104
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 194 - in -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 195 - out -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 196 - in - [R15:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 197 - out - [R15:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [R15:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 198 - in -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 199 - out -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 200 - Start basic block 107
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [188, 197) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 201 - in -                    Call 100322814538112(0x5b3e39b93180):Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 202 - out -                    Call 100322814538112(0x5b3e39b93180):Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Call 100322814538112(0x5b3e39b93180):Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 203 - Start basic block 102
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 204 - Start basic block 112
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R3: [184, 204) for operand RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->[RBP - 168]: [163, 204) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 205 - in -      %113:Object = Move [0x5b3e652a6000]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 206 - out -      %113:Object = Move [0x5b3e652a6000]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [206, 210) for operand %113:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Move [0x5b3e652a6000]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 207 - in -      %161:Object = Move 100322819689184(0x5b3e3a07cae0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 208 - out -      %161:Object = Move 100322819689184(0x5b3e3a07cae0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [208, 210) for operand %161:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RCX:Object = Move 100322819689184(0x5b3e3a07cae0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 209 - in -                    Guard 2(0x2):64bit, 8(0x8):64bit, RAX:Object, RCX:Object, RBX:Object, R13:Object, R15:Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 210 - out -                    Guard 2(0x2):64bit, 8(0x8):64bit, RAX:Object, RCX:Object, [RBP(-160)]:Object, R13:Object, R15:Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 2(0x2):64bit, 8(0x8):64bit, RAX:Object, RCX:Object, [RBP(-160)]:Object, R13:Object, R15:Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 211 - in -      %115:Object = Call 100322814557728(0x5b3e39b97e20):Object, R13:Object, 100322819689184(0x5b3e3a07cae0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 212 - out -      %115:Object = Call 100322814557728(0x5b3e39b97e20):Object, R13:Object, 100322819689184(0x5b3e3a07cae0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R3: [212, 251) for operand %115:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RBX:Object = Call 100322814557728(0x5b3e39b97e20):Object, R13:Object, 100322819689184(0x5b3e3a07cae0):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 213 - in -                    Guard 4(0x4):64bit, 9(0x9):64bit, RBX:Object, 0(0x0):64bit, RBX:Object, R13:Object, R15:Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 214 - out -                    Guard 4(0x4):64bit, 9(0x9):64bit, RBX:Object, 0(0x0):64bit, [RBP(-160)]:Object, R13:Object, R15:Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Guard 4(0x4):64bit, 9(0x9):64bit, RBX:Object, 0(0x0):64bit, [RBP(-160)]:Object, R13:Object, R15:Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 215 - in -       %118:64bit = Move [R13:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 216 - out -       %118:64bit = Move [R13:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [216, 225) for operand %118:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = Move [R13:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 217 - in -                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 218 - out -                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 219 - in -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 220 - out -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 221 - Start basic block 119
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [208, 210) for operand RCX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->[RBP - 160]: [145, 214) for operand RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [206, 210) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R12: [69, 214) for operand R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 222 - in -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 223 - out -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 224 - in - [R13:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 225 - out - [R13:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [R13:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 226 - in -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 227 - out -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 228 - Start basic block 122
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [216, 225) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 229 - in -                    Call 100322814538112(0x5b3e39b93180):Object, R13:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 230 - out -                    Call 100322814538112(0x5b3e39b93180):Object, R13:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Call 100322814538112(0x5b3e39b93180):Object, R13:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 231 - Start basic block 117
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R13: [69, 164), [204, 230) for operand R13:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 232 - in -       %128:64bit = Move [R15:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 233 - out -       %128:64bit = Move [R15:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [233, 242) for operand %128:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = Move [R15:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 234 - in -                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 235 - out -                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Test32 RAX:64bit, RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 236 - in -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 237 - out -                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchS
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 238 - Start basic block 129
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 239 - in -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 240 - out -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 241 - in - [R15:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 242 - out - [R15:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [R15:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 243 - in -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 244 - out -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 245 - Start basic block 132
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [233, 242) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 246 - in -                    Call 100322814538112(0x5b3e39b93180):Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 247 - out -                    Call 100322814538112(0x5b3e39b93180):Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Call 100322814538112(0x5b3e39b93180):Object, R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 248 - Start basic block 127
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R15: [69, 202), [204, 247) for operand R15:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 249 - in -                    Return
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 250 - out -                    Return
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Return
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 251 - Start basic block 138
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R3: [212, 251) for operand RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R3: [251, 284) for operand %139:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 252 - in -      %139:Object = Phi (BB%127, RBX:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 253 - out -      %139:Object = Phi (BB%127, RBX:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RBX:Object = Phi (BB%127, RBX:Object)
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 254 - in -      %140:Object = Move [R14:Object + 0x48]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 255 - out -      %140:Object = Move [R14:Object + 0x48]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [255, 260), [263, 265) for operand %140:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Move [R14:Object + 0x48]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 256 - in -       %143:64bit = Move [RAX:Object - 0x8]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 257 - out -       %143:64bit = Move [RAX:Object - 0x8]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R1: [257, 259) for operand %143:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RCX:64bit = Move [RAX:Object - 0x8]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 258 - in -                    BranchBitNotSet RCX:64bit, 1(0x1):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 259 - out -                    BranchBitNotSet RCX:64bit, 1(0x1):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchBitNotSet RCX:64bit, 1(0x1):64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 260 - Start basic block 145
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [257, 259) for operand RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 261 - in -                    Call 134164581540640(0x7a05a0396320):Object, R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 262 - out -                    Call 134164581540640(0x7a05a0396320):Object, R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Call 134164581540640(0x7a05a0396320):Object, R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 263 - Start basic block 142
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 264 - in -      %148:Object = Move [RAX:Object + 0x8]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 265 - out -      %148:Object = Move [RAX:Object + 0x8]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [265, 267) for operand %148:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       RAX:Object = Move [RAX:Object + 0x8]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 266 - in - [R14:Object + 0x48]:Object = Move RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 267 - out - [R14:Object + 0x48]:Object = Move RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [R14:Object + 0x48]:Object = Move RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 268 - in -      %150:Object = Move 134164587518016(0x7a05a0949840):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 269 - out -      %150:Object = Move 134164587518016(0x7a05a0949840):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R12: [269, 280) for operand %150:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:       R12:Object = Move 134164587518016(0x7a05a0949840):Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 270 - in -       %152:64bit = Move [R12:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 271 - out -       %152:64bit = Move [R12:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1275 -- Adding interval ->R0: [271, 275) for operand %152:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:        RAX:64bit = Move [R12:Object]:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 272 - in -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 273 - out -                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Dec RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 274 - in - [R12:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 275 - out - [R12:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite: [R12:Object]:Object = Move RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 276 - in -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 277 - out -                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    BranchNZ
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 278 - Start basic block 153
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [265, 267) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R14: [12, 262), [263, 267) for operand R14:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [255, 260), [263, 265) for operand RAX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [271, 275) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 279 - in -                    Call 100322813959728(0x5b3e39b05e30):Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 280 - out -                    Call 100322813959728(0x5b3e39b05e30):Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    Call 100322813959728(0x5b3e39b05e30):Object, R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 281 - Start basic block 151
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R7: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand RDI:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R29: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM13:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R23: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM7:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R17: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM1:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R6: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand RSI:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R28: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM12:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R0: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand RAX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R22: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM6:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R16: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM0:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R11: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand R11:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R27: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM11:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R21: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM5:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R12: [269, 280) for operand R12:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R10: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand R10:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R26: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM10:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R20: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM4:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R9: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand R9:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R31: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM15:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R2: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand RDX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R25: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM9:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R19: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM3:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R8: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand R8:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R30: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM14:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R1: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand RCX:64bit
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R24: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM8:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1068 -- Removing interval ->R18: [-1, 0), [11, 12), [60, 61), [83, 84), [141, 142), [145, 146), [163, 164), [180, 181), [183, 184), [201, 202), [211, 212), [229, 230), [246, 247), [261, 262), [279, 280) for operand XMM2:Double
+JIT: cinderx/Jit/lir/regalloc.cpp:1055 -- 282 - Start basic block 141
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 283 - in -                    EpilogueEnd RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1090 -- 284 - out -                    EpilogueEnd RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1120 -- After rewrite:                    EpilogueEnd RBX:Object
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy R13 -> R12 with data type Object for block edge 36 -> 39
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy R12 -> RBX with data type Object for block edge 36 -> 39
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy RAX -> R13 with data type Object for block edge 36 -> 39
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy RCX -> R15 with data type Object for block edge 36 -> 39
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy RBX -> [RBP(-160)] with data type Object for block edge 49 -> 112
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy RAX -> [RBP(-168)] with data type Object for block edge 73 -> 79
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy RAX -> [RBP(-168)] with data type Object for block edge 81 -> 79
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy [RBP(-160)] -> RBX with data type Object for block edge 102 -> 39
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy [RBP(-168)] -> R13 with data type Object for block edge 102 -> 39
+JIT: cinderx/Jit/lir/regalloc.cpp:1504 -- Adding copy RBX -> R15 with data type Object for block edge 102 -> 39

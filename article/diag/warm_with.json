@@ -1,0 +1,97 @@
+{
+ "what": "прогрев точки вызова перед force_compile: сколько вызовов из 15 замеряемых ушло в интерпретатор",
+ "kernel": "hot_index",
+ "reps": 15,
+ "runs": [
+  {
+   "warm_with": "self",
+   "interpreted_calls_after_timing": 0,
+   "interpreted_during_timing": 0,
+   "still_jit_compiled": true,
+   "deopts": [],
+   "count": 0,
+   "interpreted_calls_of_hot_index": 0,
+   "code_bytes": 2040,
+   "allocated_blocks_at_compile": 96416,
+   "gc_count_at_compile": [
+    166,
+    5,
+    1
+   ],
+   "ms_median": 9.018,
+   "ms_min": 6.091
+  },
+  {
+   "warm_with": "self",
+   "interpreted_calls_after_timing": 1,
+   "interpreted_during_timing": 0,
+   "still_jit_compiled": true,
+   "deopts": [],
+   "count": 1,
+   "interpreted_calls_of_hot_index": 1,
+   "code_bytes": 2400,
+   "allocated_blocks_at_compile": 96421,
+   "gc_count_at_compile": [
+    166,
+    5,
+    1
+   ],
+   "ms_median": 6.07,
+   "ms_min": 5.95
+  },
+  {
+   "warm_with": "self",
+   "interpreted_calls_after_timing": 17,
+   "interpreted_during_timing": 15,
+   "still_jit_compiled": true,
+   "deopts": [],
+   "count": 2,
+   "interpreted_calls_of_hot_index": 2,
+   "code_bytes": 2400,
+   "allocated_blocks_at_compile": 96422,
+   "gc_count_at_compile": [
+    166,
+    5,
+    1
+   ],
+   "ms_median": 10.68,
+   "ms_min": 8.287
+  },
+  {
+   "warm_with": "self",
+   "interpreted_calls_after_timing": 18,
+   "interpreted_during_timing": 15,
+   "still_jit_compiled": true,
+   "deopts": [],
+   "count": 3,
+   "interpreted_calls_of_hot_index": 3,
+   "code_bytes": 2400,
+   "allocated_blocks_at_compile": 96422,
+   "gc_count_at_compile": [
+    166,
+    5,
+    1
+   ],
+   "ms_median": 8.563,
+   "ms_min": 8.374
+  },
+  {
+   "warm_with": "self",
+   "interpreted_calls_after_timing": 20,
+   "interpreted_during_timing": 15,
+   "still_jit_compiled": true,
+   "deopts": [],
+   "count": 5,
+   "interpreted_calls_of_hot_index": 5,
+   "code_bytes": 2400,
+   "allocated_blocks_at_compile": 96421,
+   "gc_count_at_compile": [
+    166,
+    5,
+    1
+   ],
+   "ms_median": 8.49,
+   "ms_min": 8.381
+  }
+ ]
+}

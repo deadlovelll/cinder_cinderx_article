@@ -1,0 +1,78 @@
+{
+ "what": "дефолтное число потоков на машине с 4 и 2 ядрами",
+ "default_rule": "Ci_get_num_processors() / 2, минимум 1",
+ "note": "дефолт воспроизведён явным num_threads: считает он ядра машины, а не маску аффинити",
+ "width": 100,
+ "reps": 7,
+ "launches": 3,
+ "rows": [
+  {
+   "host": "4 ядра",
+   "ncpu": 4,
+   "cpus": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "objects": 100000,
+   "refs": 10000000,
+   "default_threads": 2,
+   "sequential_ms": 61.40004802728072,
+   "parallel_ms": 99.90274696610868,
+   "parallel_lo": 99.48987403186038,
+   "parallel_hi": 100.00400297576562,
+   "slowdown": 1.6270792967738525
+  },
+  {
+   "host": "4 ядра",
+   "ncpu": 4,
+   "cpus": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "objects": 400000,
+   "refs": 40000000,
+   "default_threads": 2,
+   "sequential_ms": 241.6506329900585,
+   "parallel_ms": 367.7747239707969,
+   "parallel_lo": 365.16400397522375,
+   "parallel_hi": 369.0333159756847,
+   "slowdown": 1.5219274181910674
+  },
+  {
+   "host": "2 ядра",
+   "ncpu": 2,
+   "cpus": [
+    2,
+    3
+   ],
+   "objects": 100000,
+   "refs": 10000000,
+   "default_threads": 1,
+   "sequential_ms": 61.25348899513483,
+   "parallel_ms": 168.24211500352249,
+   "parallel_lo": 168.18716301349923,
+   "parallel_hi": 169.05797994695604,
+   "slowdown": 2.7466535827352696
+  },
+  {
+   "host": "2 ядра",
+   "ncpu": 2,
+   "cpus": [
+    2,
+    3
+   ],
+   "objects": 400000,
+   "refs": 40000000,
+   "default_threads": 1,
+   "sequential_ms": 241.49094097083434,
+   "parallel_ms": 668.1168079958297,
+   "parallel_lo": 665.8832120010629,
+   "parallel_hi": 671.0285380249843,
+   "slowdown": 2.7666330062315687
+  }
+ ]
+}

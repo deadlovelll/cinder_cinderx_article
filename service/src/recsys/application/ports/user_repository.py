@@ -1,0 +1,9 @@
+from typing import Protocol, runtime_checkable
+
+from recsys.domain.entities.user_context import UserContext
+from recsys.domain.values.ids import UserId
+
+
+@runtime_checkable
+class UserRepository(Protocol):
+    async def load_context(self, user_id: UserId) -> UserContext | None: ...

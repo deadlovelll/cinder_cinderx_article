@@ -1,0 +1,1 @@
+W, H, GENERATIONS = 96, 96, 4

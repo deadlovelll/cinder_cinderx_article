@@ -1,0 +1,56 @@
+[project]
+name = "recsys"
+version = "0.1.0"
+description = "Recommendation service used to measure Cinder/CinderX on a realistic workload"
+requires-python = ">=3.14,<3.16"
+
+# The dependency split is the "how much of this service is C" axis of the study.
+dependencies = [
+    "fastapi>=0.141",           # pulls starlette and pydantic. pydantic-core is Rust,
+                                # so declaring a response_model moves serialisation out
+    "uvicorn>=0.34",
+    "gunicorn>=23.0",           # --preload is what makes the pre-fork chain possible
+    "sqlalchemy[asyncio]>=2.0.36",  # the asyncio extra pulls greenlet, which Core async needs
+    "psycopg>=3.2",             # pure-Python driver by default; see the `c` extra
+]
+
+[project.optional-dependencies]
+# the C pole of the axis
+c = [
+    "psycopg[binary]>=3.2",     # same driver, C implementation
+    "numpy>=2.1",               # the /similar endpoint's dot product
+]
+# the Python pole: psycopg stays pure, /similar falls back to a hand-written loop
+pure = []
+
+runtime = [
+    "cinderx>=2026.9.7.0",
+]
+
+dev = [
+    "pyperf>=2.9",
+    "pytest>=8.3",
+    "pytest-asyncio>=0.24",
+    "httpx>=0.28",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/recsys"]
+
+[tool.uv]
+package = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 96
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]

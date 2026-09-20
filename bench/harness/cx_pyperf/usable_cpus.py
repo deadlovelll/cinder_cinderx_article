@@ -1,0 +1,5 @@
+from bench.harness import system
+
+
+def usable_cpus() -> int:
+    return system.usable_cpu_count()

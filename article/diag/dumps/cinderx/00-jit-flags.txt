@@ -1,0 +1,128 @@
+-X opt : set Cinder JIT-specific option. The following options are available:
+
+         -X cinderx-jit-dump-hir-stats: Dump counts of instructions and types per
+             function; also CINDERX_JIT_DUMP_HIR_STATS
+         -X cinderx-jit-all: Enable the JIT and set it to compile all functions as
+             soon as they are called; also CINDERX_JIT_ALL
+         -X cinderx-jit-auto: Enable auto-JIT mode, which compiles functions after
+             the given threshold; also CINDERX_JIT_AUTO
+         -X cinderx-jit-debug: JIT debug and extra logging; also CINDERX_JIT_DEBUG
+         -X cinderx-jit-log-file=<filename>: write log entries to <filename> rather
+             than stderr; also CINDERX_JIT_LOG_FILE=<filename>
+         -X cinderx-jit-asm-syntax=<intel|att>: set the assembly syntax used in log
+             files; also CINDERX_JIT_ASM_SYNTAX=<intel|att>
+         -X cinderx-jit-debug-guard-removal: Enable or disable debug logging for the
+             JIT's guard removal pass; also CINDERX_JIT_DEBUG_GUARD_REMOVAL
+         -X cinderx-jit-debug-inliner: Enable or disable debug logging for the JIT's
+             HIR inliner; also CINDERX_JIT_DEBUG_INLINER
+         -X cinderx-jit-debug-refcount: JIT refcount insertion debug mode; also CINDERX_JIT_DEBUG_REFCOUNT
+         -X cinderx-jit-debug-regalloc: Enable or disable debug logging for the register
+             allocator; also CINDERX_JIT_DEBUG_REGALLOC
+         -X cinderx-jit-dump-hir: Log the HIR representation of all functions after
+             initial lowering from bytecode; also CINDERX_JIT_DUMP_HIR
+         -X cinderx-jit-dump-hir-passes: Log the HIR after each optimization pass;
+             also CINDERX_JIT_DUMP_HIR_PASSES
+         -X cinderx-jit-dump-final-hir: Log the HIR after all optimizations; also
+             CINDERX_JIT_DUMP_FINAL_HIR
+         -X cinderx-jit-dump-lir: Log the LIR representation of functions after lowering
+             from HIR; also CINDERX_JIT_DUMP_LIR
+         -X cinderx-jit-dump-lir-origin: Enable or disable whether LIR is displayed
+             with HIR origin data; also CINDERX_JIT_DUMP_LIR_ORIGIN
+         -X cinderx-jit-symbolize: Enable or disable symbolization of functions called
+             by JIT code; also CINDERX_JIT_SYMBOLIZE
+         -X cinderx-jit-dump-asm: Log the final compiled code, annotated with HIR
+             instructions; also CINDERX_JIT_DUMP_ASM
+         -X cinderx-jit-enable-inline-cache-stats-collection: Collect inline cache
+             stats (supported stats are cache misses for load method inline
+             caches; also CINDERX_JIT_ENABLE_INLINE_CACHE_STATS
+         -X cinderx-jit-gdb-support: Enable or disable GDB support and JIT debug mode;
+             also CINDERX_JIT_GDB_SUPPORT
+         -X cinderx-jit-gdb-write-elf: Debugging aid, GDB support with ELF output;
+             also CINDERX_JIT_GDB_WRITE_ELF
+         -X cinderx-jit-dump-stats: Dump JIT runtime stats at shutdown; also CINDERX_JIT_DUMP_STATS
+         -X cinderx-jit-huge-pages: Enable or disable huge pages for compiled functions;
+             also CINDERX_JIT_HUGE_PAGES
+         -X cinderx-jit-enable-jit-list-wildcards: allow wildcards in JIT list; also
+             CINDERX_JIT_ENABLE_JIT_LIST_WILDCARDS
+         -X cinderx-jit-all-static-functions: JIT-compile all static functions; also
+             CINDERX_JIT_ALL_STATIC_FUNCTIONS
+         -X cinderx-jit-list-file=<filename>: Load list of functions to compile from
+             <filename>; also CINDERX_JIT_LIST_FILE=<filename>
+         -X cinderx-jit-list-fail-on-parse-error: Raise a Python exception when a
+             JIT list fails to parse; also CINDERX_JIT_LIST_FAIL_ON_PARSE_ERROR
+         -X cinderx-jit-disable: disable the JIT; also CINDERX_JIT_DISABLE
+         -X cinderx-jit-stable-frame: Assume that data found in the Python frame is
+             unchanged across function calls; also CINDERX_JIT_STABLE_FRAME
+         -X cinderx-jit-preload-dependent-limit: When compiling a function, set the
+             number of dependent functions that can be compiled along with
+             it.; also CINDERX_JIT_PRELOAD_DEPENDENT_LIMIT
+         -X cinderx-jit-begin-inlined-function-elim: Enable the HIR BeginInlinedFunction
+             elimination optimization pass; also CINDERX_JIT_BEGIN_INLINED_FUNCTION_ELIM
+         -X cinderx-jit-builtin-load-method-elim: Enable the HIR builtin LoadMethod
+             elimination optimization pass; also CINDERX_JIT_BUILTIN_LOAD_METHOD_ELIM
+         -X cinderx-jit-clean-cfg: Enable the HIR CFG cleaning optimization pass;
+             also CINDERX_JIT_CLEAN_CFG
+         -X cinderx-jit-dead-code-elim: Enable the HIR dead code elimination optimization
+             pass; also CINDERX_JIT_DEAD_CODE_ELIM
+         -X cinderx-jit-dynamic-comparison-elim: Enable the HIR dynamic comparison
+             elimination optimization pass; also CINDERX_JIT_DYNAMIC_COMPARISON_ELIM
+         -X cinderx-jit-guard-type-removal: Enable the HIR guard type removal optimization
+             pass; also CINDERX_JIT_GUARD_TYPE_REMOVAL
+         -X cinderx-jit-enable-hir-inliner: Enable the HIR inliner optimization pass;
+             also CINDERX_JIT_ENABLE_HIR_INLINER
+         -X cinderx-jit-phi-elim: Enable the HIR phi elimination optimization pass;
+             also CINDERX_JIT_PHI_ELIM
+         -X cinderx-jit-simplify: Enable the HIR simplify optimization pass; also
+             CINDERX_JIT_SIMPLIFY
+         -X cinderx-jit-simplify-iteration-limit: Set the maximum number of times
+             the simplifier can run over a function; also CINDERX_JIT_SIMPLIFY_ITERATION_LIMIT
+         -X cinderx-jit-simplify-new-block-limit: Set the maximum number of blocks
+             that can be added by the simplifier to a function; also CINDERX_JIT_SIMPLIFY_NEW_BLOCK_LIMIT
+         -X cinderx-jit-hir-inliner-cost-limit: Limit how much the inliner is able
+             to inline. The number's definition is only relevant to the inliner
+             itself.; also CINDERX_JIT_HIR_INLINER_COST_LIMIT
+         -X cinderx-jit-hir-inliner-cold-call-threshold: Prune an inlining candidate
+             when the caller's call count is at least this many times the
+             callee's call count.; also CINDERX_JIT_HIR_INLINER_COLD_CALL_THRESHOLD
+         -X cinderx-jit-lir-inliner: Enable the LIR inliner; also CINDERX_JIT_LIR_INLINER
+         -X cinderx-jit-batch-compile-workers=<COUNT>: set the number of batch compile
+             workers to <COUNT>; also CINDERX_JIT_BATCH_COMPILE_WORKERS=<COUNT>
+         -X cinderx-jit-list-match-line-numbers: JIT list match line numbers; also
+             CINDERX_JIT_LIST_MATCH_LINE_NUMBERS
+         -X cinderx-jit-time=<function_list>: Measure time taken in compilation phases
+             and output summary to stderr or appropriate logfile. Only functions
+             in comma separated <function_list> list will be included. Comma
+             separated list may include wildcards, * and ?. Wildcards are
+             processed in glob fashion and not as regex.
+         -X cinderx-jit-multiple-code-sections: Enable emitting code into multiple
+             code sections.; also CINDERX_JIT_MULTIPLE_CODE_SECTIONS
+         -X cinderx-jit-cold-code-huge-pages: Use huge pages for cold code sections.;
+             also CINDERX_JIT_COLD_CODE_HUGE_PAGES
+         -X cinderx-jit-attr-caches: Use inline caches for attribute access instructions;
+             also CINDERX_JIT_ATTR_CACHES
+         -X cinderx-jit-attr-cache-size: Set the number of entries in the JIT's attribute
+             access inline caches; also CINDERX_JIT_ATTR_CACHE_SIZE
+         -X cinderx-jit-refine-static-python: Add RefineType instructions to coerce
+             Static Python types to be valid; also CINDERX_JIT_REFINE_STATIC_PYTHON
+         -X cinderx-jit-perfmap: write out /tmp/perf-<pid>.map for JIT symbols; also
+             JIT_PERFMAP
+         -X cinderx-jit-perf-dumpdir=<DIRECTORY>: absolute path to a <DIRECTORY> that
+             exists. A perf jitdump file will be written to this directory;
+             also JIT_DUMPDIR=<DIRECTORY>
+         -X cinderx-jit-help: print all available JIT flags and exits
+         -X perf-trampoline-prefork-compilation: Compile perf trampoline pre-fork;
+             also PERFTRAMPOLINEPREFORKCOMPILATION
+         -X cinderx-jit-immortalize-compiled-functions: Always immortalize CompiledFunction
+             objects; also CINDERX_JIT_IMMORTALIZE_COMPILED_FUNCTIONS
+         -X cinderx-jit-max-code-size: Set the maximum code size for JIT in bytes
+             (no suffix). For kilobytes use k or K as a suffix. Megabytes
+             is m or M and gigabytes is g or G. 0 implies no limit.; also
+             CINDERX_JIT_MAX_CODE_SIZE
+         -X cinderx-jit-emit-type-annotation-guards: Generate runtime checks that
+             validate type annotations to specialize generated code.; also
+             CINDERX_JIT_EMIT_TYPE_ANNOTATION_GUARDS
+         -X cinderx-jit-specialized-opcodes: JIT specialized opcodes or to fall back
+             to their generic counterparts.; also CINDERX_JIT_SPECIALIZED_OPCODES
+         -X cinderx-jit-support-instrumentation: Support instrumentation (e.g. monitoring/tracing/profiling);
+             also CINDERX_JIT_SUPPORT_INSTRUMENTATION
+

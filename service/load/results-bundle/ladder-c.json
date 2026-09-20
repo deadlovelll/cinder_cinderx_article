@@ -1,0 +1,3423 @@
+{
+ "generated_at": "2026-09-20T02:45:14.924097+00:00",
+ "dep_extra": "c",
+ "endpoints": [
+  "bundle"
+ ],
+ "profile_note": "describes THIS invocation only; every record carries the profile that actually produced it, and they differ when the ladder was run in several passes",
+ "profile": {
+  "rates": {
+   "bundle": "2000,3000,3500,4000,4500,5000"
+  },
+  "step_seconds": 60,
+  "warmup_seconds": 60,
+  "p99_budget_ms": 1000,
+  "workers": 4
+ },
+ "hosts": {
+  "service": "localhost",
+  "database": "127.0.0.1",
+  "load_generator": "localhost",
+  "note": "a measured run puts the database and the generator on other hosts; this field records what actually happened"
+ },
+ "cpus": {
+  "service": "0-7",
+  "load_generator": "8-10",
+  "database": "11-13",
+  "note": "cpusets of the three tenants when they share this host"
+ },
+ "records": [
+  {
+   "rung": "01_stock",
+   "attempt": 1,
+   "note": "stock CPython: the baseline every other rung is read against",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "off"
+   },
+   "started_at": "2026-09-20T00:37:53.317709+00:00",
+   "image": "stock-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 323512, 'users_with_impressions': 3000, 'rows_at_or_over_cap': 293561, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.6+ (main, Sep 13 2026, 22:00:15) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "off",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": false,
+     "immortalize": false,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "off",
+     "cpython_jit": false,
+     "frame_evaluator": false,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": false,
+     "compile_after_n_calls": null,
+     "precompiled": 0,
+     "immortalized": false,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120001,
+       "offered": 120000,
+       "p50": 12.796055,
+       "p90": 191.790876,
+       "p99": 299.297057,
+       "p999": 348.31110100000205,
+       "mean": 57.96729874782598,
+       "max": 396.411028,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180001,
+       "offered": 180000,
+       "p50": 14.805846,
+       "p90": 236.909085,
+       "p99": 350.3587,
+       "p999": 405.22182700000405,
+       "mean": 57.814351182417106,
+       "max": 423.407066,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000055555555556,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 21.64634,
+       "p90": 124.565656,
+       "p99": 250.695923,
+       "p999": 385.5145220000189,
+       "mean": 44.75741258820239,
+       "max": 474.170283,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240001,
+       "offered": 240000,
+       "p50": 122.158928,
+       "p90": 364.358718,
+       "p99": 509.724744,
+       "p999": 644.9149430000024,
+       "mean": 158.17192851365846,
+       "max": 838.949745,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000041666666666,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270001,
+       "offered": 270000,
+       "p50": 199.775023,
+       "p90": 428.136587,
+       "p99": 569.10306,
+       "p999": 787.9570870000014,
+       "mean": 208.88966546152574,
+       "max": 1020.818526,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000037037037037,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1298.6ms",
+        "delivered=89.7%"
+       ],
+       "completed": 269211,
+       "offered": 300000,
+       "p50": 794.939164,
+       "p90": 1129.868381,
+       "p99": 1298.6399632999999,
+       "p999": 1420.666336110003,
+       "mean": 814.2685499172895,
+       "max": 1720.434212,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.89737,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T00:46:53.815182+00:00"
+  },
+  {
+   "rung": "01_stock",
+   "attempt": 2,
+   "note": "stock CPython: the baseline every other rung is read against",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "off"
+   },
+   "started_at": "2026-09-20T00:46:53.815276+00:00",
+   "image": "stock-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.6+ (main, Sep 13 2026, 22:00:15) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "off",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": false,
+     "immortalize": false,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "off",
+     "cpython_jit": false,
+     "frame_evaluator": false,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": false,
+     "compile_after_n_calls": null,
+     "precompiled": 0,
+     "immortalized": false,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120001,
+       "offered": 120000,
+       "p50": 1.880274,
+       "p90": 191.418182,
+       "p99": 311.715747,
+       "p999": 368.56598800000035,
+       "mean": 41.71779878621861,
+       "max": 404.264557,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180001,
+       "offered": 180000,
+       "p50": 2.447476,
+       "p90": 213.065908,
+       "p99": 341.293209,
+       "p999": 407.81244900000144,
+       "mean": 50.2143781201331,
+       "max": 502.484796,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000055555555556,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 12.200911,
+       "p90": 254.264087,
+       "p99": 360.220294,
+       "p999": 458.89199800000466,
+       "mean": 71.76070732038819,
+       "max": 559.648105,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 239999,
+       "offered": 240000,
+       "p50": 71.94388,
+       "p90": 325.55042240000006,
+       "p99": 443.93483693999985,
+       "p999": 608.8579700620016,
+       "mean": 126.56106834197007,
+       "max": 770.589227,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9999958333333333,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 269999,
+       "offered": 270000,
+       "p50": 172.83991,
+       "p90": 414.2743454000001,
+       "p99": 626.7780959600001,
+       "p999": 735.3298769320528,
+       "mean": 195.14482801953426,
+       "max": 1229.231666,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9999962962962963,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1199.1ms",
+        "delivered=90.6%"
+       ],
+       "completed": 271806,
+       "offered": 300000,
+       "p50": 765.6580595,
+       "p90": 1086.315501,
+       "p99": 1199.0872295,
+       "p999": 1355.765230655,
+       "mean": 756.8771542004027,
+       "max": 1506.428837,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.90602,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T00:55:56.739723+00:00"
+  },
+  {
+   "rung": "01_stock",
+   "attempt": 3,
+   "note": "stock CPython: the baseline every other rung is read against",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "off"
+   },
+   "started_at": "2026-09-20T00:55:56.739778+00:00",
+   "image": "stock-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.6+ (main, Sep 13 2026, 22:00:15) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "off",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": false,
+     "immortalize": false,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "off",
+     "cpython_jit": false,
+     "frame_evaluator": false,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": false,
+     "compile_after_n_calls": null,
+     "precompiled": 0,
+     "immortalized": false,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120001,
+       "offered": 120000,
+       "p50": 3.524434,
+       "p90": 221.610121,
+       "p99": 331.159171,
+       "p999": 391.71918200000135,
+       "mean": 52.55157029078103,
+       "max": 429.179135,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 179997,
+       "offered": 180000,
+       "p50": 4.213579,
+       "p90": 226.27290059999999,
+       "p99": 345.52510224000014,
+       "p999": 388.2432216160009,
+       "mean": 53.72834644267855,
+       "max": 414.231238,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9999833333333333,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 26.96955,
+       "p90": 179.219638,
+       "p99": 320.444905,
+       "p999": 481.51129900001996,
+       "mean": 60.21125784279715,
+       "max": 690.385279,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240000,
+       "offered": 240000,
+       "p50": 157.21174050000002,
+       "p90": 379.1121099,
+       "p99": 563.78154939,
+       "p999": 752.0691046840027,
+       "mean": 178.21019508163135,
+       "max": 965.921884,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 269999,
+       "offered": 270000,
+       "p50": 230.090852,
+       "p90": 519.0954568000001,
+       "p99": 730.4221877400004,
+       "p999": 906.1315292620121,
+       "mean": 251.41726813114374,
+       "max": 1150.275666,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9999962962962963,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1341.5ms",
+        "delivered=89.8%"
+       ],
+       "completed": 269280,
+       "offered": 300000,
+       "p50": 809.7359289999999,
+       "p90": 1159.306685,
+       "p99": 1341.4540015700009,
+       "p999": 1502.0493236150012,
+       "mean": 805.9760754636894,
+       "max": 1686.145177,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8976,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T01:05:05.818659+00:00"
+  },
+  {
+   "rung": "01_stock",
+   "attempt": 4,
+   "note": "stock CPython: the baseline every other rung is read against",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "off"
+   },
+   "started_at": "2026-09-20T01:05:05.818713+00:00",
+   "image": "stock-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.6+ (main, Sep 13 2026, 22:00:15) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "off",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": false,
+     "immortalize": false,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "off",
+     "cpython_jit": false,
+     "frame_evaluator": false,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": false,
+     "compile_after_n_calls": null,
+     "precompiled": 0,
+     "immortalized": false,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120001,
+       "offered": 120000,
+       "p50": 11.492469,
+       "p90": 216.371384,
+       "p99": 308.109814,
+       "p999": 352.71348500000107,
+       "mean": 60.89809304528311,
+       "max": 392.762914,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180002,
+       "offered": 180000,
+       "p50": 8.050291999999999,
+       "p90": 236.9053679,
+       "p99": 344.99809682999984,
+       "p999": 377.84842679200057,
+       "mean": 58.18422101971095,
+       "max": 406.439701,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000111111111112,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210000,
+       "offered": 210000,
+       "p50": 43.982867,
+       "p90": 216.37527400000002,
+       "p99": 361.46640536000024,
+       "p999": 466.4522063290062,
+       "mean": 78.56697572717134,
+       "max": 595.00304,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240000,
+       "offered": 240000,
+       "p50": 150.97274499999997,
+       "p90": 357.33676,
+       "p99": 536.64103295,
+       "p999": 698.9080370200002,
+       "mean": 165.58207655373928,
+       "max": 883.170566,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270001,
+       "offered": 270000,
+       "p50": 209.388406,
+       "p90": 480.726672,
+       "p99": 732.143665,
+       "p999": 940.9032740000017,
+       "mean": 240.36333064175352,
+       "max": 1227.13258,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000037037037037,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1356.0ms",
+        "delivered=89.0%"
+       ],
+       "completed": 267026,
+       "offered": 300000,
+       "p50": 829.5497780000001,
+       "p90": 1185.089544,
+       "p99": 1355.98158875,
+       "p999": 1493.8871636500014,
+       "mean": 816.3078928382752,
+       "max": 1771.073672,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8900866666666667,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T01:14:12.285010+00:00"
+  },
+  {
+   "rung": "02_stock_tier2",
+   "attempt": 1,
+   "note": "CPython's own copy-and-patch JIT: the reader's real alternative",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "off"
+   },
+   "started_at": "2026-09-20T01:14:12.430277+00:00",
+   "image": "python-3.14-jit",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-tier2/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.6+ (main, Sep 13 2026, 22:06:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-tier2/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "off",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": false,
+     "immortalize": false,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "off",
+     "cpython_jit": true,
+     "frame_evaluator": false,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": false,
+     "compile_after_n_calls": null,
+     "precompiled": 0,
+     "immortalized": false,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120001,
+       "offered": 120000,
+       "p50": 2.070792,
+       "p90": 195.555843,
+       "p99": 317.761615,
+       "p999": 354.36395600000014,
+       "mean": 43.49596781095215,
+       "max": 391.701661,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180001,
+       "offered": 180000,
+       "p50": 5.539769,
+       "p90": 225.028662,
+       "p99": 337.398534,
+       "p999": 375.56409400000285,
+       "mean": 52.76770145961474,
+       "max": 418.616688,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000055555555556,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 53.727233,
+       "p90": 218.118175,
+       "p99": 381.006392,
+       "p999": 559.1931490000135,
+       "mean": 86.87104991469468,
+       "max": 634.820777,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240050,
+       "offered": 240000,
+       "p50": 110.7840695,
+       "p90": 358.76467710000003,
+       "p99": 540.11655356,
+       "p999": 689.2869989080016,
+       "mean": 154.97280513866147,
+       "max": 828.080887,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0002083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270000,
+       "offered": 270000,
+       "p50": 245.4295605,
+       "p90": 542.4443329000001,
+       "p99": 727.25816668,
+       "p999": 925.6716042840003,
+       "mean": 272.16729630986947,
+       "max": 1331.772724,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1342.8ms",
+        "delivered=87.7%"
+       ],
+       "completed": 262969,
+       "offered": 300000,
+       "p50": 846.819485,
+       "p90": 1192.296752,
+       "p99": 1342.7542707600007,
+       "p999": 1432.4633267760003,
+       "mean": 844.2888094454655,
+       "max": 1918.087728,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8765633333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T01:23:11.724241+00:00"
+  },
+  {
+   "rung": "02_stock_tier2",
+   "attempt": 2,
+   "note": "CPython's own copy-and-patch JIT: the reader's real alternative",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "off"
+   },
+   "started_at": "2026-09-20T01:23:11.724327+00:00",
+   "image": "python-3.14-jit",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-tier2/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.6+ (main, Sep 13 2026, 22:06:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-tier2/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "off",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": false,
+     "immortalize": false,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "off",
+     "cpython_jit": true,
+     "frame_evaluator": false,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": false,
+     "compile_after_n_calls": null,
+     "precompiled": 0,
+     "immortalized": false,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120001,
+       "offered": 120000,
+       "p50": 2.039167,
+       "p90": 199.723468,
+       "p99": 321.763171,
+       "p999": 361.16027600000194,
+       "mean": 43.4899946708193,
+       "max": 394.923298,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180001,
+       "offered": 180000,
+       "p50": 3.950008,
+       "p90": 219.837072,
+       "p99": 340.050497,
+       "p999": 386.16430300000053,
+       "mean": 51.18171715877176,
+       "max": 416.938125,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000055555555556,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 17.547555,
+       "p90": 263.537914,
+       "p99": 388.925137,
+       "p999": 506.5983900000005,
+       "mean": 76.16936506342357,
+       "max": 639.73497,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240001,
+       "offered": 240000,
+       "p50": 132.740899,
+       "p90": 340.824839,
+       "p99": 452.390345,
+       "p999": 641.1867450000135,
+       "mean": 155.52067126640685,
+       "max": 826.47877,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000041666666666,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270001,
+       "offered": 270000,
+       "p50": 232.561231,
+       "p90": 465.461115,
+       "p99": 660.445989,
+       "p999": 967.4342860000261,
+       "mean": 246.13678708381778,
+       "max": 1205.098414,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000037037037037,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1315.8ms",
+        "delivered=87.3%"
+       ],
+       "completed": 261750,
+       "offered": 300000,
+       "p50": 844.2909325,
+       "p90": 1167.1926145,
+       "p99": 1315.8498916400001,
+       "p999": 1475.3710826950055,
+       "mean": 847.4235925643728,
+       "max": 1791.389294,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8725,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T01:32:14.196798+00:00"
+  },
+  {
+   "rung": "02_stock_tier2",
+   "attempt": 3,
+   "note": "CPython's own copy-and-patch JIT: the reader's real alternative",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "off"
+   },
+   "started_at": "2026-09-20T01:32:14.196860+00:00",
+   "image": "python-3.14-jit",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-tier2/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.6+ (main, Sep 13 2026, 22:06:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-tier2/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "off",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": false,
+     "immortalize": false,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "off",
+     "cpython_jit": true,
+     "frame_evaluator": false,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": false,
+     "compile_after_n_calls": null,
+     "precompiled": 0,
+     "immortalized": false,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 119999,
+       "offered": 120000,
+       "p50": 2.053957,
+       "p90": 200.00283499999998,
+       "p99": 321.02737586,
+       "p999": 365.5462122880028,
+       "mean": 44.10485024741932,
+       "max": 452.763333,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9999916666666666,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180001,
+       "offered": 180000,
+       "p50": 3.930858,
+       "p90": 222.314993,
+       "p99": 338.477549,
+       "p999": 390.4680260000126,
+       "mean": 53.40108433534883,
+       "max": 566.949307,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000055555555556,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 8.388012,
+       "p90": 254.702919,
+       "p99": 365.060726,
+       "p999": 417.55582500000145,
+       "mean": 66.02767591682363,
+       "max": 510.55336,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 239999,
+       "offered": 240000,
+       "p50": 54.860472,
+       "p90": 317.20493080000006,
+       "p99": 438.8847123599996,
+       "p999": 541.2451417340018,
+       "mean": 118.020806064446,
+       "max": 764.985724,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9999958333333333,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270000,
+       "offered": 270000,
+       "p50": 230.4589215,
+       "p90": 455.1852094,
+       "p99": 670.0236884200009,
+       "p999": 875.1834618370038,
+       "mean": 235.58976184744992,
+       "max": 1382.232032,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1271.7ms",
+        "delivered=86.7%"
+       ],
+       "completed": 259988,
+       "offered": 300000,
+       "p50": 832.687461,
+       "p90": 1165.8909615,
+       "p99": 1271.70677969,
+       "p999": 1411.0322481860026,
+       "mean": 863.4848074976976,
+       "max": 1462.316081,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8666266666666667,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T01:41:17.387102+00:00"
+  },
+  {
+   "rung": "08_immortalized",
+   "attempt": 1,
+   "note": "immortalize without the parallel collector: separates which of the two actually shortens the tail",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "jit",
+    "RECSYS_PRECOMPILE": "1",
+    "RECSYS_IMMORTALIZE": "1"
+   },
+   "started_at": "2026-09-20T01:41:17.528540+00:00",
+   "image": "meta-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.5+meta (main, Sep 13 2026, 22:12:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "jit",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": true,
+     "immortalize": true,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "jit",
+     "cpython_jit": false,
+     "frame_evaluator": true,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": true,
+     "compile_after_n_calls": null,
+     "precompiled": 13,
+     "immortalized": true,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120001,
+       "offered": 120000,
+       "p50": 1.902025,
+       "p90": 32.048521,
+       "p99": 189.465686,
+       "p999": 221.93207300000043,
+       "mean": 14.877209113249103,
+       "max": 243.125885,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180001,
+       "offered": 180000,
+       "p50": 10.971159,
+       "p90": 136.575112,
+       "p99": 243.17996,
+       "p999": 319.19071300000206,
+       "mean": 38.18524785484575,
+       "max": 381.46064,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000055555555556,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 10.629445,
+       "p90": 98.524957,
+       "p99": 241.177329,
+       "p999": 378.623737000017,
+       "mean": 32.816603735239696,
+       "max": 498.59487,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240001,
+       "offered": 240000,
+       "p50": 48.600646,
+       "p90": 276.498143,
+       "p99": 518.328781,
+       "p999": 715.0906190000039,
+       "mean": 102.4143215851392,
+       "max": 779.094535,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000041666666666,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 269698,
+       "offered": 270000,
+       "p50": 257.0179885,
+       "p90": 570.9705337000001,
+       "p99": 931.3093601399963,
+       "p999": 1128.4156270870049,
+       "mean": 287.3469875477004,
+       "max": 1410.556469,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9988814814814815,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1350.4ms",
+        "delivered=87.2%"
+       ],
+       "completed": 261662,
+       "offered": 300000,
+       "p50": 837.5668675,
+       "p90": 1167.5497621,
+       "p99": 1350.43450841,
+       "p999": 1431.1120294330015,
+       "mean": 863.4561394424204,
+       "max": 1600.768545,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8722066666666667,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T01:50:25.907462+00:00"
+  },
+  {
+   "rung": "08_immortalized",
+   "attempt": 2,
+   "note": "immortalize without the parallel collector: separates which of the two actually shortens the tail",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "jit",
+    "RECSYS_PRECOMPILE": "1",
+    "RECSYS_IMMORTALIZE": "1"
+   },
+   "started_at": "2026-09-20T01:59:30.869072+00:00",
+   "image": "meta-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.5+meta (main, Sep 13 2026, 22:12:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "jit",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": true,
+     "immortalize": true,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "jit",
+     "cpython_jit": false,
+     "frame_evaluator": true,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": true,
+     "compile_after_n_calls": null,
+     "precompiled": 13,
+     "immortalized": true,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120002,
+       "offered": 120000,
+       "p50": 2.1096885,
+       "p90": 33.26639150000009,
+       "p99": 176.62597977000013,
+       "p999": 219.07624055300008,
+       "mean": 15.313622061198867,
+       "max": 243.542253,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000166666666668,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180001,
+       "offered": 180000,
+       "p50": 9.640861,
+       "p90": 143.076511,
+       "p99": 259.665188,
+       "p999": 358.32246300001304,
+       "mean": 39.61475833473184,
+       "max": 485.468537,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000055555555556,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 9.756322,
+       "p90": 79.180564,
+       "p99": 208.125453,
+       "p999": 274.9817790000063,
+       "mean": 28.207506432374544,
+       "max": 338.354263,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240002,
+       "offered": 240000,
+       "p50": 77.5145215,
+       "p90": 240.66878820000002,
+       "p99": 428.3655067999995,
+       "p999": 661.1585809450039,
+       "mean": 106.31775811814467,
+       "max": 886.683148,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270001,
+       "offered": 270000,
+       "p50": 195.443125,
+       "p90": 447.595068,
+       "p99": 687.918857,
+       "p999": 822.40697500008,
+       "mean": 216.81779000723995,
+       "max": 1128.924432,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000037037037037,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1244.1ms",
+        "delivered=86.8%"
+       ],
+       "completed": 260528,
+       "offered": 300000,
+       "p50": 883.4834965,
+       "p90": 1119.0675671000001,
+       "p99": 1244.12554412,
+       "p999": 1355.5022304900006,
+       "mean": 869.4433442844107,
+       "max": 1506.53211,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8684266666666667,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T02:08:33.764012+00:00"
+  },
+  {
+   "rung": "08_immortalized",
+   "attempt": 3,
+   "note": "immortalize without the parallel collector: separates which of the two actually shortens the tail",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "jit",
+    "RECSYS_PRECOMPILE": "1",
+    "RECSYS_IMMORTALIZE": "1"
+   },
+   "started_at": "2026-09-20T02:17:46.358023+00:00",
+   "image": "meta-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.5+meta (main, Sep 13 2026, 22:12:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "jit",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": true,
+     "immortalize": true,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "jit",
+     "cpython_jit": false,
+     "frame_evaluator": true,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": true,
+     "compile_after_n_calls": null,
+     "precompiled": 13,
+     "immortalized": true,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 119999,
+       "offered": 120000,
+       "p50": 2.128708,
+       "p90": 33.311546199999974,
+       "p99": 175.1274700200001,
+       "p999": 222.65261412000115,
+       "mean": 14.920828663480615,
+       "max": 238.296139,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9999916666666666,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180002,
+       "offered": 180000,
+       "p50": 9.9954605,
+       "p90": 142.43370049999993,
+       "p99": 256.68800689,
+       "p999": 343.1002781910044,
+       "mean": 39.102548320201585,
+       "max": 432.835865,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000111111111112,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 9.977168,
+       "p90": 92.045084,
+       "p99": 244.982858,
+       "p999": 378.30420400000685,
+       "mean": 31.690004792567567,
+       "max": 626.959178,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 239968,
+       "offered": 240000,
+       "p50": 78.40738049999999,
+       "p90": 254.0886565000001,
+       "p99": 393.78570432999993,
+       "p999": 551.5334065040519,
+       "mean": 109.22700947589274,
+       "max": 690.556292,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9998666666666667,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 269999,
+       "offered": 270000,
+       "p50": 239.724214,
+       "p90": 499.3610034000001,
+       "p99": 761.47736808,
+       "p999": 893.8388062020072,
+       "mean": 257.9455955676018,
+       "max": 1131.948827,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9999962962962963,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1229.1ms",
+        "delivered=86.9%"
+       ],
+       "completed": 260655,
+       "offered": 300000,
+       "p50": 884.28609,
+       "p90": 1111.6383614000001,
+       "p99": 1229.0897931399998,
+       "p999": 1306.2294530780016,
+       "mean": 870.6513786089347,
+       "max": 1642.029788,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.86885,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T02:26:50.474996+00:00"
+  },
+  {
+   "rung": "08_immortalized",
+   "attempt": 4,
+   "note": "immortalize without the parallel collector: separates which of the two actually shortens the tail",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "jit",
+    "RECSYS_PRECOMPILE": "1",
+    "RECSYS_IMMORTALIZE": "1"
+   },
+   "started_at": "2026-09-20T02:36:00.373155+00:00",
+   "image": "meta-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.5+meta (main, Sep 13 2026, 22:12:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "jit",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": true,
+     "immortalize": true,
+     "parallel_gc": false,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "jit",
+     "cpython_jit": false,
+     "frame_evaluator": true,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": true,
+     "compile_after_n_calls": null,
+     "precompiled": 13,
+     "immortalized": true,
+     "parallel_gc": false,
+     "parallel_gc_settings": null,
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120002,
+       "offered": 120000,
+       "p50": 1.872633,
+       "p90": 33.68985930000005,
+       "p99": 180.01838333,
+       "p999": 233.09604709200002,
+       "mean": 14.873293506633289,
+       "max": 259.223169,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000166666666668,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180001,
+       "offered": 180000,
+       "p50": 7.759576,
+       "p90": 123.325083,
+       "p99": 236.059413,
+       "p999": 274.7166540000004,
+       "mean": 33.495896314931024,
+       "max": 340.319528,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000055555555556,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 10.664579,
+       "p90": 101.942064,
+       "p99": 244.666581,
+       "p999": 436.0828280000048,
+       "mean": 33.892798893495495,
+       "max": 673.287116,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240001,
+       "offered": 240000,
+       "p50": 86.502915,
+       "p90": 231.084716,
+       "p99": 347.847879,
+       "p999": 485.58667900002126,
+       "mean": 104.0633048099627,
+       "max": 664.573899,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000041666666666,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270001,
+       "offered": 270000,
+       "p50": 158.567622,
+       "p90": 352.823888,
+       "p99": 570.545931,
+       "p999": 711.4641720000085,
+       "mean": 172.61329155339334,
+       "max": 1005.937031,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000037037037037,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1194.9ms",
+        "delivered=86.4%"
+       ],
+       "completed": 259115,
+       "offered": 300000,
+       "p50": 875.36008,
+       "p90": 1090.5831762,
+       "p99": 1194.94336286,
+       "p999": 1276.437689620015,
+       "mean": 884.7924571118623,
+       "max": 1808.039517,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8637166666666667,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T02:45:14.924059+00:00"
+  },
+  {
+   "rung": "09_parallel_gc",
+   "attempt": 1,
+   "note": "parallel collector, only after 08: before it, a measured loss",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "jit",
+    "RECSYS_PRECOMPILE": "1",
+    "RECSYS_IMMORTALIZE": "1",
+    "RECSYS_PARALLEL_GC": "1"
+   },
+   "started_at": "2026-09-20T01:50:25.907525+00:00",
+   "image": "meta-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.5+meta (main, Sep 13 2026, 22:12:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "jit",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": true,
+     "immortalize": true,
+     "parallel_gc": true,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "jit",
+     "cpython_jit": false,
+     "frame_evaluator": true,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": true,
+     "compile_after_n_calls": null,
+     "precompiled": 13,
+     "immortalized": true,
+     "parallel_gc": true,
+     "parallel_gc_settings": {
+      "num_threads": 4,
+      "min_generation": 2
+     },
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120001,
+       "offered": 120000,
+       "p50": 2.093149,
+       "p90": 19.604673,
+       "p99": 87.066706,
+       "p999": 129.60372600000298,
+       "mean": 7.859949265181208,
+       "max": 196.602293,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180002,
+       "offered": 180000,
+       "p50": 5.136115,
+       "p90": 71.41861379999997,
+       "p99": 157.77409156999994,
+       "p999": 199.69984020100037,
+       "mean": 21.19479733301865,
+       "max": 258.398971,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000111111111112,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 8.822927,
+       "p90": 99.617805,
+       "p99": 201.683001,
+       "p999": 295.34824000000594,
+       "mean": 30.57983165812494,
+       "max": 534.830713,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 239937,
+       "offered": 240000,
+       "p50": 43.272926,
+       "p90": 179.16051679999998,
+       "p99": 334.1759576399998,
+       "p999": 470.2851668000032,
+       "mean": 71.58322735272989,
+       "max": 692.952794,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9997375,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270001,
+       "offered": 270000,
+       "p50": 187.019087,
+       "p90": 403.37829,
+       "p99": 625.639702,
+       "p999": 736.110382000001,
+       "mean": 203.53359838746107,
+       "max": 1144.687252,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000037037037037,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1254.8ms",
+        "delivered=88.2%"
+       ],
+       "completed": 264616,
+       "offered": 300000,
+       "p50": 861.3761205,
+       "p90": 1143.079786,
+       "p99": 1254.7826504000004,
+       "p999": 1365.6987927,
+       "mean": 834.480111963723,
+       "max": 1767.438087,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8820533333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T01:59:30.869012+00:00"
+  },
+  {
+   "rung": "09_parallel_gc",
+   "attempt": 2,
+   "note": "parallel collector, only after 08: before it, a measured loss",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "jit",
+    "RECSYS_PRECOMPILE": "1",
+    "RECSYS_IMMORTALIZE": "1",
+    "RECSYS_PARALLEL_GC": "1"
+   },
+   "started_at": "2026-09-20T02:08:33.764065+00:00",
+   "image": "meta-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.5+meta (main, Sep 13 2026, 22:12:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "jit",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": true,
+     "immortalize": true,
+     "parallel_gc": true,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "jit",
+     "cpython_jit": false,
+     "frame_evaluator": true,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": true,
+     "compile_after_n_calls": null,
+     "precompiled": 13,
+     "immortalized": true,
+     "parallel_gc": true,
+     "parallel_gc_settings": {
+      "num_threads": 4,
+      "min_generation": 2
+     },
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120002,
+       "offered": 120000,
+       "p50": 2.079189,
+       "p90": 23.3139644,
+       "p99": 99.07394142000008,
+       "p999": 131.33187318700251,
+       "mean": 8.775631271087137,
+       "max": 158.826419,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000166666666668,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 180001,
+       "offered": 180000,
+       "p50": 7.613264,
+       "p90": 97.514125,
+       "p99": 169.79681,
+       "p999": 214.3742140000002,
+       "mean": 28.42688904679381,
+       "max": 241.379567,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000055555555556,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 8.464372,
+       "p90": 91.31228,
+       "p99": 244.756737,
+       "p999": 353.3705850000016,
+       "mean": 28.74093584745794,
+       "max": 465.781548,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240005,
+       "offered": 240000,
+       "p50": 33.268754,
+       "p90": 166.00753140000003,
+       "p99": 319.72638815999966,
+       "p999": 470.9866538200024,
+       "mean": 62.91749341440428,
+       "max": 600.781998,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000208333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270001,
+       "offered": 270000,
+       "p50": 117.142522,
+       "p90": 301.525924,
+       "p99": 474.471638,
+       "p999": 655.7075660000158,
+       "mean": 138.63342807609496,
+       "max": 871.220576,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000037037037037,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1173.2ms",
+        "delivered=88.7%"
+       ],
+       "completed": 266041,
+       "offered": 300000,
+       "p50": 876.241632,
+       "p90": 1067.482356,
+       "p99": 1173.2082541999998,
+       "p999": 1312.082488520001,
+       "mean": 840.5622806811111,
+       "max": 1609.329829,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8868033333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T02:17:46.357966+00:00"
+  },
+  {
+   "rung": "09_parallel_gc",
+   "attempt": 3,
+   "note": "parallel collector, only after 08: before it, a measured loss",
+   "env": {
+    "RECSYS_DEP_EXTRA": "c",
+    "RECSYS_CINDERX_MODE": "jit",
+    "RECSYS_PRECOMPILE": "1",
+    "RECSYS_IMMORTALIZE": "1",
+    "RECSYS_PARALLEL_GC": "1"
+   },
+   "started_at": "2026-09-20T02:26:50.475057+00:00",
+   "image": "meta-3.14",
+   "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+   "fixture_reset": {
+    "ok": true,
+    "report": "before: {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}\n  after:  {'impression_rows': 0, 'users_with_impressions': 0, 'rows_at_or_over_cap': 0, 'interaction_rows': 0}"
+   },
+   "health": {
+    "status": "ok",
+    "python": {
+     "version": "3.14.5+meta (main, Sep 13 2026, 22:12:08) [Clang 18.1.3 (1ubuntu1)]",
+     "implementation": "cpython",
+     "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python"
+    },
+    "settings": {
+     "cinderx_mode": "jit",
+     "kernel": "plain",
+     "selection": "sorted",
+     "embeddings": "numpy",
+     "precompile": true,
+     "immortalize": true,
+     "parallel_gc": true,
+     "parallel_gc_threads": 4,
+     "bundle_items": 40000,
+     "gc_interval_ms": 2000,
+     "bundle_width": 128,
+     "perf_trampoline": false,
+     "workers": 4,
+     "db_pool_size": 10,
+     "dep_extra": "c",
+     "with_cinderx": "?"
+    },
+    "driver": "c",
+    "bootstrap": {
+     "mode": "jit",
+     "cpython_jit": false,
+     "frame_evaluator": true,
+     "static_loader": false,
+     "kernel_requested": "plain",
+     "kernel_actual": "plain",
+     "kernel_is_static": null,
+     "embeddings_requested": "numpy",
+     "embeddings_is_static": null,
+     "jit_enabled": true,
+     "compile_after_n_calls": null,
+     "precompiled": 13,
+     "immortalized": true,
+     "parallel_gc": true,
+     "parallel_gc_settings": {
+      "num_threads": 4,
+      "min_generation": 2
+     },
+     "perf_trampoline": false,
+     "problems": []
+    },
+    "graph_edges": 2549236,
+    "catalogue_items": 100000,
+    "embeddings": "numpy",
+    "bundle_cache": {
+     "bundles": 40000,
+     "width": 128,
+     "tracked_objects": 240000,
+     "refs": 25800000
+    },
+    "gc_pauses": {
+     "count": 0,
+     "total_ms": 0.0,
+     "max_ms": 0.0,
+     "last_ms": 0.0
+    }
+   },
+   "status": "ok",
+   "endpoints": {
+    "bundle": {
+     "endpoint": "bundle",
+     "base_url": "http://127.0.0.1:8100",
+     "criterion": {
+      "p99_budget_ms": 1000,
+      "error_budget": 0.01,
+      "throughput_floor": 0.95,
+      "backfill_ceiling": 4,
+      "declared": "before any number existed"
+     },
+     "profile": {
+      "rates": [
+       2000,
+       3000,
+       3500,
+       4000,
+       4500,
+       5000
+      ],
+      "step_seconds": 60,
+      "drain_seconds": 10,
+      "warmup_seconds": 60,
+      "warmup_rate": 25,
+      "zipf_s": 1.1,
+      "n_users": 3000,
+      "n_items": 20000,
+      "model": "open (constant-arrival-rate)"
+     },
+     "capacity_rps": 4500,
+     "non_monotonic": false,
+     "steps": [
+      {
+       "rate": 2000,
+       "passed": true,
+       "reasons": [],
+       "completed": 120001,
+       "offered": 120000,
+       "p50": 2.023319,
+       "p90": 20.281738,
+       "p99": 97.983523,
+       "p999": 131.86921800000135,
+       "mean": 8.160173763743742,
+       "max": 160.24378,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000083333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3000,
+       "passed": true,
+       "reasons": [],
+       "completed": 179999,
+       "offered": 180000,
+       "p50": 5.390844,
+       "p90": 71.47491440000009,
+       "p99": 189.60141285999978,
+       "p999": 351.0454584360004,
+       "mean": 22.954433242268713,
+       "max": 494.217713,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.9999944444444444,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 3500,
+       "passed": true,
+       "reasons": [],
+       "completed": 210001,
+       "offered": 210000,
+       "p50": 6.600884,
+       "p90": 62.627862,
+       "p99": 151.266654,
+       "p999": 228.1724760000026,
+       "mean": 21.29805853495411,
+       "max": 334.991276,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000047619047618,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4000,
+       "passed": true,
+       "reasons": [],
+       "completed": 240000,
+       "offered": 240000,
+       "p50": 31.975018499999997,
+       "p90": 163.42607970000003,
+       "p99": 469.052156840001,
+       "p999": 857.2847304510037,
+       "mean": 66.35995962331315,
+       "max": 1073.939402,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 4500,
+       "passed": true,
+       "reasons": [],
+       "completed": 270001,
+       "offered": 270000,
+       "p50": 101.28784,
+       "p90": 274.493245,
+       "p99": 434.335477,
+       "p999": 635.7929150000233,
+       "mean": 122.6886242368237,
+       "max": 1088.58414,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 1.0000037037037037,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      },
+      {
+       "rate": 5000,
+       "passed": false,
+       "reasons": [
+        "p99=1145.1ms",
+        "delivered=88.3%"
+       ],
+       "completed": 264973,
+       "offered": 300000,
+       "p50": 867.807842,
+       "p90": 1062.285293,
+       "p99": 1145.1238737199997,
+       "p999": 1250.9159879720003,
+       "mean": 850.1079356118299,
+       "max": 1465.304724,
+       "error_rate": 0,
+       "dropped": 0,
+       "delivered_share": 0.8832433333333334,
+       "backfill_per_page": 0,
+       "candidates_considered": 0
+      }
+     ],
+     "valid": true
+    }
+   },
+   "quiesce": {},
+   "profile": {
+    "rates": {
+     "bundle": "2000,3000,3500,4000,4500,5000"
+    },
+    "step_seconds": 60,
+    "drain_seconds": 10,
+    "warmup_seconds": 60,
+    "warmup_rate": 25,
+    "p99_budget_ms": 1000,
+    "workers": 4,
+    "max_vus": 4000
+   },
+   "invalid_endpoints": [],
+   "finished_at": "2026-09-20T02:36:00.373089+00:00"
+  }
+ ],
+ "span": {
+  "hours": 2.0,
+  "gap_hours": 0.2,
+  "gap_after": "09_parallel_gc",
+  "gap_before": "08_immortalized"
+ }
+}

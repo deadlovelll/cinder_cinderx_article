@@ -1,0 +1,1 @@
+W, H, GENERATIONS = 160, 160, 8

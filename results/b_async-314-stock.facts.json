@@ -1,0 +1,429 @@
+{
+ "suite": "b_async",
+ "label": "314-stock",
+ "cx_config": "stock",
+ "interp": {
+  "executable": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-stock/bin/python",
+  "version": "3.14.6+",
+  "implementation": "CPython",
+  "compiler": "Clang 18.1.3 (1ubuntu1)",
+  "gil_enabled": true,
+  "free_threaded": false,
+  "config_args": "'--prefix=/home/timofei/Desktop/cinder_cinderx_article/build/stock' '--enable-optimizations' '--with-lto' 'PKG_CONFIG_PATH=/opt/intel/oneapi/vtune/2025.10/include/pkgconfig/lib64:/opt/intel/oneapi/tbb/2022.3/env/../lib/pkgconfig:/opt/intel/oneapi/mpi/2021.17/lib/pkgconfig:/opt/intel/oneapi/mkl/2025.3/lib/pkgconfig:/opt/intel/oneapi/ippcp/2025.3/lib/pkgconfig:/opt/intel/oneapi/dpl/2022.10/lib/pkgconfig:/opt/intel/oneapi/dnnl/2025.3/lib/pkgconfig:/opt/intel/oneapi/dal/2025.10/lib/pkgconfig:/opt/intel/oneapi/compiler/2025.3/lib/pkgconfig:/opt/intel/oneapi/ccl/2021.17/lib/pkgconfig/:/opt/intel/oneapi/advisor/2025.4/include/pkgconfig/lib64:' 'CC=clang'",
+  "core_cflags": "-fno-strict-overflow -Wsign-compare -Wunreachable-code -DNDEBUG -g -O3 -Wall -fno-semantic-interposition -flto=thin -g -std=c11 -Wextra -Wno-unused-parameter -Wno-missing-field-initializers -Wstrict-prototypes -Werror=implicit-function-declaration -fvisibility=hidden -fprofile-instr-use=/home/timofei/Desktop/cinder_cinderx_article/cinderx-workshop/cpython/code.profclangd -I./Include/internal -I./Include/internal/mimalloc -I. -I./Include -DPy_BUILD_CORE",
+  "lazy_imports": false,
+  "cx_config": "stock"
+ },
+ "machine": {
+  "platform": "Linux-7.0.0-31-generic-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "system": "Linux",
+  "cpu_count": 16,
+  "cpu_brand": "Intel(R) Core(TM) Ultra 7 255H"
+ },
+ "preflight": {
+  "aslr": {
+   "reexec": "1",
+   "personality": "0x40000",
+   "addr_no_randomize": true,
+   "randomize_va_space": 2,
+   "layout_stable": true,
+   "layout_samples": [
+    "5555555d8000",
+    "5555555d8000",
+    "5555555d8000"
+   ],
+   "verdict": "off"
+  },
+  "cpu": {
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED"
+  },
+  "problems": [
+   "cpu=NOT_RESERVED"
+  ],
+  "verdict": "DEGRADED"
+ },
+ "drift": {
+  "test": "mann_kendall",
+  "alpha": 0.05,
+  "min_effect": 0.01,
+  "benchmarks": {
+   "call/plain/w0": {
+    "n": 60,
+    "S": 6,
+    "z": 0.032,
+    "p": 0.97456,
+    "slope_per_sample": 5.1216649155330895e-14,
+    "second_half_over_first": 1.0001,
+    "effect": 9e-05,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "call/plain/w8": {
+    "n": 60,
+    "S": -34,
+    "z": -0.21,
+    "p": 0.8333,
+    "slope_per_sample": -7.776797263302564e-12,
+    "second_half_over_first": 0.9998,
+    "effect": -0.00017,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "call/plain/w64": {
+    "n": 60,
+    "S": -100,
+    "z": -0.631,
+    "p": 0.52777,
+    "slope_per_sample": -8.703503431940233e-11,
+    "second_half_over_first": 1.0012,
+    "effect": 0.00123,
+    "min_effect": 0.01,
+    "direction_agrees": false,
+    "verdict": "no_trend"
+   },
+   "await/plain/w0": {
+    "n": 60,
+    "S": -22,
+    "z": -0.134,
+    "p": 0.89345,
+    "slope_per_sample": -3.328103640627822e-13,
+    "second_half_over_first": 0.9987,
+    "effect": -0.00125,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/plain/w8": {
+    "n": 60,
+    "S": 48,
+    "z": 0.3,
+    "p": 0.76436,
+    "slope_per_sample": 5.7605426386037884e-12,
+    "second_half_over_first": 1.0005,
+    "effect": 0.0005,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/plain/w64": {
+    "n": 60,
+    "S": 158,
+    "z": 1.001,
+    "p": 0.31667,
+    "slope_per_sample": 5.849138797829341e-11,
+    "second_half_over_first": 1.0009,
+    "effect": 0.00085,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await/suspend/w8": {
+    "n": 60,
+    "S": -28,
+    "z": -0.172,
+    "p": 0.86328,
+    "slope_per_sample": -3.435308338716224e-11,
+    "second_half_over_first": 0.9932,
+    "effect": -0.00678,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await_scale/plain/w8@2000": {
+    "n": 60,
+    "S": -98,
+    "z": -0.619,
+    "p": 0.53614,
+    "slope_per_sample": -8.172280883755996e-12,
+    "second_half_over_first": 1.0,
+    "effect": -0.0,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "await_scale/plain/w8@4000": {
+    "n": 60,
+    "S": -92,
+    "z": -0.58,
+    "p": 0.56165,
+    "slope_per_sample": -1.6584950718164448e-11,
+    "second_half_over_first": 0.999,
+    "effect": -0.00104,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "machine_probe/modexp": {
+    "n": 60,
+    "S": -96,
+    "z": -0.606,
+    "p": 0.54458,
+    "slope_per_sample": -3.66312036553296e-09,
+    "second_half_over_first": 0.9995,
+    "effect": -0.00047,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   },
+   "machine_probe/digest": {
+    "n": 60,
+    "S": 284,
+    "z": 1.805,
+    "p": 0.07108,
+    "slope_per_sample": 1.5490128974376535e-07,
+    "second_half_over_first": 1.0007,
+    "effect": 0.00074,
+    "min_effect": 0.01,
+    "direction_agrees": true,
+    "verdict": "no_trend"
+   }
+  },
+  "slowing": [],
+  "verdict": "ok"
+ },
+ "registered": [
+  "call/plain/w0",
+  "call/plain/w8",
+  "call/plain/w64",
+  "await/plain/w0",
+  "await/plain/w8",
+  "await/plain/w64",
+  "await/suspend/w8",
+  "await_scale/plain/w8@2000",
+  "await_scale/plain/w8@4000",
+  "machine_probe/modexp",
+  "machine_probe/digest"
+ ],
+ "gate_failures": [
+  {
+   "case": "await",
+   "impl": "static",
+   "status": "unavailable",
+   "note": "the typed coroutine needs a static config"
+  },
+  {
+   "case": "await",
+   "impl": "lazy/done",
+   "status": "unavailable",
+   "note": "AsyncLazyValue lives in cinderx, this config has none"
+  },
+  {
+   "case": "await",
+   "impl": "prop/done",
+   "status": "unavailable",
+   "note": "async_cached_property lives in cinderx, this config has none"
+  }
+ ],
+ "facts": {
+  "jit_defaults_applied": {},
+  "pin": {
+   "pinned": true,
+   "pin_source": "CX_BENCH_CPUS",
+   "pin_requested": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "cpu_count": 16,
+   "isolated": [],
+   "reserved": [
+    2,
+    3,
+    4,
+    5
+   ],
+   "shield": {
+    "units": {
+     "init.scope": "0-1,6-15",
+     "system.slice": "0-1,6-15",
+     "user.slice": "0-15"
+    },
+    "leaking": [],
+    "shielded": true
+   },
+   "workqueue": {
+    "cpumask": "ffc3",
+    "cpus": "0-1,6-15",
+    "leaking": false
+   },
+   "nohz_full": [],
+   "cmdline": "BOOT_IMAGE=/boot/vmlinuz-7.0.0-31-generic root=UUID=3621ef5b-3f30-4d39-b618-4c96b22091db ro quiet splash mem_sleep_default=deep vt.handoff=7",
+   "affinity": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ],
+   "governors": [
+    "performance"
+   ],
+   "turbo_disabled": true,
+   "smt": "notsupported",
+   "scaling_driver": "intel_pstate",
+   "cpu_classes": {
+    "0": 1024,
+    "1": 1024,
+    "2": 1024,
+    "3": 1024,
+    "4": 1024,
+    "5": 1024,
+    "6": 887,
+    "7": 887,
+    "8": 887,
+    "9": 887,
+    "10": 887,
+    "11": 887,
+    "12": 887,
+    "13": 887,
+    "14": 631,
+    "15": 631
+   },
+   "affinity_expected": "2-5",
+   "notes": [
+    "user.slice is not shielded by design: nothing else should run in this session during a campaign"
+   ],
+   "problems": [
+    "process affinity is not confined to the reserved CPUs"
+   ],
+   "verdict": "NOT_RESERVED",
+   "mixed_performance_classes": [
+    887,
+    1024
+   ],
+   "pin_target": "service"
+  },
+  "jit": {},
+  "witness": {
+   "call/plain/w0": {},
+   "call/plain/w8": {},
+   "call/plain/w64": {},
+   "await/plain/w0": {},
+   "await/plain/w8": {},
+   "await/plain/w64": {},
+   "await/suspend/w8": {}
+  },
+  "jit_state": {},
+  "runtime_metrics": {
+   "gc_stats": [
+    {
+     "collections": 22,
+     "collected": 740,
+     "uncollectable": 0
+    },
+    {
+     "collections": 1,
+     "collected": 4,
+     "uncollectable": 0
+    },
+    {
+     "collections": 0,
+     "collected": 0,
+     "uncollectable": 0
+    }
+   ],
+   "gc_count": [
+    19,
+    11,
+    1
+   ],
+   "gc_freeze_count": 0,
+   "gc_threshold": [
+    2000,
+    10,
+    10
+   ],
+   "allocated_blocks": 128086,
+   "interned_size": 21483,
+   "maxrss_kb": 48776,
+   "minflt": 14284,
+   "majflt": 0,
+   "nvcsw": 1900,
+   "nivcsw": 12,
+   "rss_kb": 32788,
+   "vsize_kb": 44124,
+   "smaps_rss_kb": 32788,
+   "smaps_pss_kb": 26631,
+   "smaps_shared_clean_kb": 6764,
+   "smaps_shared_dirty_kb": 0,
+   "smaps_private_clean_kb": 6836,
+   "smaps_private_dirty_kb": 19188
+  }
+ }
+}

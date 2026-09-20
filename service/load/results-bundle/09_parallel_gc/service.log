@@ -1,0 +1,44 @@
+[2026-09-20 05:26:51 +0300] [3843083] [INFO] Starting gunicorn 26.2.0
+[2026-09-20 05:27:51 +0300] [3843083] [INFO] bootstrap: {'mode': 'jit', 'cpython_jit': False, 'frame_evaluator': True, 'static_loader': False, 'kernel_requested': 'plain', 'kernel_actual': 'plain', 'kernel_is_static': None, 'embeddings_requested': 'numpy', 'embeddings_is_static': None, 'jit_enabled': True, 'compile_after_n_calls': None, 'precompiled': 13, 'immortalized': True, 'parallel_gc': True, 'parallel_gc_settings': {'num_threads': 4, 'min_generation': 2}, 'perf_trampoline': False, 'problems': []}
+[2026-09-20 05:27:51 +0300] [3843083] [INFO] graph edges: 2549236, catalogue items: 100000
+[2026-09-20 05:27:51 +0300] [3843083] [INFO] Listening at: http://127.0.0.1:8100 (3843083)
+[2026-09-20 05:27:51 +0300] [3843083] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2026-09-20 05:27:51 +0300] [3848549] [INFO] Booting worker with pid: 3848549
+[2026-09-20 05:27:51 +0300] [3848549] [INFO] Started server process [3848549]
+[2026-09-20 05:27:51 +0300] [3848549] [INFO] Waiting for application startup.
+[2026-09-20 05:27:52 +0300] [3848550] [INFO] Booting worker with pid: 3848550
+[2026-09-20 05:27:52 +0300] [3848550] [INFO] Started server process [3848550]
+[2026-09-20 05:27:52 +0300] [3848550] [INFO] Waiting for application startup.
+[2026-09-20 05:27:52 +0300] [3848551] [INFO] Booting worker with pid: 3848551
+[2026-09-20 05:27:52 +0300] [3848551] [INFO] Started server process [3848551]
+[2026-09-20 05:27:52 +0300] [3848551] [INFO] Waiting for application startup.
+[2026-09-20 05:27:52 +0300] [3848552] [INFO] Booting worker with pid: 3848552
+[2026-09-20 05:27:52 +0300] [3848552] [INFO] Started server process [3848552]
+[2026-09-20 05:27:52 +0300] [3848552] [INFO] Waiting for application startup.
+[2026-09-20 05:27:52 +0300] [3843083] [INFO] Control socket listening at /run/user/1000/gunicorn.ctl
+[2026-09-20 05:27:54 +0300] [3848549] [INFO] Application startup complete.
+[2026-09-20 05:27:54 +0300] [3848550] [INFO] Application startup complete.
+[2026-09-20 05:27:54 +0300] [3848551] [INFO] Application startup complete.
+[2026-09-20 05:27:54 +0300] [3848552] [INFO] Application startup complete.
+[2026-09-20 05:35:59 +0300] [3843083] [INFO] Handling signal: term
+[2026-09-20 05:35:59 +0300] [3848550] [INFO] Shutting down
+[2026-09-20 05:35:59 +0300] [3848551] [INFO] Shutting down
+[2026-09-20 05:35:59 +0300] [3848552] [INFO] Shutting down
+[2026-09-20 05:35:59 +0300] [3848549] [INFO] Shutting down
+[2026-09-20 05:36:00 +0300] [3848550] [INFO] Waiting for application shutdown.
+[2026-09-20 05:36:00 +0300] [3848550] [INFO] Application shutdown complete.
+[2026-09-20 05:36:00 +0300] [3848550] [INFO] Finished server process [3848550]
+[2026-09-20 05:36:00 +0300] [3848551] [INFO] Waiting for application shutdown.
+[2026-09-20 05:36:00 +0300] [3848552] [INFO] Waiting for application shutdown.
+[2026-09-20 05:36:00 +0300] [3848551] [INFO] Application shutdown complete.
+[2026-09-20 05:36:00 +0300] [3848551] [INFO] Finished server process [3848551]
+[2026-09-20 05:36:00 +0300] [3848552] [INFO] Application shutdown complete.
+[2026-09-20 05:36:00 +0300] [3848552] [INFO] Finished server process [3848552]
+[2026-09-20 05:36:00 +0300] [3848549] [INFO] Waiting for application shutdown.
+[2026-09-20 05:36:00 +0300] [3848549] [INFO] Application shutdown complete.
+[2026-09-20 05:36:00 +0300] [3848549] [INFO] Finished server process [3848549]
+[2026-09-20 05:36:00 +0300] [3843083] [INFO] Worker (pid:3848549) was sent SIGTERM!
+[2026-09-20 05:36:00 +0300] [3843083] [INFO] Worker (pid:3848550) was sent SIGTERM!
+[2026-09-20 05:36:00 +0300] [3843083] [INFO] Worker (pid:3848551) was sent SIGTERM!
+[2026-09-20 05:36:00 +0300] [3843083] [INFO] Worker (pid:3848552) was sent SIGTERM!
+[2026-09-20 05:36:00 +0300] [3843083] [INFO] Shutting down: Master

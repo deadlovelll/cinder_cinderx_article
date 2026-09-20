@@ -1,0 +1,64 @@
+{
+ "facts": {
+  "mode": "jit",
+  "frame_evaluator": true,
+  "jit": true,
+  "static_loader": true
+ },
+ "n_items": 100000,
+ "candidate_limit": 400,
+ "cells": [
+  {
+   "cell": "plain/bounded",
+   "mode": "jit",
+   "jit": true,
+   "median_ms": 11.019536074309144,
+   "min_ms": 10.995464824372903,
+   "max_ms": 11.048206775740255,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 3,
+   "deopts": 0,
+   "mismatches": 0
+  },
+  {
+   "cell": "plain/sorted",
+   "mode": "jit",
+   "jit": true,
+   "median_ms": 13.781292700150516,
+   "min_ms": 13.734354326152243,
+   "max_ms": 13.89705372566823,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 1,
+   "deopts": 0,
+   "mismatches": 0
+  },
+  {
+   "cell": "static/bounded",
+   "mode": "jit",
+   "jit": true,
+   "median_ms": 2.0924316995660774,
+   "min_ms": 2.0872712004347704,
+   "max_ms": 2.1047819493105635,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 4,
+   "deopts": 0,
+   "mismatches": 0
+  },
+  {
+   "cell": "static/sorted",
+   "mode": "jit",
+   "jit": true,
+   "median_ms": 8.742435250314884,
+   "min_ms": 8.69721150083933,
+   "max_ms": 8.76361437549349,
+   "reps": 7,
+   "users": 40,
+   "compiled_functions": 1,
+   "deopts": 0,
+   "mismatches": 0
+  }
+ ]
+}

@@ -1,0 +1,61 @@
+### cold bytecode (dis.dis, adaptive=False)
+  7           RESUME                   0
+
+  8           LOAD_SMALL_INT           0
+              STORE_FAST               2 (total)
+
+  9           LOAD_SMALL_INT           0
+              STORE_FAST               3 (i)
+
+ 10   L1:     LOAD_FAST_BORROW_LOAD_FAST_BORROW 49 (i, n)
+              COMPARE_OP              18 (bool(<))
+              POP_JUMP_IF_FALSE       27 (to L2)
+              NOT_TAKEN
+
+ 11           LOAD_FAST_BORROW_LOAD_FAST_BORROW 32 (total, x)
+              LOAD_FAST_BORROW         3 (i)
+              BINARY_OP                5 (*)
+              BINARY_OP                0 (+)
+              STORE_FAST               2 (total)
+
+ 12           LOAD_FAST_BORROW         3 (i)
+              LOAD_SMALL_INT           1
+              BINARY_OP                0 (+)
+              STORE_FAST               3 (i)
+              JUMP_BACKWARD           32 (to L1)
+
+ 13   L2:     LOAD_FAST_BORROW         2 (total)
+              LOAD_GLOBAL              0 (SCALE)
+              BINARY_OP                5 (*)
+              RETURN_VALUE
+
+### specialized bytecode after 1000 calls (dis.dis, adaptive=True)
+  7           RESUME_CHECK             0
+
+  8           LOAD_SMALL_INT           0
+              STORE_FAST               2 (total)
+
+  9           LOAD_SMALL_INT           0
+              STORE_FAST               3 (i)
+
+ 10   L1:     LOAD_FAST_BORROW_LOAD_FAST_BORROW 49 (i, n)
+              COMPARE_OP_INT          18 (bool(<))
+              POP_JUMP_IF_FALSE       27 (to L2)
+              NOT_TAKEN
+
+ 11           LOAD_FAST_BORROW_LOAD_FAST_BORROW 32 (total, x)
+              LOAD_FAST_BORROW         3 (i)
+              BINARY_OP_MULTIPLY_INT   5 (*)
+              BINARY_OP_ADD_INT        0 (+)
+              STORE_FAST               2 (total)
+
+ 12           LOAD_FAST_BORROW         3 (i)
+              LOAD_SMALL_INT           1
+              BINARY_OP_ADD_INT        0 (+)
+              STORE_FAST               3 (i)
+              JUMP_BACKWARD_NO_JIT    32 (to L1)
+
+ 13   L2:     LOAD_FAST_BORROW         2 (total)
+              LOAD_GLOBAL_MODULE       0 (SCALE)
+              BINARY_OP_MULTIPLY_INT   5 (*)
+              RETURN_VALUE

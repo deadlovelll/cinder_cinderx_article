@@ -1,0 +1,46 @@
+{
+ "what": "чтение уже посчитанного cached_property, нс на чтение",
+ "reads_per_call": 200000,
+ "reps": 7,
+ "note": "компиляция через compile_after_n_calls(0); interpreted_calls под JIT должен быть 0",
+ "rows": [
+  {
+   "leg": "functools",
+   "label": "functools, словарь экземпляра",
+   "ns_nojit": 56.45205994369462,
+   "interpreted_nojit": 7,
+   "jit_compiled_nojit": false,
+   "storage": "instance dict",
+   "ns_jit": 46.21767991920933,
+   "interpreted_jit": 0,
+   "jit_compiled_jit": true
+  },
+  {
+   "leg": "cinderx",
+   "label": "cinderx, словарь экземпляра",
+   "ns_nojit": 56.443225184921175,
+   "interpreted_nojit": 7,
+   "jit_compiled_nojit": false,
+   "storage": "instance dict",
+   "ns_jit": 46.69219022616744,
+   "interpreted_jit": 0,
+   "jit_compiled_jit": true
+  },
+  {
+   "leg": "slot",
+   "label": "cinderx в типизированном модуле, слот",
+   "ns_nojit": 58.344705030322075,
+   "interpreted_nojit": 7,
+   "jit_compiled_nojit": false,
+   "storage": "slots",
+   "ns_jit": 34.58366001723334,
+   "interpreted_jit": 0,
+   "jit_compiled_jit": true
+  }
+ ],
+ "ratios": {
+  "functools/cinderx, под JIT": 0.9898374802154348,
+  "functools/слот, под JIT": 1.3364022170059113,
+  "functools/cinderx, без JIT": 1.000156524697951
+ }
+}

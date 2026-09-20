@@ -1,0 +1,29 @@
+{
+ "what": "примитивный тип возврата у async def под JIT",
+ "rows": [
+  {
+   "return_type": "int64",
+   "jit": false,
+   "call_returns": "coroutine",
+   "await": "84"
+  },
+  {
+   "return_type": "int64",
+   "jit": true,
+   "call_returns": "int",
+   "await": "TypeError 'int' object can't be awaited"
+  },
+  {
+   "return_type": "int",
+   "jit": false,
+   "call_returns": "coroutine",
+   "await": "84"
+  },
+  {
+   "return_type": "int",
+   "jit": true,
+   "call_returns": "coroutine",
+   "await": "84"
+  }
+ ]
+}

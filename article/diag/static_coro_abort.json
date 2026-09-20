@@ -1,0 +1,32 @@
+{
+ "what": "await примитивной корутины внутри типизированного модуля",
+ "assert_text": "Only primitive numeric types should be boxed",
+ "python": "/home/timofei/Desktop/cinder_cinderx_article/build/venv-fork/bin/python",
+ "rows": [
+  {
+   "returncode": -6,
+   "signal": 6,
+   "reached": [
+    "imported"
+   ],
+   "assert_text_seen": true,
+   "stderr_tail": [
+    "JIT: cinderx/Jit/hir/pass.cpp:458 -- Abort",
+    "Only primitive numeric types should be boxed. type verificationmissed an unexpected type Object"
+   ],
+   "arm": "примитивный возврат, int64"
+  },
+  {
+   "returncode": 0,
+   "signal": null,
+   "reached": [
+    "imported",
+    "compiled",
+    "result 84"
+   ],
+   "assert_text_seen": false,
+   "stderr_tail": [],
+   "arm": "боксированный возврат, int"
+  }
+ ]
+}

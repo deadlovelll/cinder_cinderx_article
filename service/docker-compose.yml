@@ -1,0 +1,85 @@
+name: recsys
+
+x-app-env: &app-env
+  RECSYS_DB_HOST: ${RECSYS_DB_HOST:-db}
+  RECSYS_DB_PORT: ${RECSYS_DB_PORT:-5432}
+  RECSYS_DB_NAME: ${RECSYS_DB_NAME:-recsys}
+  RECSYS_DB_USER: ${RECSYS_DB_USER:-recsys}
+  RECSYS_DB_PASSWORD: ${RECSYS_DB_PASSWORD:-recsys}
+  RECSYS_DB_POOL_SIZE: ${RECSYS_DB_POOL_SIZE:-10}
+  RECSYS_CINDERX_MODE: ${RECSYS_CINDERX_MODE:-off}
+  RECSYS_PRECOMPILE: ${RECSYS_PRECOMPILE:-0}
+  RECSYS_IMMORTALIZE: ${RECSYS_IMMORTALIZE:-0}
+  RECSYS_PARALLEL_GC: ${RECSYS_PARALLEL_GC:-0}
+  RECSYS_PERF_TRAMPOLINE: ${RECSYS_PERF_TRAMPOLINE:-0}
+  RECSYS_WORKERS: ${RECSYS_WORKERS:-4}
+  RECSYS_SAMPLER_INTERVAL_MS: ${RECSYS_SAMPLER_INTERVAL_MS:-250}
+  RECSYS_SAMPLER_DIR: /var/log/recsys
+
+services:
+  db:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: ${RECSYS_DB_NAME:-recsys}
+      POSTGRES_USER: ${RECSYS_DB_USER:-recsys}
+      POSTGRES_PASSWORD: ${RECSYS_DB_PASSWORD:-recsys}
+    command:
+      - postgres
+      - -c
+      - max_connections=200
+      - -c
+      - shared_buffers=1GB
+      - -c
+      - synchronous_commit=off
+      - -c
+      - fsync=on
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    shm_size: 1gb
+    cpuset: ${RECSYS_DB_CPUSET:-}
+    ports:
+      - "${RECSYS_DB_PUBLISH_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${RECSYS_DB_USER:-recsys} -d ${RECSYS_DB_NAME:-recsys}"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  seed:
+    build:
+      context: .
+      args:
+        DEP_EXTRA: ${RECSYS_DEP_EXTRA:-c}
+        WITH_CINDERX: "0"
+    environment: *app-env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["python", "-m", "recsys.infrastructure.seed", "--items", "100000",
+              "--users", "20000", "--avg-degree", "24"]
+
+  app:
+    build:
+      context: .
+      args:
+        DEP_EXTRA: ${RECSYS_DEP_EXTRA:-c}
+        WITH_CINDERX: ${RECSYS_WITH_CINDERX:-1}
+    environment: *app-env
+    depends_on:
+      db:
+        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./logs:/var/log/recsys
+    cpuset: ${RECSYS_CPUSET:-}
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request as u; u.urlopen('http://127.0.0.1:8000/healthz')\""]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  pgdata:

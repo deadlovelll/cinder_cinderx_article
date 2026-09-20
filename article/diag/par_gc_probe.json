@@ -1,0 +1,93 @@
+{
+ "what": "аллокационный цикл и полная сборка по армам сборщика",
+ "nodes": 300000,
+ "garbage": 300000,
+ "reps": 5,
+ "launches": 5,
+ "churn_seconds": 1.0,
+ "gc_threshold": [
+  2000,
+  10,
+  10
+ ],
+ "cpus": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "rows": [
+  {
+   "arm": "выключен",
+   "min_generation": null,
+   "threads": null,
+   "full_collect_ms": 59.392950031906366,
+   "churn_ms": 0.48927994424007004,
+   "churn_lo": 0.4860698240940379,
+   "churn_hi": 0.492482535179488,
+   "churn_vs_off": 1.0
+  },
+  {
+   "arm": "min_gen=2, потоков 1",
+   "min_generation": 2,
+   "threads": 1,
+   "full_collect_ms": 92.35291398363188,
+   "churn_ms": 0.4911672441215183,
+   "churn_lo": 0.49046782392240207,
+   "churn_hi": 0.4961147748136206,
+   "churn_vs_off": 1.0038573007205098
+  },
+  {
+   "arm": "min_gen=2, потоков 2",
+   "min_generation": 2,
+   "threads": 2,
+   "full_collect_ms": 125.87544397683814,
+   "churn_ms": 0.49353273408317444,
+   "churn_lo": 0.4924347671241775,
+   "churn_hi": 0.49971956531039013,
+   "churn_vs_off": 1.0086919357581878
+  },
+  {
+   "arm": "min_gen=2, потоков 4",
+   "min_generation": 2,
+   "threads": 4,
+   "full_collect_ms": 172.69370902795345,
+   "churn_ms": 0.49348284164650363,
+   "churn_lo": 0.49179548035021375,
+   "churn_hi": 0.49435841968675287,
+   "churn_vs_off": 1.0085899646121024
+  },
+  {
+   "arm": "min_gen=0, потоков 1",
+   "min_generation": 0,
+   "threads": 1,
+   "full_collect_ms": 92.68395695835352,
+   "churn_ms": 0.8362865986642787,
+   "churn_lo": 0.7488121317621477,
+   "churn_hi": 0.9036381698344761,
+   "churn_vs_off": 1.709219044249127
+  },
+  {
+   "arm": "min_gen=0, потоков 4",
+   "min_generation": 0,
+   "threads": 4,
+   "full_collect_ms": 178.76093595987186,
+   "churn_ms": 0.7543211794850946,
+   "churn_lo": 0.7280451287969599,
+   "churn_hi": 0.7817196289124695,
+   "churn_vs_off": 1.5416965039445383
+  }
+ ]
+}

@@ -1,0 +1,578 @@
+JIT: cinderx/Jit/codegen/gen_asm.cpp:497 -- Disassembly for deopt_trampoline
+
+Save registers
+  0x0078b754800000:        pushq %r14
+  0x0078b754800002:        pushq %r13
+  0x0078b754800004:        pushq %r12
+  0x0078b754800006:        pushq %r11
+  0x0078b754800008:        pushq %r10
+  0x0078b75480000a:        pushq %r9
+  0x0078b75480000c:        pushq %r8
+  0x0078b75480000e:        pushq %rdi
+  0x0078b75480000f:        pushq %rsi
+  0x0078b754800010:        pushq %rbp
+  0x0078b754800011:        pushq %rsp
+  0x0078b754800012:        pushq %rbx
+  0x0078b754800013:        pushq %rdx
+  0x0078b754800014:        pushq %rcx
+  0x0078b754800015:        pushq %rax
+
+Shuffle rip, rbp, and deopt index
+  0x0078b754800016:        leaq (%rsp), %rdi
+  0x0078b75480001a:        movq 0xa0(%rsp), %rcx
+  0x0078b754800022:        movq %rbp, 0xa0(%rsp)
+  0x0078b75480002a:        leaq 0xa0(%rsp), %rbp
+  0x0078b754800032:        movq 8(%rbp), %rdx
+  0x0078b754800036:        movq %rcx, 8(%rbp)
+  0x0078b75480003a:        movq %rdx, -0x10(%rbp)
+  0x0078b75480003e:        movq -0x18(%rbp), %rsi
+
+prepareForDeopt
+  0x0078b754800042:        callq 0x78b7588fa8b0	(jit::codegen::(anonymous namespace)::prepareForDeopt(unsigned long const*, jit::CodeRuntime*, unsigned long))
+
+reg cleanup
+  0x0078b754800048:        movq 0x78(%rsp), %r15
+  0x0078b75480004d:        leaq 0x80(%rsp), %rsp
+
+resumeInInterpreter
+  0x0078b754800055:        movq %rax, %rcx
+  0x0078b754800058:        movq %rcx, %rcx
+  0x0078b75480005b:        andq $1, %rcx
+  0x0078b75480005f:        movq %rax, %rax
+  0x0078b754800062:        andq $0xfffffffffffffffe, %rax
+  0x0078b754800066:        movq %rax, %rdi
+  0x0078b754800069:        movq -0x18(%rbp), %rsi
+  0x0078b75480006d:        movq -0x10(%rbp), %rdx
+  0x0078b754800071:        callq 0x78b7588facf0	(jit::codegen::(anonymous namespace)::resumeInInterpreter(_PyInterpreterFrame*, jit::CodeRuntime*, unsigned long, bool))
+
+Jump to real epilogue
+  0x0078b754800077:        movq %rax, %rdx
+  0x0078b75480007a:        movq %rax, %xmm1
+  0x0078b75480007f:        movq -0x20(%rbp), %rdi
+  0x0078b754800083:        leave 
+  0x0078b754800084:        leaq 8(%rsp), %rsp
+  0x0078b754800089:        jmpq *%rdi
+
+--unassigned--
+  0x0078b75480008b:        addb %al, (%rax)
+  0x0078b75480008d:        addb %al, (%rax)
+  0x0078b75480008f:        RAW: 0x00
+
+JIT: cinderx/Jit/codegen/gen_asm.cpp:1392 -- Disassembly for spin:spin
+
+Reentry with processed args
+  0x0078b754800090:        pushq %rbp
+  0x0078b754800091:        movq %rsp, %rbp
+  0x0078b754800094:        jmp 0x78b7548000c8
+
+Set up frame pointer
+  0x0078b754800096:        pushq %rbp
+  0x0078b754800097:        movq %rsp, %rbp
+
+Keyword argument dispatch
+  0x0078b75480009a:        testq %rcx, %rcx
+  0x0078b75480009d:        je 0x78b7548000ae
+  0x0078b7548000a3:        callq 0x78b758995370	(JITRT_CallWithKeywordArgsSimple(PyFunctionObject*, _object**, unsigned long, _object*))
+  0x0078b7548000a9:        jmp 0x78b754800497
+
+Check if called with correct argcount
+  0x0078b7548000ae:        movq $2, %rcx
+  0x0078b7548000b5:        cmpl %ecx, %edx
+  0x0078b7548000b7:        je 0x78b7548000c8
+  0x0078b7548000bd:        callq 0x78b7589957b0	(JITRT_CallWithIncorrectArgcount(PyFunctionObject*, _object**, unsigned long, int))
+  0x0078b7548000c3:        jmp 0x78b754800497
+
+Load vectorcall arguments
+  0x0078b7548000c8:        movq %rsi, %r10
+  0x0078b7548000cb:        movq (%r10), %rsi
+  0x0078b7548000ce:        movq 8(%r10), %rdx
+
+Allocate stack frame
+  0x0078b7548000d2:        subq $0xa8, %rsp
+
+Save callee-saved registers
+  0x0078b7548000d9:        pushq %rbx
+  0x0078b7548000da:        pushq %r12
+  0x0078b7548000dc:        pushq %r13
+  0x0078b7548000de:        pushq %r14
+  0x0078b7548000e0:        pushq %r15
+
+LoadFrame
+  0x0078b7548000e2:        movq %rdi, %rbx
+  0x0078b7548000e5:        movq %rdx, %r13
+  0x0078b7548000e8:        movq %rsi, %r12
+
+Lightweight frame: load thread state
+  0x0078b7548000eb:        callq *0x3af(%rip)
+  0x0078b7548000f1:        movq %rax, %r14
+  0x0078b7548000f4:        leaq -0x88(%rbp), %rax
+  0x0078b7548000fb:        movq 0x48(%r14), %rcx
+  0x0078b7548000ff:        xorq %rdx, %rdx
+  0x0078b754800102:        movabsq $0x78b758fcfd40, %rsi
+  0x0078b75480010c:        movabsq $0x78b758fd53c0, %rdi
+  0x0078b754800116:        leaq -0x38(%rbp), %r8
+
+Store frame_header_func, frame_reifier
+  0x0078b75480011a:        movq %rdx, -8(%rax)
+  0x0078b75480011e:        movq %rsi, (%rax)
+
+Store previous, funcobj
+  0x0078b754800121:        movq %rcx, 8(%rax)
+  0x0078b754800125:        movq %rbx, 0x10(%rax)
+
+Store zero
+  0x0078b754800129:        movq %rdx, 0x28(%rax)
+
+Store instr_ptr, stackpointer
+  0x0078b75480012d:        movq %rdi, 0x38(%rax)
+  0x0078b754800131:        movq %r8, 0x40(%rax)
+
+Store owner
+  0x0078b754800135:        movb %dl, 0x4a(%rax)
+
+Incref executable / reifier
+  0x0078b754800138:        movl (%rsi), %ecx
+  0x0078b75480013a:        incl %ecx
+  0x0078b75480013c:        js 0x78b754800144
+
+LoadFrame
+  0x0078b754800142:        movl %ecx, (%rsi)
+
+Set _PyInterpreterFrame as topmost frame
+  0x0078b754800144:        movq %rax, 0x48(%r14)
+
+Load current interpreter frame
+  0x0078b754800148:        movq 0x48(%r14), %rax
+  0x0078b75480014c:        xorq %rbx, %rbx
+  0x0078b75480014f:        movabsq $0x78b758fd53c0, %rcx
+  0x0078b754800159:        movq %rcx, 0x38(%rax)
+  0x0078b75480015d:        movq 0x18(%r14), %rax
+  0x0078b754800161:        testq %rax, %rax
+  0x0078b754800164:        je 0x78b75480017b
+
+v27:CInt32 = RunPeriodicTasks {
+  LiveValues<3> b:v22 b:v23 unc:v25
+  FrameState {
+    CurInstrOffset 0
+    Locals<4> v22 v23 v25 v25
+  }
+}
+  0x0078b75480016a:        movq %r14, %rdi
+  0x0078b75480016d:        callq *0x335(%rip)
+  0x0078b754800173:        testl %eax, %eax
+  0x0078b754800175:        js 0x78b75480041f
+
+v32:ImmortalLongExact[0] = LoadConst<ImmortalLongExact[0]>
+  0x0078b75480017b:        movabsq $0x61ce57e1e8e0, %rax
+
+v34:ImmortalLongExact[0] = LoadConst<ImmortalLongExact[0]>
+  0x0078b754800185:        movabsq $0x61ce57e1e8e0, %rcx
+  0x0078b75480018f:        movq %rcx, %r15
+  0x0078b754800192:        movq %rax, %rbx
+  0x0078b754800195:        xchgq %r12, %r13
+
+v36:CInt64 = LoadEvalBreaker
+  0x0078b754800198:        movq 0x18(%r14), %rax
+
+CondBranch<7, 1> v36
+  0x0078b75480019c:        testq %rax, %rax
+  0x0078b75480019f:        je 0x78b7548001b6
+
+v41:CInt32 = RunPeriodicTasks {
+  LiveValues<4> b:v37 b:v38 o:v39 o:v40
+  FrameState {
+    CurInstrOffset 10
+    Locals<4> v37 v38 v39 v40
+  }
+}
+  0x0078b7548001a5:        movq %r14, %rdi
+  0x0078b7548001a8:        callq *0x2fa(%rip)
+  0x0078b7548001ae:        testl %eax, %eax
+  0x0078b7548001b0:        js 0x78b754800426
+
+v47:LongExact = GuardType<LongExact> v38 {
+  LiveValues<4> b:v37 b:v38 o:v39 o:v40
+  FrameState {
+    CurInstrOffset 10
+    Locals<4> v37 v38 v39 v40
+  }
+}
+  0x0078b7548001b6:        movabsq $0x61ce57def440, %rax
+  0x0078b7548001c0:        cmpq %rax, 8(%r12)
+  0x0078b7548001c5:        jne 0x78b75480042d
+
+v77:CBool = IsCompactLong v40
+  0x0078b7548001cb:        movq 0x10(%r15), %rax
+  0x0078b7548001cf:        cmpq $0x10, %rax
+  0x0078b7548001d3:        setb %al
+
+v78:CBool = IsCompactLong v47
+  0x0078b7548001d6:        movq 0x10(%r12), %rcx
+  0x0078b7548001db:        cmpq $0x10, %rcx
+  0x0078b7548001df:        setb %cl
+
+v79:CBool = IntBinaryOp<And> v77 v78
+  0x0078b7548001e2:        andb %cl, %al
+
+Guard v79 {
+  LiveValues<6> b:v37 b:v38 o:v39 o:v40 b:v47 bool:v79
+  FrameState {
+    CurInstrOffset 10
+    Locals<4> v37 v38 v39 v40
+  }
+}
+  0x0078b7548001e4:        testb %al, %al
+  0x0078b7548001e6:        je 0x78b754800434
+
+v80:CInt64 = CompactLongUnbox v40
+  0x0078b7548001ec:        movq 0x10(%r15), %rax
+  0x0078b7548001f0:        andq $3, %rax
+  0x0078b7548001f4:        movq $1, %rcx
+  0x0078b7548001fb:        movq %rcx, %rdx
+  0x0078b7548001fe:        subq %rax, %rdx
+  0x0078b754800201:        movl 0x18(%r15), %eax
+  0x0078b754800205:        imulq %rdx, %rax
+
+v81:CInt64 = CompactLongUnbox v47
+  0x0078b754800209:        movq 0x10(%r12), %rcx
+  0x0078b75480020e:        andq $3, %rcx
+  0x0078b754800212:        movq $1, %rdx
+  0x0078b754800219:        movq %rdx, %rsi
+  0x0078b75480021c:        subq %rcx, %rsi
+  0x0078b75480021f:        movl 0x18(%r12), %ecx
+  0x0078b754800224:        imulq %rsi, %rcx
+
+v82:CBool = PrimitiveCompare<LessThan> v80 v81
+  0x0078b754800228:        cmpq %rcx, %rax
+  0x0078b75480022b:        setl %al
+
+CondBranch<2, 3> v82
+  0x0078b75480022e:        jl 0x78b754800240
+
+--unassigned--
+  0x0078b754800234:        movq %r12, -0xa0(%rbp)
+  0x0078b75480023b:        jmp 0x78b75480033e
+
+v53:LongExact = GuardType<LongExact> v37 {
+  LiveValues<4> b:v37 o:v39 o:v40 b:v47
+  FrameState {
+    CurInstrOffset 22
+    Locals<4> v37 v47 v39 v40
+  }
+}
+  0x0078b754800240:        movabsq $0x61ce57def440, %rax
+  0x0078b75480024a:        cmpq %rax, 8(%r13)
+  0x0078b75480024e:        jne 0x78b75480043b
+
+v73:LongExact = LongBinaryOp<Multiply> v53 v40 {
+  LiveValues<4> o:v39 o:v40 b:v47 b:v53
+  FrameState {
+    CurInstrOffset 26
+    Locals<4> v53 v47 v39 v40
+    Stack<1> v39
+  }
+}
+  0x0078b754800254:        movq %r13, %rdi
+  0x0078b754800257:        movq %r15, %rsi
+  0x0078b75480025a:        callq *0x250(%rip)
+  0x0078b754800260:        testq %rax, %rax
+  0x0078b754800263:        je 0x78b754800442
+
+v74:LongExact = LongBinaryOp<Add> v39 v73 {
+  LiveValues<5> o:v39 o:v40 b:v47 b:v53 o:v73
+  FrameState {
+    CurInstrOffset 38
+    Locals<4> v53 v47 v39 v40
+  }
+}
+  0x0078b754800269:        movq %r12, -0xa0(%rbp)
+  0x0078b754800270:        movq %rax, %r12
+  0x0078b754800273:        movq %rbx, %rdi
+  0x0078b754800276:        movq %r12, %rsi
+  0x0078b754800279:        callq *0x239(%rip)
+  0x0078b75480027f:        testq %rax, %rax
+  0x0078b754800282:        je 0x78b754800449
+
+Decref v39
+  0x0078b754800288:        movq (%rbx), %rcx
+  0x0078b75480028b:        testl %ecx, %ecx
+  0x0078b75480028d:        jns 0x78b75480029f
+
+--unassigned--
+  0x0078b754800293:        movq %rax, -0xa8(%rbp)
+  0x0078b75480029a:        jmp 0x78b7548002c7
+
+Decref v39
+  0x0078b75480029f:        decq %rcx
+  0x0078b7548002a2:        movq %rcx, (%rbx)
+  0x0078b7548002a5:        je 0x78b7548002b7
+
+--unassigned--
+  0x0078b7548002ab:        movq %rax, -0xa8(%rbp)
+  0x0078b7548002b2:        jmp 0x78b7548002c7
+
+Decref v39
+  0x0078b7548002b7:        movq %rax, -0xa8(%rbp)
+  0x0078b7548002be:        movq %rbx, %rdi
+  0x0078b7548002c1:        callq *0x1f9(%rip)
+
+Decref v73
+  0x0078b7548002c7:        movq (%r12), %rax
+  0x0078b7548002cb:        testl %eax, %eax
+  0x0078b7548002cd:        js 0x78b7548002e9
+  0x0078b7548002d3:        decq %rax
+  0x0078b7548002d6:        movq %rax, (%r12)
+  0x0078b7548002da:        jne 0x78b7548002e9
+  0x0078b7548002e0:        movq %r12, %rdi
+  0x0078b7548002e3:        callq *0x1d7(%rip)
+
+v75:LongExact = LongBinaryOp<Add> v40 v60 {
+  LiveValues<5> o:v40 b:v47 b:v53 unc:v60 o:v74
+  FrameState {
+    CurInstrOffset 56
+    Locals<4> v53 v47 v74 v40
+  }
+}
+  0x0078b7548002e9:        movq %r15, %rdi
+  0x0078b7548002ec:        movabsq $0x61ce57e1e900, %rsi
+  0x0078b7548002f6:        callq *0x1bc(%rip)
+  0x0078b7548002fc:        movq %rax, %rbx
+  0x0078b7548002ff:        testq %rbx, %rbx
+  0x0078b754800302:        je 0x78b754800450
+
+Decref v40
+  0x0078b754800308:        movq (%r15), %rax
+  0x0078b75480030b:        testl %eax, %eax
+  0x0078b75480030d:        js 0x78b754800328
+  0x0078b754800313:        decq %rax
+  0x0078b754800316:        movq %rax, (%r15)
+  0x0078b754800319:        jne 0x78b754800328
+  0x0078b75480031f:        movq %r15, %rdi
+  0x0078b754800322:        callq *0x198(%rip)
+
+--unassigned--
+  0x0078b754800328:        movq %rbx, %r15
+  0x0078b75480032b:        movq -0xa8(%rbp), %rbx
+  0x0078b754800332:        movq -0xa0(%rbp), %r12
+  0x0078b754800339:        jmp 0x78b754800198
+
+v65:OptObject = LoadGlobalCached<0>
+  0x0078b75480033e:        movabsq 0x61ce89cb3000, %rax
+
+v66:ImmortalLongExact[16] = GuardIs<0x61ce57e1eae0> v65 {
+  Descr 'LOAD_GLOBAL: SCALE'
+  LiveValues<5> b:v37 o:v39 o:v40 b:v47 b:v65
+  FrameState {
+    CurInstrOffset 74
+    Locals<4> v37 v47 v39 v40
+  }
+}
+  0x0078b754800348:        movabsq $0x61ce57e1eae0, %rcx
+  0x0078b754800352:        cmpq %rcx, %rax
+  0x0078b754800355:        jne 0x78b754800457
+
+v76:LongExact = LongBinaryOp<Multiply> v39 v66 {
+  LiveValues<5> b:v37 o:v39 o:v40 b:v47 unc:v66
+  FrameState {
+    CurInstrOffset 86
+    Locals<4> v37 v47 v39 v40
+  }
+}
+  0x0078b75480035b:        movq %rbx, %rdi
+  0x0078b75480035e:        movabsq $0x61ce57e1eae0, %rsi
+  0x0078b754800368:        callq *0x142(%rip)
+  0x0078b75480036e:        movq %rax, %r12
+  0x0078b754800371:        testq %r12, %r12
+  0x0078b754800374:        je 0x78b75480045e
+
+Decref v39
+  0x0078b75480037a:        movq (%rbx), %rax
+  0x0078b75480037d:        testl %eax, %eax
+  0x0078b75480037f:        js 0x78b75480039a
+  0x0078b754800385:        decq %rax
+  0x0078b754800388:        movq %rax, (%rbx)
+  0x0078b75480038b:        jne 0x78b75480039a
+  0x0078b754800391:        movq %rbx, %rdi
+  0x0078b754800394:        callq *0x126(%rip)
+
+Decref v40
+  0x0078b75480039a:        movq (%r15), %rax
+  0x0078b75480039d:        testl %eax, %eax
+  0x0078b75480039f:        js 0x78b7548003ba
+  0x0078b7548003a5:        decq %rax
+  0x0078b7548003a8:        movq %rax, (%r15)
+  0x0078b7548003ab:        jne 0x78b7548003ba
+  0x0078b7548003b1:        movq %r15, %rdi
+  0x0078b7548003b4:        callq *0x106(%rip)
+
+Return v76
+  0x0078b7548003ba:        movq %r12, %rbx
+
+--unassigned--
+  0x0078b7548003bd:        movq 0x48(%r14), %rax
+  0x0078b7548003c1:        movq -8(%rax), %rcx
+  0x0078b7548003c5:        btq $1, %rcx
+  0x0078b7548003ca:        jae 0x78b7548003de
+  0x0078b7548003d0:        movq %r14, %rdi
+  0x0078b7548003d3:        callq 0x78b758996320	(JITRT_UnlinkFrame(_ts*))
+  0x0078b7548003d9:        jmp 0x78b75480040a
+  0x0078b7548003de:        movq 8(%rax), %rax
+  0x0078b7548003e2:        movq %rax, 0x48(%r14)
+  0x0078b7548003e6:        movabsq $0x78b758fcfd40, %r12
+  0x0078b7548003f0:        movq (%r12), %rax
+  0x0078b7548003f4:        decq %rax
+  0x0078b7548003f7:        movq %rax, (%r12)
+  0x0078b7548003fb:        jne 0x78b75480040a
+  0x0078b754800401:        movq %r12, %rdi
+  0x0078b754800404:        callq *0xbe(%rip)
+  0x0078b75480040a:        movq %rbx, %rax
+  0x0078b75480040d:        leaq -0xd0(%rbp), %rsp
+  0x0078b754800414:        popq %r15
+  0x0078b754800416:        popq %r14
+  0x0078b754800418:        popq %r13
+  0x0078b75480041a:        popq %r12
+  0x0078b75480041c:        popq %rbx
+  0x0078b75480041d:        leave 
+  0x0078b75480041e:        retq 
+  0x0078b75480041f:        pushq $0
+
+v27:CInt32 = RunPeriodicTasks {
+  LiveValues<3> b:v22 b:v23 unc:v25
+  FrameState {
+    CurInstrOffset 0
+    Locals<4> v22 v23 v25 v25
+  }
+}
+  0x0078b754800421:        callq 0x78b754800465
+
+--unassigned--
+  0x0078b754800426:        pushq $1
+
+v41:CInt32 = RunPeriodicTasks {
+  LiveValues<4> b:v37 b:v38 o:v39 o:v40
+  FrameState {
+    CurInstrOffset 10
+    Locals<4> v37 v38 v39 v40
+  }
+}
+  0x0078b754800428:        callq 0x78b754800465
+
+--unassigned--
+  0x0078b75480042d:        pushq $2
+
+v47:LongExact = GuardType<LongExact> v38 {
+  LiveValues<4> b:v37 b:v38 o:v39 o:v40
+  FrameState {
+    CurInstrOffset 10
+    Locals<4> v37 v38 v39 v40
+  }
+}
+  0x0078b75480042f:        callq 0x78b754800465
+
+--unassigned--
+  0x0078b754800434:        pushq $3
+
+Guard v79 {
+  LiveValues<6> b:v37 b:v38 o:v39 o:v40 b:v47 bool:v79
+  FrameState {
+    CurInstrOffset 10
+    Locals<4> v37 v38 v39 v40
+  }
+}
+  0x0078b754800436:        callq 0x78b754800465
+
+--unassigned--
+  0x0078b75480043b:        pushq $4
+
+v53:LongExact = GuardType<LongExact> v37 {
+  LiveValues<4> b:v37 o:v39 o:v40 b:v47
+  FrameState {
+    CurInstrOffset 22
+    Locals<4> v37 v47 v39 v40
+  }
+}
+  0x0078b75480043d:        callq 0x78b754800465
+
+--unassigned--
+  0x0078b754800442:        pushq $5
+
+v73:LongExact = LongBinaryOp<Multiply> v53 v40 {
+  LiveValues<4> o:v39 o:v40 b:v47 b:v53
+  FrameState {
+    CurInstrOffset 26
+    Locals<4> v53 v47 v39 v40
+    Stack<1> v39
+  }
+}
+  0x0078b754800444:        callq 0x78b754800465
+
+--unassigned--
+  0x0078b754800449:        pushq $6
+
+v74:LongExact = LongBinaryOp<Add> v39 v73 {
+  LiveValues<5> o:v39 o:v40 b:v47 b:v53 o:v73
+  FrameState {
+    CurInstrOffset 38
+    Locals<4> v53 v47 v39 v40
+  }
+}
+  0x0078b75480044b:        callq 0x78b754800465
+
+--unassigned--
+  0x0078b754800450:        pushq $7
+
+v75:LongExact = LongBinaryOp<Add> v40 v60 {
+  LiveValues<5> o:v40 b:v47 b:v53 unc:v60 o:v74
+  FrameState {
+    CurInstrOffset 56
+    Locals<4> v53 v47 v74 v40
+  }
+}
+  0x0078b754800452:        callq 0x78b754800465
+
+--unassigned--
+  0x0078b754800457:        pushq $8
+
+v66:ImmortalLongExact[16] = GuardIs<0x61ce57e1eae0> v65 {
+  Descr 'LOAD_GLOBAL: SCALE'
+  LiveValues<5> b:v37 o:v39 o:v40 b:v47 b:v65
+  FrameState {
+    CurInstrOffset 74
+    Locals<4> v37 v47 v39 v40
+  }
+}
+  0x0078b754800459:        callq 0x78b754800465
+
+--unassigned--
+  0x0078b75480045e:        pushq $9
+
+v76:LongExact = LongBinaryOp<Multiply> v39 v66 {
+  LiveValues<5> b:v37 o:v39 o:v40 b:v47 unc:v66
+  FrameState {
+    CurInstrOffset 86
+    Locals<4> v37 v47 v39 v40
+  }
+}
+  0x0078b754800460:        callq 0x78b754800465
+
+Deoptimization exits
+  0x0078b754800465:        pushq %r15
+  0x0078b754800467:        pushq %r15
+  0x0078b754800469:        pushq %r15
+  0x0078b75480046b:        pushq %r15
+  0x0078b75480046d:        pushq %r15
+  0x0078b75480046f:        movabsq $0x61ce89c98000, %r15
+  0x0078b754800479:        movq %r15, 0x10(%rsp)
+  0x0078b75480047e:        leaq -0x78(%rip), %r15
+  0x0078b754800485:        movq %r15, 8(%rsp)
+  0x0078b75480048a:        movabsq $0x78b754800000, %r15
+  0x0078b754800494:        jmpq *%r15
+
+--unassigned--
+  0x0078b754800497:        leave 
+  0x0078b754800498:        retq 
+  0x0078b754800499:        addb %al, (%rax)
+  0x0078b75480049b:        addb %al, (%rax)
+  0x0078b75480049d:        addb %al, (%rax)
+  0x0078b75480049f:        RAW: 0x00
+
